@@ -133,6 +133,7 @@ service mysql restart
 
 mysql --user="root" --password="secret" -e "CREATE USER 'homestead'@'10.0.2.2' IDENTIFIED BY 'secret';"
 mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO 'homestead'@'10.0.2.2' IDENTIFIED BY 'secret';"
+mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO 'homestead'@'%' IDENTIFIED BY 'secret';"
 mysql --user="root" --password="secret" -e "FLUSH PRIVILEGES;"
 mysql --user="root" --password="secret" -e "CREATE DATABASE homestead;"
 service mysql restart
