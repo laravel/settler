@@ -15,6 +15,9 @@ apt-add-repository ppa:rwky/redis -y
 apt-add-repository ppa:chris-lea/node.js -y
 apt-add-repository ppa:ondrej/php5 -y
 
+wget -O - http://dl.hhvm.com/conf/hhvm.gpg.key | apt-key add -
+echo deb http://dl.hhvm.com/ubuntu trusty main | tee /etc/apt/sources.list.d/hhvm.list
+
 # Update Package Lists
 
 apt-get update
@@ -149,6 +152,9 @@ echo "host    all             all             10.0.2.2/32               md5" | t
 sudo -u postgres psql -c "CREATE ROLE homestead LOGIN UNENCRYPTED PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
 sudo -u postgres /usr/bin/createdb --echo --owner=homestead homestead
 service postgresql restart
+
+# Install HHVM
+apt-get install -y hhvm
 
 # Install A Few Other Things
 
