@@ -140,7 +140,7 @@ service mysql restart
 
 # Install Postgres
 
-apt-get install -y postgresql
+apt-get install -y postgresql postgresql-contrib
 
 # Configure Postgres Remote Access
 
