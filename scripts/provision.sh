@@ -121,6 +121,10 @@ npm install -g grunt-cli
 npm install -g gulp
 npm install -g bower
 
+# Install SQLite
+
+apt-get install -y sqlite3 libsqlite3-dev
+
 # Install MySQL
 
 debconf-set-selections <<< "mysql-server mysql-server/root_password password secret"
