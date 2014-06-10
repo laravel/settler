@@ -93,6 +93,11 @@ sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php5/fpm/php.ini
 sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php5/fpm/php.ini
 sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php5/fpm/php.ini
 
+# Enable Remote xdebug
+echo "xdebug.remote_enable = 1" >> /etc/php5/fpm/conf.d/20-xdebug.ini
+echo "xdebug.remote_connect_back = 1" >> /etc/php5/fpm/conf.d/20-xdebug.ini
+echo "xdebug.remote_port = 9000" >> /etc/php5/fpm/conf.d/20-xdebug.ini
+
 # Set The Nginx & PHP-FPM User
 
 sed -i "s/user www-data;/user vagrant;/" /etc/nginx/nginx.conf
