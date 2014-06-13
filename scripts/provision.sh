@@ -32,7 +32,7 @@ pip install python-simple-hipchat
 
 # Set My Timezone
 
-ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime
+ln -sf /usr/share/zoneinfo/UTC /etc/localtime 
 
 # Install PHP Stuffs
 
