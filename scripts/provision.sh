@@ -38,7 +38,7 @@ ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 
 apt-get install -y php5-cli php5-dev php-pear \
 php5-mysqlnd php5-pgsql php5-sqlite \
-php5-apcu php5-json php5-curl php5-dev php5-gd \
+php5-apcu php5-json php5-curl php5-gd \
 php5-gmp php5-imap php5-mcrypt php5-xdebug \
 php5-memcached php5-redis
 
