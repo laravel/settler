@@ -13,7 +13,7 @@ apt-get install -y software-properties-common
 apt-add-repository ppa:nginx/stable -y
 apt-add-repository ppa:rwky/redis -y
 apt-add-repository ppa:chris-lea/node.js -y
-apt-add-repository ppa:ondrej/php5 -y
+apt-add-repository ppa:ondrej/php5-5.6 -y
 
 # Update Package Lists
 
@@ -38,7 +38,7 @@ ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 
 apt-get install -y php5-cli php5-dev php-pear \
 php5-mysqlnd php5-pgsql php5-sqlite \
-php5-apcu php5-json php5-curl php5-dev php5-gd \
+php5-apcu php5-json php5-curl php5-gd \
 php5-gmp php5-imap php5-mcrypt php5-xdebug \
 php5-memcached php5-redis
 
@@ -92,6 +92,10 @@ sed -i "s/display_errors = .*/display_errors = On/" /etc/php5/fpm/php.ini
 sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php5/fpm/php.ini
 sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php5/fpm/php.ini
 sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php5/fpm/php.ini
+
+echo "xdebug.remote_enable = 1" >> /etc/php5/fpm/conf.d/20-xdebug.ini
+echo "xdebug.remote_connect_back = 1" >> /etc/php5/fpm/conf.d/20-xdebug.ini
+echo "xdebug.remote_port = 9000" >> /etc/php5/fpm/conf.d/20-xdebug.ini
 
 # Copy fastcgi_params to Nginx because they broke it on the PPA
 
