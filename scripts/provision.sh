@@ -6,6 +6,12 @@ apt-get update
 
 apt-get upgrade -y
 
+
+# Force locale to avoid common localization pitfalls
+
+echo "LC_ALL=en_US.UTF-8" > /etc/default/locale
+locale-gen en_US.UTF-8
+
 # Install Some PPAs
 
 apt-get install -y software-properties-common
