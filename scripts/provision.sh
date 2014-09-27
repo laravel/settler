@@ -173,3 +173,9 @@ sudo /etc/init.d/beanstalkd start
 # Write Bash Aliases
 
 cp /vagrant/aliases /home/vagrant/.bash_aliases
+
+
+
+#add timezone support to MySQL
+
+mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret mysql
