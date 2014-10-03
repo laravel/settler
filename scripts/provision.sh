@@ -21,8 +21,9 @@ apt-get update
 
 # Install Some Basic Packages
 
-apt-get install -y build-essential curl dos2unix gcc git libmcrypt4 libpcre3-dev \
-make python2.7-dev python-pip re2c supervisor unattended-upgrades whois vim
+apt-get install -y build-essential coffeescript curl dos2unix gcc git libmcrypt4 \
+libpcre3-dev make python2.7-dev python-pip re2c ruby-sass supervisor \
+unattended-upgrades whois vim
 
 # Install A Few Helpful Python Packages
 
@@ -113,6 +114,7 @@ sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php5/fpm/php.ini
 echo "xdebug.remote_enable = 1" >> /etc/php5/fpm/conf.d/20-xdebug.ini
 echo "xdebug.remote_connect_back = 1" >> /etc/php5/fpm/conf.d/20-xdebug.ini
 echo "xdebug.remote_port = 9000" >> /etc/php5/fpm/conf.d/20-xdebug.ini
+echo "xdebug.max_nesting_level = 300" >> /etc/php5/fpm/conf.d/20-xdebug.ini
 
 # Copy fastcgi_params to Nginx because they broke it on the PPA
 
