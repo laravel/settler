@@ -213,3 +213,8 @@ sudo /etc/init.d/beanstalkd start
 # Write Bash Aliases
 
 cp /vagrant/aliases /home/vagrant/.bash_aliases
+
+# Ensure SSH authorized_keys file exists
+
+mkdir /home/vagrant/.ssh
+touch /home/vagrant/.ssh/authorized_keys
