@@ -210,6 +210,12 @@ apt-get install -y redis-server memcached beanstalkd
 sudo sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
 sudo /etc/init.d/beanstalkd start
 
+# Enable swap memory
+
+/bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
+/sbin/mkswap /var/swap.1
+/sbin/swapon /var/swap.1
+
 # Write Bash Aliases
 
 cp /vagrant/aliases /home/vagrant/.bash_aliases
