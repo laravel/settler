@@ -13,6 +13,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	  vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
 	end
 
+	# Vagrant Cachier - more info on http://fgrehm.viewdocs.io/vagrant-cachier/usage
+	if Vagrant.has_plugin?("vagrant-cachier")
+	  config.cache.scope = :box
+	  config.cache.enable :composer
+	  config.cache.enable :generic, { "wget" => { cache_dir: "/var/cache/wget" } }
+	  config.cache.synced_folder_opts = { type: :nfs, mount_options: ['rw', 'vers=3', 'tcp', 'nolock'] }
+	end
+
 	# Configure Port Forwarding
 	config.vm.network "forwarded_port", guest: 80, host: 8000
 	config.vm.network "forwarded_port", guest: 3306, host: 33060
