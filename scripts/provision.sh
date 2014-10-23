@@ -217,9 +217,11 @@ cp /vagrant/aliases /home/vagrant/.bash_aliases
 # reduce the size of the box
 
 # Remove APT cache and files
-apt-get clean -y
-apt-get autoclean -y
-find /var/lib/apt -type f | xargs rm -f
+# with vagrant-cachier there is no need to clean it,
+# it will unmount when the box is turned off
+#apt-get clean -y
+#apt-get autoclean -y
+#find /var/lib/apt -type f | xargs rm -f
  
 # Remove documentation files
 #find /var/lib/doc -type f | xargs rm -f
@@ -251,9 +253,9 @@ dd if=/dev/zero of=/tmp/whitespace bs=1024 count=$count;
 rm /tmp/whitespace;
  
 # Whiteout swap 
-#swappart=`cat /proc/swaps | tail -n1 | awk -F ' ' '{print $1}'`
-#swapoff $swappart;
-#dd if=/dev/zero of=$swappart;
-#mkswap $swappart;
+swappart=`cat /proc/swaps | tail -n1 | awk -F ' ' '{print $1}'`
+swapoff $swappart;
+dd if=/dev/zero of=$swappart;
+mkswap $swappart;
 #swapon $swappart;
 
