@@ -168,10 +168,6 @@ sudo su vagrant <<'EOF'
 /usr/bin/npm install -g bower
 EOF
 
-npm install -g grunt-cli
-npm install -g gulp
-npm install -g bower
-
 # Install SQLite
 
 apt-get install -y sqlite3 libsqlite3-dev
