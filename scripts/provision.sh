@@ -170,6 +170,11 @@ npm install -g bower
 
 apt-get install -y sqlite3 libsqlite3-dev
 
+# Get IP address from installation environment to use for MySQL and Postgres access
+
+IPADDRESS=`ifconfig eth0 | awk 'BEGIN { FS = "\n"; RS = "" } { print $2 }' | sed -e 's/ .*addr://' -e 's/ .*//'`
+BASEIP=`echo $IPADDRESS | cut -d"." -f1-3`
+
 # Install MySQL
 
 debconf-set-selections <<< "mysql-server mysql-server/root_password password secret"
@@ -178,12 +183,12 @@ apt-get install -y mysql-server-5.6
 
 # Configure MySQL Remote Access
 
-sed -i '/^bind-address/s/bind-address.*=.*/bind-address = 10.0.2.15/' /etc/mysql/my.cnf
-mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO root@'10.0.2.2' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
+sed -i "/^bind-address/s/bind-address.*=.*/bind-address = $IPADDRESS/" /etc/mysql/my.cnf
+mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO root@'$BASEIP.2' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
 service mysql restart
 
-mysql --user="root" --password="secret" -e "CREATE USER 'homestead'@'10.0.2.2' IDENTIFIED BY 'secret';"
-mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO 'homestead'@'10.0.2.2' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
+mysql --user="root" --password="secret" -e "CREATE USER 'homestead'@'$BASEIP.2' IDENTIFIED BY 'secret';"
+mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO 'homestead'@'$BASEIP.2' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
 mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO 'homestead'@'%' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
 mysql --user="root" --password="secret" -e "FLUSH PRIVILEGES;"
 mysql --user="root" --password="secret" -e "CREATE DATABASE homestead;"
@@ -196,7 +201,7 @@ apt-get install -y postgresql postgresql-contrib
 # Configure Postgres Remote Access
 
 sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/9.3/main/postgresql.conf
-echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/9.3/main/pg_hba.conf
+echo "host    all             all             $BASEIP.2/32               md5" | tee -a /etc/postgresql/9.3/main/pg_hba.conf
 sudo -u postgres psql -c "CREATE ROLE homestead LOGIN UNENCRYPTED PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
 sudo -u postgres /usr/bin/createdb --echo --owner=homestead homestead
 service postgresql restart
