@@ -213,3 +213,37 @@ sudo /etc/init.d/beanstalkd start
 # Write Bash Aliases
 
 cp /vagrant/aliases /home/vagrant/.bash_aliases
+
+
+
+# Install Mailcatcher
+
+# Create user & logdir
+adduser --gecos "" --home /var/spool/mailcatcher --shell /bin/true --disabled-password mailcatcher
+mkdir -p /var/log/mailcatcher
+chown mailcatcher:mailcatcher /var/log/mailcatcher
+chmod 755 /var/log/mailcatcher
+
+# Install mailcatcher
+apt-get install -y ruby-dev
+gem install mailcatcher
+
+# Create upstart job
+echo "# mailcatcher - mock smtp server
+#
+# mailCatcher runs a super simple SMTP server which catches any
+# message sent to it to display in a web interface.
+
+description \"mock smtp server\"
+
+start on runlevel [2345]
+stop on starting rc RUNLEVEL=[016]
+
+setuid mailcatcher
+setgid mailcatcher
+
+exec nohup /usr/local/bin/mailcatcher -f --ip 0.0.0.0  >> /var/log/mailcatcher/mailcatcher.log 2>&1
+" > /etc/init/mailcatcher.conf
+
+# Start Mailcatcher
+start mailcatcher
