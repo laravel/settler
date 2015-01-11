@@ -217,4 +217,4 @@ cp /vagrant/aliases /home/vagrant/.bash_aliases
 # Add Laravel Installer
 
 composer global require "laravel/installer=~1.1"
-export PATH=$PATH:~/.composer/vendor/bin
+echo "alias laravel='~/.composer/vendor/bin/laravel'" >> ~/.bashrc
