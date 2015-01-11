@@ -213,3 +213,8 @@ sudo /etc/init.d/beanstalkd start
 # Write Bash Aliases
 
 cp /vagrant/aliases /home/vagrant/.bash_aliases
+
+# Add Laravel Installer
+
+/usr/local/bin/composer global require "laravel/installer=~1.1"
+echo "alias laravel='~/.composer/vendor/bin/laravel'" > ~/.bashrc
