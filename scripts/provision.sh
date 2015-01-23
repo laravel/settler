@@ -15,6 +15,12 @@ apt-add-repository ppa:rwky/redis -y
 apt-add-repository ppa:chris-lea/node.js -y
 apt-add-repository ppa:ondrej/php5-5.6 -y
 
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" >> /etc/apt/sources.list.d/postgresql.list'
+
+curl -s https://packagecloud.io/gpg.key | sudo apt-key add -
+echo "deb http://packages.blackfire.io/debian any main" | sudo tee /etc/apt/sources.list.d/blackfire.list
+
 # Update Package Lists
 
 apt-get update
@@ -193,15 +199,19 @@ service mysql restart
 
 # Install Postgres
 
-apt-get install -y postgresql postgresql-contrib
+apt-get install -y postgresql-9.4 postgresql-contrib-9.4
 
 # Configure Postgres Remote Access
 
-sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/9.3/main/postgresql.conf
-echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/9.3/main/pg_hba.conf
+sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/9.4/main/postgresql.conf
+echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/9.4/main/pg_hba.conf
 sudo -u postgres psql -c "CREATE ROLE homestead LOGIN UNENCRYPTED PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
 sudo -u postgres /usr/bin/createdb --echo --owner=homestead homestead
 service postgresql restart
+
+# Install Blackfire
+
+apt-get install -y blackfire-agent blackfire-php
 
 # Install A Few Other Things
 
