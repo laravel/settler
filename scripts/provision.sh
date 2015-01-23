@@ -215,3 +215,7 @@ sudo /etc/init.d/beanstalkd start
 # Write Bash Aliases
 
 cp /vagrant/aliases /home/vagrant/.bash_aliases
+
+# Install SASS
+
+sudo gem install sass
