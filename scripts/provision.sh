@@ -222,6 +222,20 @@ apt-get install -y redis-server memcached beanstalkd
 sudo sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
 sudo /etc/init.d/beanstalkd start
 
+# Install ElasticSearch
+
+ELASTICSEARCH_VERSION=1.3.2
+sudo apt-get install -qq openjdk-7-jre-headless
+wget --quiet https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-$ELASTICSEARCH_VERSION.deb
+sudo dpkg -i elasticsearch-$ELASTICSEARCH_VERSION.deb
+rm elasticsearch-$ELASTICSEARCH_VERSION.deb
+
+sudo sed -i "s/# index.number_of_shards: 1/index.number_of_shards: 1/" /etc/elasticsearch/elasticsearch.yml
+sudo sed -i "s/# index.number_of_replicas: 0/index.number_of_replicas: 0/" /etc/elasticsearch/elasticsearch.yml
+sudo sed -i "s/# bootstrap.mlockall: true/bootstrap.mlockall: true/" /etc/elasticsearch/elasticsearch.yml
+sudo service elasticsearch restart
+sudo update-rc.d elasticsearch defaults 95 10
+
 # Write Bash Aliases
 
 cp /vagrant/aliases /home/vagrant/.bash_aliases
