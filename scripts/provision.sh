@@ -162,9 +162,11 @@ groups vagrant
 # Install Node
 
 apt-get install -y nodejs
-npm install -g grunt-cli
-npm install -g gulp
-npm install -g bower
+sudo su vagrant <<'EOF'
+/usr/bin/npm install -g grunt-cli
+/usr/bin/npm install -g gulp
+/usr/bin/npm install -g bower
+EOF
 
 # Install SQLite
 
