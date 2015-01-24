@@ -225,28 +225,3 @@ sudo /etc/init.d/beanstalkd start
 # Write Bash Aliases
 
 cp /vagrant/aliases /home/vagrant/.bash_aliases
-
-# Reduce Box Size
-
-rm -rf /usr/src/linux-headers*
-
-unset HISTFILE
-rm -f /root/.bash_history
-rm -f /home/vagrant/.bash_history
-
-find /var/log -type f | while read f; do echo -ne '' > $f; done;
-
-count=`df --sync -kP /boot | tail -n1 | awk -F ' ' '{print $4}'`;
-count=$((count -= 1))
-dd if=/dev/zero of=/boot/whitespace bs=1024 count=$count;
-rm /boot/whitespace;
-
-count=`df --sync -kP / | tail -n1  | awk -F ' ' '{print $4}'`;
-count=$((count -= 1))
-dd if=/dev/zero of=/tmp/whitespace bs=1024 count=$count;
-rm /tmp/whitespace;
-
-swappart=`cat /proc/swaps | tail -n1 | awk -F ' ' '{print $1}'`
-swapoff $swappart;
-dd if=/dev/zero of=$swappart;
-mkswap $swappart;
