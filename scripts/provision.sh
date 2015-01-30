@@ -182,7 +182,7 @@ apt-get install -y sqlite3 libsqlite3-dev
 
 debconf-set-selections <<< "mysql-server mysql-server/root_password password secret"
 debconf-set-selections <<< "mysql-server mysql-server/root_password_again password secret"
-apt-get install -y mysql-server-5.6
+apt-get install -y mysql-server-5.5
 
 # Configure MySQL Remote Access
 
