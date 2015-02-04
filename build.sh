@@ -1,4 +1,3 @@
-time vagrant up 2>&1 | tee build-output.log
-vagrant package --base `ls ~/VirtualBox\ VMs | grep settler`
-ls -lh package.box
-vagrant destroy
+time packer build settler.json 2>&1 | tee build-output.log
+ls -lh builds/virtualbox
+ls -lh builds/vmware

@@ -168,11 +168,9 @@ groups vagrant
 # Install Node
 
 apt-get install -y nodejs
-sudo su vagrant <<'EOF'
 /usr/bin/npm install -g grunt-cli
 /usr/bin/npm install -g gulp
 /usr/bin/npm install -g bower
-EOF
 
 # Install SQLite
 
@@ -221,7 +219,3 @@ apt-get install -y redis-server memcached beanstalkd
 
 sudo sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
 sudo /etc/init.d/beanstalkd start
-
-# Write Bash Aliases
-
-cp /vagrant/aliases /home/vagrant/.bash_aliases
