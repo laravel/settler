@@ -203,6 +203,10 @@ mysql --user="root" --password="secret" -e "FLUSH PRIVILEGES;"
 mysql --user="root" --password="secret" -e "CREATE DATABASE homestead;"
 service mysql restart
 
+# Add Timezone Support To MySQL
+
+mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret mysql
+
 # Install Postgres
 
 apt-get install -y postgresql-9.4 postgresql-contrib-9.4
@@ -237,7 +241,3 @@ sudo /etc/init.d/beanstalkd start
 # Write Bash Aliases
 
 cp /vagrant/aliases /home/vagrant/.bash_aliases
-
-
-# add timezone support to MySQL
-mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret mysql
