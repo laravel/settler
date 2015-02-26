@@ -1,3 +1,5 @@
-time packer build settler.json 2>&1 | tee build-output.log
-ls -lh builds/virtualbox
-ls -lh builds/vmware
+rm -rf builds/*.box
+
+packer build settler.json
+
+ls -lh builds/

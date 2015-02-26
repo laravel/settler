@@ -45,13 +45,13 @@
           "modifyvm",
           "{{.Name}}",
           "--memory",
-          "1024"
+          "4096"
         ],
         [
           "modifyvm",
           "{{.Name}}",
           "--cpus",
-          "2"
+          "4"
         ]
       ],
       "virtualbox_version_file": ".vbox_version",
@@ -100,14 +100,14 @@
       "vm_name": "settler4",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
-        "memsize": "1024",
-        "numvcpus": "2"
+        "memsize": "4096",
+        "numvcpus": "4"
       }
     }
   ],
   "post-processors": [
     {
-      "output": "builds/{{.Provider}}/settler.box",
+      "output": "builds/{{.Provider}}.box",
       "type": "vagrant"
     }
   ],

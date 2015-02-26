@@ -10,4 +10,4 @@ These build scripts use [Packer](https://packer.io) to create identical Vagrant 
 $ ./build.sh
 ```
 
-Once the build script finishes you will have two boxes in the `builds` directory. Build logs will be in `build-output.log`
+Once the build script finishes you will have two boxes in the `builds` directory.

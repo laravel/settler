@@ -6,6 +6,11 @@ apt-get update
 
 apt-get upgrade -y
 
+# Force Locale
+
+echo "LC_ALL=en_US.UTF-8" >> /etc/default/locale
+locale-gen en_US.UTF-8
+
 # Install Some PPAs
 
 apt-get install -y software-properties-common
@@ -70,9 +75,7 @@ printf "\nPATH=\"/home/vagrant/.composer/vendor/bin:\$PATH\"\n" | tee -a /home/v
 
 # Install Laravel Envoy
 
-sudo su vagrant <<'EOF'
 /usr/local/bin/composer global require "laravel/envoy=~1.0"
-EOF
 
 # Set Some PHP CLI Settings
 
@@ -119,29 +122,30 @@ sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php5/fpm/php.ini
 echo "xdebug.remote_enable = 1" >> /etc/php5/fpm/conf.d/20-xdebug.ini
 echo "xdebug.remote_connect_back = 1" >> /etc/php5/fpm/conf.d/20-xdebug.ini
 echo "xdebug.remote_port = 9000" >> /etc/php5/fpm/conf.d/20-xdebug.ini
+echo "xdebug.max_nesting_level = 250" >> /etc/php5/fpm/conf.d/20-xdebug.ini
 
 # Copy fastcgi_params to Nginx because they broke it on the PPA
 
 cat > /etc/nginx/fastcgi_params << EOF
-fastcgi_param	QUERY_STRING		\$query_string;
-fastcgi_param	REQUEST_METHOD		\$request_method;
-fastcgi_param	CONTENT_TYPE		\$content_type;
-fastcgi_param	CONTENT_LENGTH		\$content_length;
-fastcgi_param	SCRIPT_FILENAME		\$request_filename;
-fastcgi_param	SCRIPT_NAME		\$fastcgi_script_name;
-fastcgi_param	REQUEST_URI		\$request_uri;
-fastcgi_param	DOCUMENT_URI		\$document_uri;
-fastcgi_param	DOCUMENT_ROOT		\$document_root;
-fastcgi_param	SERVER_PROTOCOL		\$server_protocol;
-fastcgi_param	GATEWAY_INTERFACE	CGI/1.1;
-fastcgi_param	SERVER_SOFTWARE		nginx/\$nginx_version;
-fastcgi_param	REMOTE_ADDR		\$remote_addr;
-fastcgi_param	REMOTE_PORT		\$remote_port;
-fastcgi_param	SERVER_ADDR		\$server_addr;
-fastcgi_param	SERVER_PORT		\$server_port;
-fastcgi_param	SERVER_NAME		\$server_name;
-fastcgi_param	HTTPS			\$https if_not_empty;
-fastcgi_param	REDIRECT_STATUS		200;
+fastcgi_param QUERY_STRING    \$query_string;
+fastcgi_param REQUEST_METHOD    \$request_method;
+fastcgi_param CONTENT_TYPE    \$content_type;
+fastcgi_param CONTENT_LENGTH    \$content_length;
+fastcgi_param SCRIPT_FILENAME   \$request_filename;
+fastcgi_param SCRIPT_NAME   \$fastcgi_script_name;
+fastcgi_param REQUEST_URI   \$request_uri;
+fastcgi_param DOCUMENT_URI    \$document_uri;
+fastcgi_param DOCUMENT_ROOT   \$document_root;
+fastcgi_param SERVER_PROTOCOL   \$server_protocol;
+fastcgi_param GATEWAY_INTERFACE CGI/1.1;
+fastcgi_param SERVER_SOFTWARE   nginx/\$nginx_version;
+fastcgi_param REMOTE_ADDR   \$remote_addr;
+fastcgi_param REMOTE_PORT   \$remote_port;
+fastcgi_param SERVER_ADDR   \$server_addr;
+fastcgi_param SERVER_PORT   \$server_port;
+fastcgi_param SERVER_NAME   \$server_name;
+fastcgi_param HTTPS     \$https if_not_empty;
+fastcgi_param REDIRECT_STATUS   200;
 EOF
 
 # Set The Nginx & PHP-FPM User
@@ -184,7 +188,7 @@ apt-get install -y mysql-server-5.6
 
 # Configure MySQL Remote Access
 
-sed -i '/^bind-address/s/bind-address.*=.*/bind-address = 10.0.2.15/' /etc/mysql/my.cnf
+sed -i '/^bind-address/s/bind-address.*=.*/bind-address = 0.0.0.0/' /etc/mysql/my.cnf
 mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO root@'10.0.2.2' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
 service mysql restart
 
@@ -194,6 +198,10 @@ mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO 'homestead'@'%' 
 mysql --user="root" --password="secret" -e "FLUSH PRIVILEGES;"
 mysql --user="root" --password="secret" -e "CREATE DATABASE homestead;"
 service mysql restart
+
+# Add Timezone Support To MySQL
+
+mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret mysql
 
 # Install Postgres
 
@@ -219,3 +227,9 @@ apt-get install -y redis-server memcached beanstalkd
 
 sudo sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
 sudo /etc/init.d/beanstalkd start
+
+# Enable Swap Memory
+
+/bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
+/sbin/mkswap /var/swap.1
+/sbin/swapon /var/swap.1
