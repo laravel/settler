@@ -7,7 +7,12 @@ apt-get update
 apt-get upgrade -y
 
 # Fix ssh owner
-sudo chown -R vagrant:vagrant /home/vagrant/.ssh
+mkdir ~vagrant/.ssh
+wget --no-check-certificate \
+    'https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant.pub' \
+    -O ~vagrant/.ssh/authorized_keys
+chown -R vagrant ~vagrant/.ssh
+chmod -R go-rwsx ~vagrant/.ssh
 
 # Force Locale
 
