@@ -6,6 +6,9 @@ apt-get update
 
 apt-get upgrade -y
 
+# Fix ssh owner
+sudo chown -R vagrant:vagrant /home/vagrant/.ssh
+
 # Force Locale
 
 echo "LC_ALL=en_US.UTF-8" >> /etc/default/locale
