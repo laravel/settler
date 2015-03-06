@@ -235,3 +235,10 @@ sudo /etc/init.d/beanstalkd start
 /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
 /sbin/mkswap /var/swap.1
 /sbin/swapon /var/swap.1
+
+# Minimize The Disk Image
+dd if=/dev/zero of=/EMPTY bs=1M
+rm -f /EMPTY
+# Block until the empty file has been removed, otherwise, Packer
+# will try to kill the box while the disk is still full and that's bad
+sync
