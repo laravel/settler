@@ -5,7 +5,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	config.vm.box = "chef/ubuntu-14.10"
 	config.vm.hostname = "homestead"
 
-	# Don't replace the default key https://github.com/mitchellh/vagrant/pull/4707
+	# Don't Replace The Default Key https://github.com/mitchellh/vagrant/pull/4707
 	config.ssh.insert_key = false
 
 	config.vm.provider "virtualbox" do |vb|
