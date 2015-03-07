@@ -237,6 +237,7 @@ sudo /etc/init.d/beanstalkd start
 /sbin/swapon /var/swap.1
 
 # Minimize The Disk Image
+
 echo "Minimizing disk image..."
 dd if=/dev/zero of=/EMPTY bs=1M
 rm -f /EMPTY
