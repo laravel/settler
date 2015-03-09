@@ -13,7 +13,7 @@ locale-gen en_US.UTF-8
 
 # Install Some PPAs
 
-apt-get install -y software-properties-common
+apt-get install -y software-properties-common curl
 
 apt-add-repository ppa:nginx/stable -y
 apt-add-repository ppa:rwky/redis -y
@@ -32,7 +32,7 @@ apt-get update
 
 # Install Some Basic Packages
 
-apt-get install -y build-essential curl dos2unix gcc git libmcrypt4 libpcre3-dev \
+apt-get install -y build-essential dos2unix gcc git libmcrypt4 libpcre3-dev \
 make python2.7-dev python-pip re2c supervisor unattended-upgrades whois vim
 
 # Install A Few Helpful Python Packages
@@ -97,7 +97,7 @@ service nginx restart
 # Add The HHVM Key & Repository
 
 wget -O - http://dl.hhvm.com/conf/hhvm.gpg.key | apt-key add -
-echo deb http://dl.hhvm.com/ubuntu trusty main | tee /etc/apt/sources.list.d/hhvm.list
+echo deb http://dl.hhvm.com/ubuntu utopic main | tee /etc/apt/sources.list.d/hhvm.list
 apt-get update
 apt-get install -y hhvm
 
