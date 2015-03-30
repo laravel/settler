@@ -35,12 +35,6 @@ apt-get update
 apt-get install -y build-essential dos2unix gcc git libmcrypt4 libpcre3-dev \
 make python2.7-dev python-pip re2c supervisor unattended-upgrades whois vim
 
-# Install A Few Helpful Python Packages
-
-pip install httpie
-pip install fabric
-pip install python-simple-hipchat
-
 # Set My Timezone
 
 ln -sf /usr/share/zoneinfo/UTC /etc/localtime
