@@ -79,7 +79,6 @@ sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php5/cli/php.
 sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php5/cli/php.ini
 sudo sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php5/cli/php.ini
 sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php5/cli/php.ini
-sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php5/cli/php.ini
 
 # Install Nginx & PHP-FPM
 
