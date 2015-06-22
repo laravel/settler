@@ -4,12 +4,6 @@
 
 apt-get update
 
-# Update Grub Bootloader
-
-echo "set grub-pc/install_devices /dev/sda" | debconf-communicate
-grub-install /dev/sda
-update-grub
-
 # Update System Packages
 apt-get -y upgrade
 
