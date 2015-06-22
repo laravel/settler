@@ -4,7 +4,8 @@
 
 apt-get update
 
-apt-get upgrade -y
+# Update System Packages
+apt-get -y upgrade
 
 # Force Locale
 
