@@ -228,6 +228,9 @@ apt-get install -y redis-server memcached beanstalkd
 sudo sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
 sudo /etc/init.d/beanstalkd start
 
+# Erase downloaded archive files
+apt-get clean
+
 # Enable Swap Memory
 
 /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
