@@ -2,7 +2,7 @@ VAGRANTFILE_API_VERSION = '2'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Configure The Box
-  config.vm.box = 'chef/ubuntu-14.04'
+  config.vm.box = 'bento/ubuntu-14.04'
   config.vm.hostname = 'homestead'
 
   # Don't Replace The Default Key https://github.com/mitchellh/vagrant/pull/4707
@@ -17,6 +17,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider :vmware_fusion do |v|
     v.memory = 2048
     v.cpus = 2
+  end
+
+  config.vm.provider :parallels do |v|
+    v.memory = 2048
+    v.cpus = 2
+    v.update_guest_tools = true
   end
 
   # Configure Port Forwarding
