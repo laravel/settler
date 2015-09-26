@@ -30,3 +30,11 @@ cd ../../../../../
 ls -lh vmware_fusion.box
 vagrant destroy -f
 rm -rf .vagrant
+
+time vagrant up --provider parallels 2>&1 | tee parallels-build-output.log
+vagrant halt
+vagrant package --output parallels.box
+
+ls -lh parallels.box
+vagrant destroy -f
+rm -rf .vagrant
