@@ -20,6 +20,9 @@ apt-add-repository ppa:nginx/stable -y
 apt-add-repository ppa:rwky/redis -y
 apt-add-repository ppa:ondrej/php5-5.6 -y
 
+apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
+add-apt-repository -y 'deb http://mirror.edatel.net.co/mariadb/repo/10.0/ubuntu trusty main'
+
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" >> /etc/apt/sources.list.d/postgresql.list'
 
@@ -179,13 +182,13 @@ apt-get install -y nodejs
 
 apt-get install -y sqlite3 libsqlite3-dev
 
-# Install MySQL
+# Install MariaDB
 
-debconf-set-selections <<< "mysql-server mysql-server/root_password password secret"
-debconf-set-selections <<< "mysql-server mysql-server/root_password_again password secret"
-apt-get install -y mysql-server-5.6
+debconf-set-selections <<< "mariadb-server mysql-server/root_password password secret"
+debconf-set-selections <<< "mariadb-server mysql-server/root_password_again password secret"
+apt-get install -y mariadb-server
 
-# Configure MySQL Remote Access
+# Configure MariaDB Remote Access
 
 sed -i '/^bind-address/s/bind-address.*=.*/bind-address = 0.0.0.0/' /etc/mysql/my.cnf
 mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO root@'0.0.0.0' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
@@ -198,7 +201,7 @@ mysql --user="root" --password="secret" -e "FLUSH PRIVILEGES;"
 mysql --user="root" --password="secret" -e "CREATE DATABASE homestead;"
 service mysql restart
 
-# Add Timezone Support To MySQL
+# Add Timezone Support To MariaDB
 
 mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret mysql
 
