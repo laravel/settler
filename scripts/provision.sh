@@ -26,7 +26,7 @@ sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" >> /
 curl -s https://packagecloud.io/gpg.key | sudo apt-key add -
 echo "deb http://packages.blackfire.io/debian any main" | sudo tee /etc/apt/sources.list.d/blackfire.list
 
-curl --silent --location https://deb.nodesource.com/setup_0.12 | sudo bash -
+curl --silent --location https://deb.nodesource.com/setup_4.x | sudo bash -
 
 # Update Package Lists
 
@@ -172,7 +172,6 @@ groups vagrant
 # Install Node
 
 apt-get install -y nodejs
-/usr/bin/npm install -g grunt-cli
 /usr/bin/npm install -g gulp
 /usr/bin/npm install -g bower
 
