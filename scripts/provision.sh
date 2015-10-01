@@ -20,13 +20,13 @@ apt-add-repository ppa:nginx/stable -y
 apt-add-repository ppa:rwky/redis -y
 apt-add-repository ppa:ondrej/php5-5.6 -y
 
-wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" >> /etc/apt/sources.list.d/postgresql.list'
 
-curl -s https://packagecloud.io/gpg.key | sudo apt-key add -
-echo "deb http://packages.blackfire.io/debian any main" | sudo tee /etc/apt/sources.list.d/blackfire.list
+curl -s https://packagecloud.io/gpg.key | apt-key add -
+echo "deb http://packages.blackfire.io/debian any main" | tee /etc/apt/sources.list.d/blackfire.list
 
-curl --silent --location https://deb.nodesource.com/setup_4.x | sudo bash -
+curl --silent --location https://deb.nodesource.com/setup_4.x | bash -
 
 # Update Package Lists
 
@@ -52,7 +52,7 @@ php5-memcached
 # Make MCrypt Available
 
 ln -s /etc/php5/conf.d/mcrypt.ini /etc/php5/mods-available
-sudo php5enmod mcrypt
+php5enmod mcrypt
 
 # Install Mailparse PECL Extension
 
@@ -77,10 +77,10 @@ EOF
 
 # Set Some PHP CLI Settings
 
-sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php5/cli/php.ini
-sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php5/cli/php.ini
-sudo sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php5/cli/php.ini
-sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php5/cli/php.ini
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php5/cli/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php5/cli/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php5/cli/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php5/cli/php.ini
 
 # Install Nginx & PHP-FPM
 
@@ -224,8 +224,8 @@ apt-get install -y redis-server memcached beanstalkd
 
 # Configure Beanstalkd
 
-sudo sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
-sudo /etc/init.d/beanstalkd start
+sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
+/etc/init.d/beanstalkd start
 
 # Enable Swap Memory
 

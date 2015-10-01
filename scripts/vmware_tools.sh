@@ -4,6 +4,6 @@
 
 apt-get install -y linux-headers-$(uname -r) build-essential
 
-echo "answer AUTO_KMODS_ENABLED yes" | sudo tee -a /etc/vmware-tools/locations || true
+echo "answer AUTO_KMODS_ENABLED yes" | tee -a /etc/vmware-tools/locations || true
 
 /usr/bin/vmware-config-tools.pl -d || true
