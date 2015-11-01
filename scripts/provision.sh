@@ -180,6 +180,9 @@ apt-get install -y nodejs
 
 apt-get install -y sqlite3 libsqlite3-dev
 
+# Install SSH
+apt-get install -y libssh2-1-dev libssh2-php
+
 # Install MySQL
 
 debconf-set-selections <<< "mysql-server mysql-server/root_password password secret"
