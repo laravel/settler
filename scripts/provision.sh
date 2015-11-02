@@ -60,6 +60,10 @@ pecl install mailparse
 echo "extension=mailparse.so" > /etc/php5/mods-available/mailparse.ini
 ln -s /etc/php5/mods-available/mailparse.ini /etc/php5/cli/conf.d/20-mailparse.ini
 
+# Install SSH Extension For PHP
+
+apt-get install -y libssh2-1-dev libssh2-php
+
 # Install Composer
 
 curl -sS https://getcomposer.org/installer | php
@@ -179,9 +183,6 @@ apt-get install -y nodejs
 # Install SQLite
 
 apt-get install -y sqlite3 libsqlite3-dev
-
-# Install SSH
-apt-get install -y libssh2-1-dev libssh2-php
 
 # Install MySQL
 
