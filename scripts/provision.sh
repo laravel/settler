@@ -20,13 +20,13 @@ apt-add-repository ppa:nginx/stable -y
 apt-add-repository ppa:rwky/redis -y
 apt-add-repository ppa:ondrej/php-7.0 -y
 
-wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" >> /etc/apt/sources.list.d/postgresql.list'
 
-curl -s https://packagecloud.io/gpg.key | sudo apt-key add -
-echo "deb http://packages.blackfire.io/debian any main" | sudo tee /etc/apt/sources.list.d/blackfire.list
+curl -s https://packagecloud.io/gpg.key | apt-key add -
+echo "deb http://packages.blackfire.io/debian any main" | tee /etc/apt/sources.list.d/blackfire.list
 
-curl --silent --location https://deb.nodesource.com/setup_4.x | sudo bash -
+curl --silent --location https://deb.nodesource.com/setup_4.x | bash -
 
 # Update Package Lists
 
@@ -48,6 +48,10 @@ php-pgsql php-sqlite3 php-gd \
 php-curl php7.0-dev \
 php-imap php-mysql
 
+# Install SSH Extension For PHP
+
+apt-get install -y libssh2-1-dev libssh2-php
+
 # Install Composer
 
 curl -sS https://getcomposer.org/installer | php
@@ -57,10 +61,11 @@ mv composer.phar /usr/local/bin/composer
 
 printf "\nPATH=\"/home/vagrant/.composer/vendor/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
 
-# Install Laravel Envoy
+# Install Laravel Envoy & Installer
 
 sudo su vagrant <<'EOF'
 /usr/local/bin/composer global require "laravel/envoy=~1.0"
+/usr/local/bin/composer global require "laravel/installer=~1.1"
 EOF
 
 # Set Some PHP CLI Settings
@@ -205,8 +210,8 @@ apt-get install -y redis-server memcached beanstalkd
 
 # Configure Beanstalkd
 
-sudo sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
-sudo /etc/init.d/beanstalkd start
+sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
+/etc/init.d/beanstalkd start
 
 # Enable Swap Memory
 
