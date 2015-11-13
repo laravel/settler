@@ -54,10 +54,6 @@ php-pgsql php-sqlite3 php-gd \
 php-curl php7.0-dev \
 php-imap php-mysql
 
-# Install SSH Extension For PHP
-
-apt-get install -y libssh2-1-dev libssh2-php
-
 # Install Composer
 
 curl -sS https://getcomposer.org/installer | php
