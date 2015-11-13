@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export DEBIAN_FRONTEND=noninteractive
+
 # Update Package List
 
 apt-get update
@@ -171,8 +173,9 @@ apt-get install -y sqlite3 libsqlite3-dev
 
 # Install MySQL
 
-debconf-set-selections <<< "mysql-server mysql-server/root_password password secret"
-debconf-set-selections <<< "mysql-server mysql-server/root_password_again password secret"
+debconf-set-selections <<< "mysql-community-server mysql-community-server/data-dir select ''"
+debconf-set-selections <<< "mysql-community-server mysql-community-server/root-pass password secret"
+debconf-set-selections <<< "mysql-community-server mysql-community-server/re-root-pass password secret"
 apt-get install -y mysql-server
 
 # Configure MySQL Remote Access
