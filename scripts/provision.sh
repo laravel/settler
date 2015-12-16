@@ -51,8 +51,7 @@ ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 
 apt-get install -y --force-yes php7.0-cli php7.0-dev \
 php-pgsql php-sqlite3 php-gd \
-php-curl php7.0-dev \
-php-imap php-mysql
+php-curl php-imap php-mysql
 
 # Install Composer
 
