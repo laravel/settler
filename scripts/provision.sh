@@ -18,7 +18,7 @@ locale-gen en_US.UTF-8
 
 apt-get install -y software-properties-common curl
 
-apt-add-repository ppa:nginx/stable -y
+apt-add-repository ppa:nginx/development -y
 apt-add-repository ppa:rwky/redis -y
 apt-add-repository ppa:ondrej/php-7.0 -y
 
@@ -52,7 +52,7 @@ ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 apt-get install -y --force-yes php7.0-cli php7.0-dev \
 php-pgsql php-sqlite3 php-gd \
 php-curl php7.0-dev \
-php-imap php-mysql
+php-imap php-mysql php-memcached php7.0-readline
 
 # Install Composer
 
