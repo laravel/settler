@@ -20,7 +20,7 @@ apt-get install -y software-properties-common curl
 
 apt-add-repository ppa:nginx/development -y
 apt-add-repository ppa:chris-lea/redis-server -y
-apt-add-repository ppa:ondrej/php-7.0 -y
+apt-add-repository ppa:ondrej/php -y
 
 # gpg: key 5072E1F5: public key "MySQL Release Engineering <mysql-build@oss.oracle.com>" imported
 apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys 5072E1F5
