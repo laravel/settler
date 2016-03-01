@@ -53,7 +53,7 @@ apt-get install -y --force-yes php7.0-cli php7.0-dev \
 php-pgsql php-sqlite3 php-gd php-apcu \
 php-curl php7.0-mcrypt \
 php-imap php-mysql php-memcached php7.0-readline php-xdebug \
-php-mbstring php-xml
+php-mbstring php-xml php7.0-zip
 
 # Install Composer
 
