@@ -14,4 +14,4 @@ update-grub
 
 # Upgrade System Packages
 
-apt-get -y upgrade
+apt-get -y dist-upgrade
