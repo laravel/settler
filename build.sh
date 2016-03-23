@@ -30,3 +30,15 @@ cd ../../../../../
 ls -lh vmware_fusion.box
 vagrant destroy -f
 rm -rf .vagrant
+
+time vagrant up --provider parallels 2>&1 | tee parallels-build-output.log
+vagrant halt
+# Shrink the box size
+prl_disk_tool compact --hdd ~/Documents/Parallels/settler_default_*.pvm/harddisk*.hdd
+# Remove unnecessary log files
+rm -f ~/Documents/Parallels/settler_default_*.pvm/*.log
+# Package the box
+tar cvzf parallels.box ~/Documents/Parallels/settler_default_*.pvm
+ls -lh parallels.pvm
+vagrant destroy -f
+rm -rf .vagrant
