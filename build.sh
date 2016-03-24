@@ -38,7 +38,6 @@ prl_disk_tool compact --hdd ~/Documents/Parallels/settler_default_*.pvm/harddisk
 # Remove unnecessary log files
 rm -f ~/Documents/Parallels/settler_default_*.pvm/*.log
 # Package the box
-tar cvzf parallels.box ~/Documents/Parallels/settler_default_*.pvm
-ls -lh parallels.pvm
+vagrant package --output parallels.box
 vagrant destroy -f
 rm -rf .vagrant
