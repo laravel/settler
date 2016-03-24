@@ -61,9 +61,10 @@ curl -sS https://getcomposer.org/installer | php
 mv composer.phar /usr/local/bin/composer
 
 # Add Composer Global Bin To Path
-
+if [ ! -d "/home/vagrant/.composer/" ]; then
+  mkdir /home/vagrant/.composer/
+fi
 printf "\nPATH=\"/home/vagrant/.composer/vendor/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
-
 # Install Laravel Envoy & Installer
 
 sudo su vagrant <<'EOF'
