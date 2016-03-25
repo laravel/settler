@@ -62,7 +62,7 @@ mv composer.phar /usr/local/bin/composer
 
 # Add Composer Global Bin To Path
 
-printf "\nPATH=\"/home/vagrant/.composer/vendor/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
+printf "\nPATH=\"$(composer config -g home 2>/dev/null)/vendor/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
 
 # Install Laravel Envoy & Installer
 
