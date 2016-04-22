@@ -53,7 +53,7 @@ apt-get install -y --force-yes php7.0-cli php7.0-dev \
 php-pgsql php-sqlite3 php-gd php-apcu \
 php-curl php7.0-mcrypt \
 php-imap php-mysql php-memcached php7.0-readline php-xdebug \
-php-mbstring php-xml php7.0-zip php-soap
+php-mbstring php-xml php7.0-zip php7.0-intl php7.0-bcmath php-soap
 
 # Install Composer
 
@@ -62,7 +62,7 @@ mv composer.phar /usr/local/bin/composer
 
 # Add Composer Global Bin To Path
 
-printf "\nPATH=\"/home/vagrant/.composer/vendor/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
+printf "\nPATH=\"$(composer config -g home 2>/dev/null)/vendor/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
 
 # Install Laravel Envoy & Installer
 
