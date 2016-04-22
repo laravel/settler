@@ -7,13 +7,13 @@ vagrant plugin install vagrant-reload
 vagrant destroy -f
 rm -rf .vagrant
 
-time vagrant up --provider virtualbox 2>&1 | tee virtualbox-build-output.log
-vagrant halt
-vagrant package --base `ls ~/VirtualBox\ VMs | grep settler` --output virtualbox.box
+# time vagrant up --provider virtualbox 2>&1 | tee virtualbox-build-output.log
+# vagrant halt
+# vagrant package --base `ls ~/VirtualBox\ VMs | grep settler` --output virtualbox.box
 
-ls -lh virtualbox.box
-vagrant destroy -f
-rm -rf .vagrant
+# ls -lh virtualbox.box
+# vagrant destroy -f
+# rm -rf .vagrant
 
 time vagrant up --provider vmware_fusion 2>&1 | tee vmware-build-output.log
 vagrant halt
