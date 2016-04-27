@@ -113,6 +113,10 @@ sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.0/fpm
 sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.0/fpm/php.ini
 sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/fpm/php.ini
 
+# Stop xdebug slowing composer when run from command line.
+
+sudo phpdismod -s cli xdebug
+
 # Copy fastcgi_params to Nginx because they broke it on the PPA
 
 cat > /etc/nginx/fastcgi_params << EOF
