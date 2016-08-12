@@ -32,7 +32,7 @@ apt-add-repository ppa:ondrej/php -y
 curl -s https://packagecloud.io/gpg.key | apt-key add -
 echo "deb http://packages.blackfire.io/debian any main" | tee /etc/apt/sources.list.d/blackfire.list
 
-curl --silent --location https://deb.nodesource.com/setup_5.x | bash -
+curl --silent --location https://deb.nodesource.com/setup_6.x | bash -
 
 # Update Package Lists
 
@@ -104,6 +104,11 @@ service hhvm start
 update-rc.d hhvm defaults
 
 # Setup Some PHP-FPM Options
+
+echo "xdebug.remote_enable = 1" >> /etc/php/7.0/fpm/conf.d/20-xdebug.ini
+echo "xdebug.remote_connect_back = 1" >> /etc/php/7.0/fpm/conf.d/20-xdebug.ini
+echo "xdebug.remote_port = 9000" >> /etc/php/7.0/fpm/conf.d/20-xdebug.ini
+echo "xdebug.max_nesting_level = 512" >> /etc/php/7.0/fpm/conf.d/20-xdebug.ini
 
 sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.0/fpm/php.ini
 sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.0/fpm/php.ini
