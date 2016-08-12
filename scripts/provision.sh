@@ -203,7 +203,7 @@ mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret my
 
 # Install Postgres
 
-apt-get install -y postgresql-9.5 postgresql-contrib-9.5
+apt-get install -y postgresql
 
 # Configure Postgres Remote Access
 
@@ -225,6 +225,11 @@ apt-get install -y redis-server memcached beanstalkd
 
 sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
 /etc/init.d/beanstalkd start
+
+# Configure Supervisor
+
+systemctl enable supervisor.service
+service supervisor start
 
 # Enable Swap Memory
 
