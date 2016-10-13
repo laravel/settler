@@ -172,10 +172,7 @@ groups vagrant
 apt-get install -y nodejs
 /usr/bin/npm install -g gulp
 /usr/bin/npm install -g bower
-
-# Install Yarn
-
-curl -o- -L https://yarnpkg.com/install.sh | bash
+/usr/bin/npm install -g yarn
 
 # Install SQLite
 
