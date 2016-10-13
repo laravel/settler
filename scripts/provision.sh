@@ -173,6 +173,10 @@ apt-get install -y nodejs
 /usr/bin/npm install -g gulp
 /usr/bin/npm install -g bower
 
+# Install Yarn
+
+curl -o- -L https://yarnpkg.com/install.sh | bash
+
 # Install SQLite
 
 apt-get install -y sqlite3 libsqlite3-dev
