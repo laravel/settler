@@ -207,6 +207,12 @@ service mysql restart
 
 mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret mysql
 
+# Make MySQL usable within box without knowing username & password
+
+echo "[client]\
+user = homestead\
+password = secret" >> /home/vagrant/.my.cnf
+
 # Install Postgres
 
 apt-get install -y postgresql
