@@ -56,7 +56,7 @@ php5enmod mcrypt
 
 # Install Mailparse PECL Extension
 
-pecl install mailparse
+pecl install mailparse-2.1.6
 echo "extension=mailparse.so" > /etc/php5/mods-available/mailparse.ini
 ln -s /etc/php5/mods-available/mailparse.ini /etc/php5/cli/conf.d/20-mailparse.ini
 
