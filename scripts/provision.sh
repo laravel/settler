@@ -5,7 +5,7 @@
 apt-get update
 
 # Update System Packages
-apt-get -y upgrade
+apt-get -o Dpkg::Options::='--force-confold' -y upgrade
 
 # Force Locale
 
