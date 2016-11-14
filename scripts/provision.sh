@@ -20,7 +20,8 @@ apt-get install -y software-properties-common curl
 
 apt-add-repository ppa:nginx/stable -y
 apt-add-repository ppa:rwky/redis -y
-apt-add-repository ppa:ondrej/php5-5.6 -y
+apt-add-repository ppa:ondrej/php -y
+apt-add-repository ppa:ondrej/php5-compat -y
 
 # gpg: key 5072E1F5: public key "MySQL Release Engineering <mysql-build@oss.oracle.com>" imported
 apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys 5072E1F5
@@ -49,30 +50,48 @@ ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 
 # Install PHP Stuffs
 
-apt-get install -y php5-cli php5-dev php-pear \
-php5-mysqlnd php5-pgsql php5-sqlite \
-php5-apcu php5-json php5-curl php5-gd \
-php5-gmp php5-imap php5-mcrypt php5-xdebug \
-php5-memcached
+apt-get install -y php5.6-cli php5.6-common php5.6-dev php-pear \
+php5.6-pgsql php5.6-sqlite3 php5.6-gd \
+php5.6-curl php5.6-mcrypt \
+php5.6-imap php5.6-mysql php-memcached php5.6-readline php-xdebug \
+php5.6-mbstring php5.6-xml \
+php5.6-json php5.6-gmp
 
 # Disable XDebug On The CLI
 
-sudo php5dismod -s cli xdebug
+sudo phpdismod -s cli xdebug
+
+# Fix WARNING: channel "pecl.php.net" has updated its protocols, use "pecl channel-update pecl.php.net" to update
+pecl channel-update pecl.php.net
+
+# Install APCu PECL Extension
+
+pecl install -Z apcu-4.0.11
+echo "extension=apcu.so" > /etc/php/5.6/mods-available/apcu.ini
+ln -s /etc/php/5.6/mods-available/apcu.ini /etc/php/5.6/cli/conf.d/20-apcu.ini
 
 # Make MCrypt Available
 
-ln -s /etc/php5/conf.d/mcrypt.ini /etc/php5/mods-available
-php5enmod mcrypt
+ln -s /etc/php/5.6/cli/conf.d/mcrypt.ini /etc/php/5.6/mods-available
+phpenmod mcrypt
 
 # Install Mailparse PECL Extension
 
-pecl install mailparse-2.1.6
-echo "extension=mailparse.so" > /etc/php5/mods-available/mailparse.ini
-ln -s /etc/php5/mods-available/mailparse.ini /etc/php5/cli/conf.d/20-mailparse.ini
+# HACK: Fix mbstring for pecl (see https://bugs.php.net/bug.php?id=71813 or http://blog.adnansiddiqi.me/mbstring-not-found-error-while-installing-mailparse-php-extension/)
+echo "#undef HAVE_MBSTRING" >> /usr/include/php/20131226/ext/mbstring/libmbfl/mbfl/mbfilter.h
+echo "#define HAVE_MBSTRING 1" >> /usr/include/php/20131226/ext/mbstring/libmbfl/mbfl/mbfilter.h
+
+pecl install -Z mailparse-2.1.6
+echo "extension=mailparse.so" > /etc/php/5.6/mods-available/mailparse.ini
+ln -s /etc/php/5.6/mods-available/mailparse.ini /etc/php/5.6/cli/conf.d/25-mailparse.ini
 
 # Install SSH Extension For PHP
 
-apt-get install -y libssh2-1-dev libssh2-php
+apt-get install -y libssh2-1-dev
+
+pecl install -Z ssh2-0.13
+echo "extension=ssh2.so" > /etc/php/5.6/mods-available/ssh2.ini
+ln -s /etc/php/5.6/mods-available/ssh2.ini /etc/php/5.6/cli/conf.d/20-ssh2.ini
 
 # Install Composer
 
@@ -92,14 +111,14 @@ EOF
 
 # Set Some PHP CLI Settings
 
-sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php5/cli/php.ini
-sed -i "s/display_errors = .*/display_errors = On/" /etc/php5/cli/php.ini
-sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php5/cli/php.ini
-sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php5/cli/php.ini
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/5.6/cli/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/5.6/cli/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/5.6/cli/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/5.6/cli/php.ini
 
 # Install Nginx & PHP-FPM
 
-apt-get install -y nginx php5-fpm
+apt-get install -y nginx php5.6-fpm
 
 rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
@@ -124,20 +143,21 @@ update-rc.d hhvm defaults
 
 # Setup Some PHP-FPM Options
 
-ln -s /etc/php5/mods-available/mailparse.ini /etc/php5/fpm/conf.d/20-mailparse.ini
+ln -s /etc/php/5.6/mods-available/apcu.ini /etc/php/5.6/fpm/conf.d/20-apcu.ini
+ln -s /etc/php/5.6/mods-available/mailparse.ini /etc/php/5.6/fpm/conf.d/25-mailparse.ini
 
-sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php5/fpm/php.ini
-sed -i "s/display_errors = .*/display_errors = On/" /etc/php5/fpm/php.ini
-sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php5/fpm/php.ini
-sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php5/fpm/php.ini
-sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php5/fpm/php.ini
-sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php5/fpm/php.ini
-sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php5/fpm/php.ini
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/5.6/fpm/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/5.6/fpm/php.ini
+sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/5.6/fpm/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/5.6/fpm/php.ini
+sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/5.6/fpm/php.ini
+sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/5.6/fpm/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/5.6/fpm/php.ini
 
-echo "xdebug.remote_enable = 1" >> /etc/php5/fpm/conf.d/20-xdebug.ini
-echo "xdebug.remote_connect_back = 1" >> /etc/php5/fpm/conf.d/20-xdebug.ini
-echo "xdebug.remote_port = 9000" >> /etc/php5/fpm/conf.d/20-xdebug.ini
-echo "xdebug.max_nesting_level = 512" >> /etc/php5/fpm/conf.d/20-xdebug.ini
+echo "xdebug.remote_enable = 1" >> /etc/php/5.6/fpm/conf.d/20-xdebug.ini
+echo "xdebug.remote_connect_back = 1" >> /etc/php/5.6/fpm/conf.d/20-xdebug.ini
+echo "xdebug.remote_port = 9000" >> /etc/php/5.6/fpm/conf.d/20-xdebug.ini
+echo "xdebug.max_nesting_level = 512" >> /etc/php/5.6/fpm/conf.d/20-xdebug.ini
 
 # Copy fastcgi_params to Nginx because they broke it on the PPA
 
@@ -168,15 +188,15 @@ EOF
 sed -i "s/user www-data;/user vagrant;/" /etc/nginx/nginx.conf
 sed -i "s/# server_names_hash_bucket_size.*/server_names_hash_bucket_size 64;/" /etc/nginx/nginx.conf
 
-sed -i "s/user = www-data/user = vagrant/" /etc/php5/fpm/pool.d/www.conf
-sed -i "s/group = www-data/group = vagrant/" /etc/php5/fpm/pool.d/www.conf
+sed -i "s/user = www-data/user = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
+sed -i "s/group = www-data/group = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
 
-sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php5/fpm/pool.d/www.conf
-sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php5/fpm/pool.d/www.conf
-sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php5/fpm/pool.d/www.conf
+sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
+sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
+sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/5.6/fpm/pool.d/www.conf
 
 service nginx restart
-service php5-fpm restart
+service php5.6-fpm restart
 
 # Add Vagrant User To WWW-Data
 
