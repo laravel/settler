@@ -49,6 +49,10 @@ php5-apcu php5-json php5-curl php5-gd \
 php5-gmp php5-imap php5-mcrypt php5-xdebug \
 php5-memcached
 
+# Disable XDebug On The CLI
+
+sudo php5dismod -s cli xdebug
+
 # Make MCrypt Available
 
 ln -s /etc/php5/conf.d/mcrypt.ini /etc/php5/mods-available
