@@ -54,7 +54,7 @@ apt-get install -y php5.6-cli php5.6-common php5.6-dev php-pear \
 php5.6-pgsql php5.6-sqlite3 php5.6-gd \
 php5.6-curl php5.6-mcrypt \
 php5.6-imap php5.6-mysql php-memcached php5.6-readline php-xdebug \
-php5.6-mbstring php5.6-xml \
+php5.6-mbstring php5.6-xml php5.6-zip \
 php5.6-json php5.6-gmp
 
 # Disable XDebug On The CLI
