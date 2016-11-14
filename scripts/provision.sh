@@ -50,7 +50,7 @@ ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 
 # Install PHP Stuffs
 
-apt-get install -y php5.6-cli php5.6-common php5.6-dev php-pear \
+apt-get install -y --force-yes php5.6-cli php5.6-common php5.6-dev php-pear \
 php5.6-pgsql php5.6-sqlite3 php5.6-gd \
 php5.6-curl php5.6-mcrypt \
 php5.6-imap php5.6-mysql php-memcached php5.6-readline php-xdebug \
@@ -118,7 +118,7 @@ sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/5.6/cli/php.ini
 
 # Install Nginx & PHP-FPM
 
-apt-get install -y nginx php5.6-fpm
+apt-get install -y --force-yes nginx php5.6-fpm
 
 rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
