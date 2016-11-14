@@ -201,13 +201,18 @@ debconf-set-selections <<< "mysql-community-server mysql-community-server/root-p
 debconf-set-selections <<< "mysql-community-server mysql-community-server/re-root-pass password secret"
 apt-get install -y mysql-server
 
+# Configure MySQL Password Lifetime
+
+echo "default_password_lifetime = 0" >> /etc/mysql/mysql.conf.d/mysqld.cnf
+
 # Configure MySQL Remote Access
 
 sed -i '/^bind-address/s/bind-address.*=.*/bind-address = 0.0.0.0/' /etc/mysql/mysql.conf.d/mysqld.cnf
+
 mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO root@'0.0.0.0' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
 service mysql restart
 
-mysql --user="root" --password="secret" -e "CREATE USER 'homestead'@'0.0.0.0' IDENTIFIED BY 'secret';"
+mysql --user="root" --password="secret" -e "CREATE USER 'homestead'@'0.0.0.0' IDENTIFIED BY 'secret' PASSWORD EXPIRE NEVER;"
 mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO 'homestead'@'0.0.0.0' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
 mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO 'homestead'@'%' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
 mysql --user="root" --password="secret" -e "FLUSH PRIVILEGES;"
