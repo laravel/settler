@@ -20,10 +20,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   # Configure Port Forwarding
-  config.vm.network 'forwarded_port', guest: 80, host: 8000
-  config.vm.network 'forwarded_port', guest: 3306, host: 33060
-  config.vm.network 'forwarded_port', guest: 5432, host: 54320
-  config.vm.network 'forwarded_port', guest: 35729, host: 35729
+  config.vm.network 'forwarded_port', guest: 80, host: 8000, auto_correct: true
+  config.vm.network 'forwarded_port', guest: 3306, host: 33060, auto_correct: true
+  config.vm.network 'forwarded_port', guest: 5432, host: 54320, auto_correct: true
+  config.vm.network 'forwarded_port', guest: 35729, host: 35729, auto_correct: true
 
   config.vm.synced_folder './', '/vagrant', disabled: true
 
