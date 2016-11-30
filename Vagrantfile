@@ -1,6 +1,8 @@
 VAGRANTFILE_API_VERSION = '2'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  is_vm_ware = false
+
   # Configure The Box
   config.vm.box = 'bento/ubuntu-16.04'
   config.vm.hostname = 'homestead'
@@ -17,6 +19,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider :vmware_fusion do |v|
     v.memory = 2048
     v.cpus = 2
+    is_vm_ware = true
   end
 
   # Configure Port Forwarding
@@ -30,7 +33,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Run The Base Provisioning Script
   config.vm.provision 'shell', path: './scripts/update.sh'
   config.vm.provision :reload
-  config.vm.provision 'shell', path: './scripts/vmware_tools.sh'
-  config.vm.provision :reload
+  if is_vm_ware
+    config.vm.provision 'shell', path: './scripts/vmware_tools.sh'
+    config.vm.provision :reload
+  end
   config.vm.provision 'shell', path: './scripts/provision.sh'
 end
