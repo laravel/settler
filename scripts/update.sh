@@ -12,6 +12,10 @@ apt-get -y install grub-pc
 grub-install /dev/sda
 update-grub
 
+# Install Kernel Headers
+
+apt-get install -y linux-headers-$(uname -r) build-essential
+
 # Upgrade System Packages
 
 apt-get -y upgrade
