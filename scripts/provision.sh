@@ -77,6 +77,7 @@ sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.0/cli/p
 sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.0/cli/php.ini
 sudo sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.0/cli/php.ini
 sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/cli/php.ini
+sudo sed -i "s/;opcache.enable=0/opcache.enable = 0/" /etc/php/7.0/cli/php.ini
 
 # Install Nginx & PHP-FPM
 
