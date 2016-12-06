@@ -54,7 +54,7 @@ php7.1-pgsql php7.1-sqlite3 php7.1-gd \
 php7.1-curl php7.1-memcached \
 php7.1-imap php7.1-mysql php7.1-mbstring \
 php7.1-xml php7.1-zip php7.1-bcmath php7.1-soap \
-php7.1-intl php7.1-readline
+php7.1-intl php7.1-readline php-xdebug
 
 # Install Composer
 
@@ -106,10 +106,10 @@ update-rc.d hhvm defaults
 
 # Setup Some PHP-FPM Options
 
-echo "xdebug.remote_enable = 1" >> /etc/php/7.1/fpm/conf.d/20-xdebug.ini
-echo "xdebug.remote_connect_back = 1" >> /etc/php/7.1/fpm/conf.d/20-xdebug.ini
-echo "xdebug.remote_port = 9000" >> /etc/php/7.1/fpm/conf.d/20-xdebug.ini
-echo "xdebug.max_nesting_level = 512" >> /etc/php/7.1/fpm/conf.d/20-xdebug.ini
+echo "xdebug.remote_enable = 1" >> /etc/php/7.1/mods-available/xdebug.ini
+echo "xdebug.remote_connect_back = 1" >> /etc/php/7.1/mods-available/xdebug.ini
+echo "xdebug.remote_port = 9000" >> /etc/php/7.1/mods-available/xdebug.ini
+echo "xdebug.max_nesting_level = 512" >> /etc/php/7.1/mods-available/xdebug.ini
 
 sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.1/fpm/php.ini
 sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.1/fpm/php.ini
