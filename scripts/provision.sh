@@ -201,7 +201,7 @@ mysql --user="root" --password="secret" -e "CREATE USER 'homestead'@'0.0.0.0' ID
 mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO 'homestead'@'0.0.0.0' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
 mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO 'homestead'@'%' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
 mysql --user="root" --password="secret" -e "FLUSH PRIVILEGES;"
-mysql --user="root" --password="secret" -e "CREATE DATABASE homestead;"
+mysql --user="root" --password="secret" -e "CREATE DATABASE homestead character set UTF8mb4 collate utf8mb4_bin;"
 service mysql restart
 
 # Add Timezone Support To MySQL
