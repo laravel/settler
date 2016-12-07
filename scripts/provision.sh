@@ -60,12 +60,6 @@ php5-memcached
 ln -s /etc/php5/conf.d/mcrypt.ini /etc/php5/mods-available
 php5enmod mcrypt
 
-# Install Mailparse PECL Extension
-
-pecl install mailparse
-echo "extension=mailparse.so" > /etc/php5/mods-available/mailparse.ini
-ln -s /etc/php5/mods-available/mailparse.ini /etc/php5/cli/conf.d/20-mailparse.ini
-
 # Install SSH Extension For PHP
 
 apt-get install -y libssh2-1-dev libssh2-php
@@ -199,7 +193,7 @@ apt-get install -y mysql-server
 
 # Configure MySQL Password Lifetime
 
-echo "default_password_lifetime = 0" >> /etc/mysql/my.cnf
+echo "default_password_lifetime = 0" >> /etc/mysql/mysql.conf.d/mysqld.cnf
 
 # Configure MySQL Remote Access
 

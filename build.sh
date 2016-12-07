@@ -12,8 +12,8 @@ vagrant halt
 vagrant package --base `ls ~/VirtualBox\ VMs | grep settler` --output virtualbox.box
 
 ls -lh virtualbox.box
-vagrant destroy -f
-rm -rf .vagrant
+#vagrant destroy -f
+#rm -rf .vagrant
 
 # time vagrant up --provider vmware_fusion 2>&1 | tee vmware-build-output.log
 # vagrant halt
