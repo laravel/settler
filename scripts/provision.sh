@@ -72,6 +72,12 @@ sudo su vagrant <<'EOF'
 /usr/local/bin/composer global require "laravel/installer=~1.1"
 EOF
 
+# Install Laravel Liferaft
+
+sudo su vagrant <<'EOF'
+/usr/local/bin/composer global require "laravel/liferaft=~1.0"
+EOF
+
 # Set Some PHP CLI Settings
 
 sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.1/cli/php.ini
