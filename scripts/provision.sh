@@ -265,6 +265,11 @@ service mailhog start
 systemctl enable supervisor.service
 service supervisor start
 
+# Clean up
+
+apt-get -y autoremove
+apt-get -y clean
+
 # Enable Swap Memory
 
 /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
