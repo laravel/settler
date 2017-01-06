@@ -265,7 +265,7 @@ service mailhog start
 systemctl enable supervisor.service
 service supervisor start
 
-# Clean up
+# Clean Up
 
 apt-get -y autoremove
 apt-get -y clean
