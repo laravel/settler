@@ -240,7 +240,7 @@ sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
 wget --quiet -O /usr/local/bin/mailhog https://github.com/mailhog/MailHog/releases/download/v0.2.1/MailHog_linux_amd64
 chmod +x /usr/local/bin/mailhog
 
-sudo tee /etc/systemd/system/mailhog.service <<EOL
+tee /etc/systemd/system/mailhog.service <<EOL
 [Unit]
 Description=Mailhog
 After=network.target
@@ -254,6 +254,21 @@ WantedBy=multi-user.target
 EOL
 
 service mailhog start
+
+# Install mhsendmail (sendmail for MailHog)
+
+wget --quiet -O /usr/local/bin/mhsendmail https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64
+sudo chmod +x /usr/local/bin/mhsendmail
+
+tee /etc/php/7.1/mods-available/mailhog.ini <<EOL
+[mailhog]
+sendmail_path = /usr/local/bin/mhsendmail
+EOL
+
+# Configure php for mhsendmail
+
+ln -sf /etc/php/7.1/mods-available/mailhog.ini /etc/php/7.1/cli/conf.d/90-mailhog.ini
+ln -sf /etc/php/7.1/mods-available/mailhog.ini /etc/php/7.1/fpm/conf.d/90-mailhog.ini
 
 # Configure Supervisor
 
