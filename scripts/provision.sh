@@ -87,23 +87,6 @@ rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
 service nginx restart
 
-# Add The HHVM Key & Repository
-
-wget -O - http://dl.hhvm.com/conf/hhvm.gpg.key | apt-key add -
-echo deb http://dl.hhvm.com/ubuntu xenial main | tee /etc/apt/sources.list.d/hhvm.list
-apt-get update
-apt-get install -y hhvm
-
-# Configure HHVM To Run As Homestead
-
-service hhvm stop
-sed -i 's/#RUN_AS_USER="www-data"/RUN_AS_USER="vagrant"/' /etc/default/hhvm
-service hhvm start
-
-# Start HHVM On System Start
-
-update-rc.d hhvm defaults
-
 # Setup Some PHP-FPM Options
 
 echo "xdebug.remote_enable = 1" >> /etc/php/7.1/mods-available/xdebug.ini
