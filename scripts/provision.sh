@@ -235,7 +235,7 @@ ExecStart=/usr/bin/env /usr/local/bin/mailhog > /dev/null 2>&1 &
 WantedBy=multi-user.target
 EOL
 
-service mailhog start
+systemctl enable mailhog
 
 # Configure Supervisor
 
