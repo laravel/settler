@@ -40,7 +40,7 @@ apt-get update
 
 # Install Some Basic Packages
 
-apt-get install -y build-essential dos2unix gcc git libmcrypt4 libpcre3-dev ntp \
+apt-get install -y build-essential dos2unix gcc git libmcrypt4 libpcre3-dev ntp unzip\
 make python2.7-dev python-pip re2c supervisor unattended-upgrades whois vim libnotify-bin
 
 # Set My Timezone
@@ -241,6 +241,12 @@ service mailhog start
 
 systemctl enable supervisor.service
 service supervisor start
+
+# Install ngrok
+
+wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+unzip ngrok-stable-linux-amd64.zip -d /usr/local/bin
+rm -rf ngrok-stable-linux-amd64.zip
 
 # Clean Up
 
