@@ -40,7 +40,7 @@ apt-get update
 
 # Install Some Basic Packages
 
-apt-get install -y build-essential dos2unix gcc git libmcrypt4 libpcre3-dev \
+apt-get install -y build-essential dos2unix gcc git libmcrypt4 libpcre3-dev ntp unzip \
 make python2.7-dev python-pip re2c supervisor unattended-upgrades whois vim libnotify-bin
 
 # Set My Timezone
@@ -86,23 +86,6 @@ apt-get install -y --force-yes nginx php7.1-fpm
 rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
 service nginx restart
-
-# Add The HHVM Key & Repository
-
-wget -O - http://dl.hhvm.com/conf/hhvm.gpg.key | apt-key add -
-echo deb http://dl.hhvm.com/ubuntu xenial main | tee /etc/apt/sources.list.d/hhvm.list
-apt-get update
-apt-get install -y hhvm
-
-# Configure HHVM To Run As Homestead
-
-service hhvm stop
-sed -i 's/#RUN_AS_USER="www-data"/RUN_AS_USER="vagrant"/' /etc/default/hhvm
-service hhvm start
-
-# Start HHVM On System Start
-
-update-rc.d hhvm defaults
 
 # Setup Some PHP-FPM Options
 
@@ -202,7 +185,7 @@ mysql --user="root" --password="secret" -e "CREATE USER 'homestead'@'0.0.0.0' ID
 mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO 'homestead'@'0.0.0.0' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
 mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO 'homestead'@'%' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
 mysql --user="root" --password="secret" -e "FLUSH PRIVILEGES;"
-mysql --user="root" --password="secret" -e "CREATE DATABASE homestead;"
+mysql --user="root" --password="secret" -e "CREATE DATABASE homestead character set UTF8mb4 collate utf8mb4_bin;"
 service mysql restart
 
 # Add Timezone Support To MySQL
@@ -252,12 +235,19 @@ ExecStart=/usr/bin/env /usr/local/bin/mailhog > /dev/null 2>&1 &
 WantedBy=multi-user.target
 EOL
 
-service mailhog start
+systemctl daemon-reload
+systemctl enable mailhog
 
 # Configure Supervisor
 
 systemctl enable supervisor.service
 service supervisor start
+
+# Install ngrok
+
+wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+unzip ngrok-stable-linux-amd64.zip -d /usr/local/bin
+rm -rf ngrok-stable-linux-amd64.zip
 
 # Clean Up
 
