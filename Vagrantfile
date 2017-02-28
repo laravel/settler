@@ -20,7 +20,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.provider :hyperv do |vb|
-    #config.vm.box = 'nikel/xerus64'
     config.vm.box = 'kmm/ubuntu-xenial64'
   end
 
