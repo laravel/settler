@@ -19,6 +19,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.cpus = 2
   end
 
+  config.vm.provider :hyperv do |vb|
+    config.vm.box = 'kmm/ubuntu-xenial64'
+  end
+
   # Configure Port Forwarding
   config.vm.network 'forwarded_port', guest: 80, host: 8000, auto_correct: true
   config.vm.network 'forwarded_port', guest: 3306, host: 33060, auto_correct: true
