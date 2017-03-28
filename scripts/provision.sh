@@ -208,7 +208,7 @@ service postgresql restart
 
 apt-get install -y blackfire-agent blackfire-php
 
-# Install the Chrome Web Driver & Utilities for Dusk
+# Install The Chrome Web Driver & Dusk Utilities
 
 apt-get -y install libxpm4 libxrender1 libgtk2.0-0 \
 libnss3 libgconf-2-4 chromium-browser \
@@ -216,7 +216,7 @@ xvfb gtk2-engines-pixbuf xfonts-cyrillic \
 xfonts-100dpi xfonts-75dpi xfonts-base \
 xfonts-scalable imagemagick x11-apps
 
-# Install A Few Other Things
+# Install Memcached & Beanstalk
 
 apt-get install -y redis-server memcached beanstalkd
 
