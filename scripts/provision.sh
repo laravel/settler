@@ -50,7 +50,8 @@ ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 
 # Install PHP Stuffs
 
-apt-get install -y --force-yes php7.1-cli php7.1-dev \
+apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
+php7.1-cli php7.1-dev \
 php7.1-pgsql php7.1-sqlite3 php7.1-gd \
 php7.1-curl php7.1-memcached \
 php7.1-imap php7.1-mysql php7.1-mbstring \
@@ -82,7 +83,8 @@ sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.1/cli/php.ini
 
 # Install Nginx & PHP-FPM
 
-apt-get install -y --force-yes nginx php7.1-fpm
+apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
+nginx php7.1-fpm
 
 rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
