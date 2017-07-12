@@ -7,7 +7,7 @@ time vagrant up --provider parallels 2>&1 | tee parallels-build-output.log
 vagrant halt
 
 # Shrink the box size
-prl_disk_tool compact --hdd ~/Documents/Parallels/settler_default_*.pvm/harddisk*.hdd
+prl_disk_tool compact --hdd ~/Documents/Parallels/parallels_default_*.pvm/harddisk*.hdd
 
 # Remove unnecessary log files
 rm -f ~/Documents/Parallels/settler_default_*.pvm/*.log

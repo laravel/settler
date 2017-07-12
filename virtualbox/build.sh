@@ -9,7 +9,7 @@ rm -rf .vagrant
 
 time vagrant up --provider virtualbox 2>&1 | tee virtualbox-build-output.log
 vagrant halt
-vagrant package --base `ls ~/VirtualBox\ VMs | grep settler` --output virtualbox.box
+vagrant package --base `ls ~/VirtualBox\ VMs | grep virtualbox` --output virtualbox.box
 
 ls -lh virtualbox.box
 vagrant destroy -f
