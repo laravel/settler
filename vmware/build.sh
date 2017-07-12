@@ -21,5 +21,5 @@ rm -rf .vagrant
  cd ../../../../../
 
  ls -lh vmware_fusion.box
- vagrant destroy -f
- rm -rf .vagrant
+ # vagrant destroy -f
+ # rm -rf .vagrant
