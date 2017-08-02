@@ -350,6 +350,13 @@ wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
 unzip ngrok-stable-linux-amd64.zip -d /usr/local/bin
 rm -rf ngrok-stable-linux-amd64.zip
 
+# Install Flyway
+
+wget https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/4.2.0/flyway-commandline-4.2.0-linux-x64.tar.gz
+tar -zxvf flyway-commandline-4.2.0-linux-x64.tar.gz -C /usr/local
+ln -s /usr/local/flyway-4.2.0/flyway /usr/local/bin/flyway
+rm -rf flyway-commandline-4.2.0-linux-x64.tar.gz
+
 # Clean Up
 
 apt-get -y autoremove
