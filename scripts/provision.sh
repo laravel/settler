@@ -357,6 +357,12 @@ tar -zxvf flyway-commandline-4.2.0-linux-x64.tar.gz -C /usr/local
 ln -s /usr/local/flyway-4.2.0/flyway /usr/local/bin/flyway
 rm -rf flyway-commandline-4.2.0-linux-x64.tar.gz
 
+# Install wp-cli
+
+curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+chmod +x wp-cli.phar
+mv wp-cli.phar /usr/local/bin/wp
+
 # Clean Up
 
 apt-get -y autoremove
