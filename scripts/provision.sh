@@ -235,6 +235,7 @@ groups vagrant
 # Install Node
 
 apt-get install -y nodejs
+/usr/bin/npm install -g npm
 /usr/bin/npm install -g gulp
 /usr/bin/npm install -g bower
 /usr/bin/npm install -g yarn
