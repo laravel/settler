@@ -54,6 +54,15 @@ ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 # Install PHP Stuffs
 # Current PHP
 apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
+php7.2-cli php7.2-dev \
+php7.2-pgsql php7.2-sqlite3 php7.2-gd \
+php7.2-curl php7.2-memcached \
+php7.2-imap php7.2-mysql php7.2-mbstring \
+php7.2-xml php7.2-zip php7.2-bcmath php7.2-soap \
+php7.2-intl php7.2-readline
+
+# PHP 7.1
+apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
 php7.1-cli php7.1-dev \
 php7.1-pgsql php7.1-sqlite3 php7.1-gd \
 php7.1-curl php7.1-memcached \
@@ -79,6 +88,8 @@ php5.6-imap php5.6-mysql php5.6-mbstring \
 php5.6-xml php5.6-zip php5.6-bcmath php5.6-soap \
 php5.6-intl php5.6-readline php5.6-mcrypt
 
+update-alternatives --set php /usr/bin/php7.1
+
 # Install Composer
 
 curl -sS https://getcomposer.org/installer | php
@@ -96,6 +107,10 @@ sudo su vagrant <<'EOF'
 EOF
 
 # Set Some PHP CLI Settings
+sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.2/cli/php.ini
+sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.2/cli/php.ini
+sudo sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.2/cli/php.ini
+sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.2/cli/php.ini
 
 sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.1/cli/php.ini
 sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.1/cli/php.ini
@@ -122,6 +137,11 @@ rm /etc/nginx/sites-available/default
 service nginx restart
 
 # Setup Some PHP-FPM Options
+echo "xdebug.remote_enable = 1" >> /etc/php/7.2/mods-available/xdebug.ini
+echo "xdebug.remote_connect_back = 1" >> /etc/php/7.2/mods-available/xdebug.ini
+echo "xdebug.remote_port = 9000" >> /etc/php/7.2/mods-available/xdebug.ini
+echo "xdebug.max_nesting_level = 512" >> /etc/php/7.2/mods-available/xdebug.ini
+echo "opcache.revalidate_freq = 0" >> /etc/php/7.2/mods-available/opcache.ini
 
 echo "xdebug.remote_enable = 1" >> /etc/php/7.1/mods-available/xdebug.ini
 echo "xdebug.remote_connect_back = 1" >> /etc/php/7.1/mods-available/xdebug.ini
@@ -141,6 +161,13 @@ echo "xdebug.remote_port = 9000" >> /etc/php/5.6/mods-available/xdebug.ini
 echo "xdebug.max_nesting_level = 512" >> /etc/php/5.6/mods-available/xdebug.ini
 echo "opcache.revalidate_freq = 0" >> /etc/php/5.6/mods-available/opcache.ini
 
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.2/fpm/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.2/fpm/php.ini
+sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.2/fpm/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.2/fpm/php.ini
+sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.2/fpm/php.ini
+sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.2/fpm/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.2/fpm/php.ini
 
 sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.1/fpm/php.ini
 sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.1/fpm/php.ini
@@ -199,6 +226,9 @@ EOF
 sed -i "s/user www-data;/user vagrant;/" /etc/nginx/nginx.conf
 sed -i "s/# server_names_hash_bucket_size.*/server_names_hash_bucket_size 64;/" /etc/nginx/nginx.conf
 
+sed -i "s/user = www-data/user = vagrant/" /etc/php/7.2/fpm/pool.d/www.conf
+sed -i "s/group = www-data/group = vagrant/" /etc/php/7.2/fpm/pool.d/www.conf
+
 sed -i "s/user = www-data/user = vagrant/" /etc/php/7.1/fpm/pool.d/www.conf
 sed -i "s/group = www-data/group = vagrant/" /etc/php/7.1/fpm/pool.d/www.conf
 
@@ -222,6 +252,7 @@ sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/5.6/fpm/pool.d/www.conf
 
 
 service nginx restart
+service php7.2-fpm restart
 service php7.1-fpm restart
 service php7.0-fpm restart
 service php5.6-fpm restart
@@ -287,8 +318,12 @@ pecl install pdo_sqlsrv
 echo "[mssql]" >> /etc/php/7.1/fpm/php.ini
 echo "extension=sqlsrv.so" >> /etc/php/7.1/fpm/php.ini
 echo "extension=pdo_sqlsrv.so" >> /etc/php/7.1/fpm/php.ini
+echo "[mssql]" >> /etc/php/7.2/fpm/php.ini
+echo "extension=sqlsrv.so" >> /etc/php/7.2/fpm/php.ini
+echo "extension=pdo_sqlsrv.so" >> /etc/php/7.2/fpm/php.ini
 service nginx restart
 service php7.1-fpm restart
+service php7.2-fpm restart
 
 # Configure Postgres Remote Access
 
