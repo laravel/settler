@@ -8,6 +8,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Don't Replace The Default Key https://github.com/mitchellh/vagrant/pull/4707
   config.ssh.insert_key = false
 
+  config.vm.provider :parallels do |p|
+    p.update_guest_tools = true
+  end
+
   # Configure Port Forwarding
   config.vm.network 'forwarded_port', guest: 80, host: 8000, auto_correct: true
   config.vm.network 'forwarded_port', guest: 3306, host: 33060, auto_correct: true
