@@ -130,7 +130,7 @@ sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/5.6/cli/php.ini
 # Install Nginx & PHP-FPM
 
 apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
-nginx php7.1-fpm php7.0-fpm php5.6-fpm
+nginx php7.1-fpm php7.2-fpm php7.0-fpm php5.6-fpm
 
 rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
@@ -310,11 +310,10 @@ apt-get install -y postgresql
 
 # Install MSSQL
 
-ACCEPT_EULA=Y apt-get -y install msodbcsql mssql-tools
-apt-get -y install unixodbc-dev
-pear config-set php_ini `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"` system
-pecl install sqlsrv
-pecl install pdo_sqlsrv
+ACCEPT_EULA=Y apt-get -y install msodbcsql mssql-tools unixodbc-dev
+pecl config-set php_ini `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"` system
+pecl channel-update pecl.php.net
+pecl install sqlsrv pdo_sqlsrv
 echo "[mssql]" >> /etc/php/7.1/fpm/php.ini
 echo "extension=sqlsrv.so" >> /etc/php/7.1/fpm/php.ini
 echo "extension=pdo_sqlsrv.so" >> /etc/php/7.1/fpm/php.ini
