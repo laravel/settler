@@ -35,7 +35,7 @@ curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sou
 curl -s https://packagecloud.io/gpg.key | apt-key add -
 echo "deb http://packages.blackfire.io/debian any main" | tee /etc/apt/sources.list.d/blackfire.list
 
-curl --silent --location https://deb.nodesource.com/setup_6.x | bash -
+curl --silent --location https://deb.nodesource.com/setup_8.x | bash -
 
 # Update Package Lists
 
