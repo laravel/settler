@@ -308,22 +308,6 @@ mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret my
 
 apt-get install -y postgresql
 
-# Install MSSQL
-
-ACCEPT_EULA=Y apt-get -y install msodbcsql mssql-tools unixodbc-dev
-pecl config-set php_ini `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"` system
-pecl channel-update pecl.php.net
-pecl install sqlsrv pdo_sqlsrv
-echo "[mssql]" >> /etc/php/7.1/fpm/php.ini
-echo "extension=sqlsrv.so" >> /etc/php/7.1/fpm/php.ini
-echo "extension=pdo_sqlsrv.so" >> /etc/php/7.1/fpm/php.ini
-echo "[mssql]" >> /etc/php/7.2/fpm/php.ini
-echo "extension=sqlsrv.so" >> /etc/php/7.2/fpm/php.ini
-echo "extension=pdo_sqlsrv.so" >> /etc/php/7.2/fpm/php.ini
-service nginx restart
-service php7.1-fpm restart
-service php7.2-fpm restart
-
 # Configure Postgres Remote Access
 
 sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/9.5/main/postgresql.conf
