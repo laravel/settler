@@ -88,7 +88,7 @@ php5.6-imap php5.6-mysql php5.6-mbstring \
 php5.6-xml php5.6-zip php5.6-bcmath php5.6-soap \
 php5.6-intl php5.6-readline php5.6-mcrypt
 
-update-alternatives --set php /usr/bin/php7.1
+update-alternatives --set php /usr/bin/php7.2
 
 # Install Composer
 
@@ -400,12 +400,16 @@ chmod +x wp-cli.phar
 mv wp-cli.phar /usr/local/bin/wp
 
 # Install oh-my-zsh
+
 git clone git://github.com/robbyrussell/oh-my-zsh.git /home/vagrant/.oh-my-zsh
 cp /home/vagrant/.oh-my-zsh/templates/zshrc.zsh-template /home/vagrant/.zshrc
 printf "\nsource ~/.bash_aliases\n" | tee -a /home/vagrant/.zshrc
 chown -R vagrant:vagrant /home/vagrant/.oh-my-zsh
 chown vagrant:vagrant /home/vagrant/.zshrc
-chsh -s /usr/bin/zsh vagrant
+
+# One last upgrade check
+
+apt-get -y upgrade
 
 # Clean Up
 
