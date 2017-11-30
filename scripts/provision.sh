@@ -415,6 +415,7 @@ apt-get -y upgrade
 
 apt-get -y autoremove
 apt-get -y clean
+chown -R vagrant:vagrant /home/vagrant
 
 # Enable Swap Memory
 
