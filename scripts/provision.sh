@@ -6,6 +6,11 @@ export DEBIAN_FRONTEND=noninteractive
 
 apt-get update
 
+# Hold openssl from updating to prevent shared object conflicts
+
+apt-mark hold openssl
+apt-mark hold libssl-dev
+
 # Update System Packages
 apt-get -y upgrade
 
