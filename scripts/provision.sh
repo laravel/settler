@@ -95,10 +95,6 @@ update-alternatives --set php /usr/bin/php7.2
 curl -sS https://getcomposer.org/installer | php
 mv composer.phar /usr/local/bin/composer
 
-# Add Composer Global Bin To Path
-
-printf "\nPATH=\"$(sudo su - vagrant -c 'composer config -g home 2>/dev/null')/vendor/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
-
 # Install Laravel Envoy & Installer
 
 sudo su vagrant <<'EOF'
@@ -329,6 +325,7 @@ apt-get install -y postgresql
 
 sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/9.5/main/postgresql.conf
 sed -i "s/peer/md5/" /etc/postgresql/9.5/main/pg_hba.conf
+echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/9.5/main/pg_hba.conf
 sudo -u postgres psql -c "CREATE ROLE homestead LOGIN UNENCRYPTED PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
 sudo -u postgres /usr/bin/createdb --echo --owner=homestead homestead
 service postgresql restart
@@ -417,6 +414,10 @@ apt-get -y upgrade
 apt-get -y autoremove
 apt-get -y clean
 chown -R vagrant:vagrant /home/vagrant
+
+# Add Composer Global Bin To Path
+
+printf "\nPATH=\"$(sudo su - vagrant -c 'composer config -g home 2>/dev/null')/vendor/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
 
 # Enable Swap Memory
 
