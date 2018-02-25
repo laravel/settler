@@ -99,7 +99,7 @@ mv composer.phar /usr/local/bin/composer
 
 sudo su vagrant <<'EOF'
 /usr/local/bin/composer global require "laravel/envoy=~1.0"
-/usr/local/bin/composer global require "laravel/installer=~1.1"
+/usr/local/bin/composer global require "laravel/installer=~2.0"
 /usr/local/bin/composer global require "drush/drush=~8"
 EOF
 
