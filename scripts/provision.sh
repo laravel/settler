@@ -414,6 +414,11 @@ printf "\nsource ~/.profile\n" | tee -a /home/vagrant/.zshrc
 chown -R vagrant:vagrant /home/vagrant/.oh-my-zsh
 chown vagrant:vagrant /home/vagrant/.zshrc
 
+# Install Golang
+wget https://dl.google.com/go/go1.10.linux-amd64.tar.gz
+tar -C /usr/local -xzf go1.10.linux-amd64.tar.gz
+printf "\nPATH=\"/usr/local/go/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
+
 # One last upgrade check
 
 apt-get -y upgrade
