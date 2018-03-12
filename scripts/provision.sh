@@ -417,9 +417,18 @@ chown -R vagrant:vagrant /home/vagrant/.oh-my-zsh
 chown vagrant:vagrant /home/vagrant/.zshrc
 
 # Install Golang
+
 wget https://dl.google.com/go/go1.10.linux-amd64.tar.gz
 tar -C /usr/local -xzf go1.10.linux-amd64.tar.gz
 printf "\nPATH=\"/usr/local/go/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
+
+# Install & Configure Postfix
+
+echo "postfix postfix/mailname string homestead.test" | debconf-set-selections
+echo "postfix postfix/main_mailer_type string 'Internet Site'" | debconf-set-selections
+apt-get install -y postfix
+sed -i "s/relayhost =/relayhost = [localhost]:1025/g" /etc/postfix/main.cf
+/etc/init.d/postfix reload
 
 # One last upgrade check
 
