@@ -421,6 +421,7 @@ chown vagrant:vagrant /home/vagrant/.zshrc
 wget https://dl.google.com/go/go1.10.linux-amd64.tar.gz
 tar -C /usr/local -xzf go1.10.linux-amd64.tar.gz
 printf "\nPATH=\"/usr/local/go/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
+rm -rf go1.10.linux-amd64.tar.gz
 
 # Install & Configure Postfix
 
