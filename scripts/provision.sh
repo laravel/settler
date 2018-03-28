@@ -134,7 +134,6 @@ nginx php7.1-fpm php7.2-fpm php7.0-fpm php5.6-fpm
 
 rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
-service nginx restart
 
 # Setup Some PHP-FPM Options
 echo "xdebug.remote_enable = 1" >> /etc/php/7.2/mods-available/xdebug.ini
@@ -267,7 +266,6 @@ sed -i "s/group = www-data/group = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
 sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
 sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
 sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/5.6/fpm/pool.d/www.conf
-
 
 service nginx restart
 service php7.2-fpm restart
