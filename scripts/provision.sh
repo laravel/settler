@@ -98,7 +98,7 @@ mv composer.phar /usr/local/bin/composer
 
 # Install Laravel Envoy & Installer
 
-sudo su vagrant <<'EOF'
+sudo su $USER <<'EOF'
 /usr/local/bin/composer global require "laravel/envoy=~1.0"
 /usr/local/bin/composer global require "laravel/installer=~2.0"
 /usr/local/bin/composer global require "laravel/lumen-installer=~1.0"
@@ -240,31 +240,31 @@ EOF
 
 # Set The Nginx & PHP-FPM User
 
-sed -i "s/user www-data;/user vagrant;/" /etc/nginx/nginx.conf
+sed -i "s/user www-data;/user $USER;/" /etc/nginx/nginx.conf
 sed -i "s/# server_names_hash_bucket_size.*/server_names_hash_bucket_size 64;/" /etc/nginx/nginx.conf
 
-sed -i "s/user = www-data/user = vagrant/" /etc/php/7.2/fpm/pool.d/www.conf
-sed -i "s/group = www-data/group = vagrant/" /etc/php/7.2/fpm/pool.d/www.conf
+sed -i "s/user = www-data/user = $USER/" /etc/php/7.2/fpm/pool.d/www.conf
+sed -i "s/group = www-data/group = $USER/" /etc/php/7.2/fpm/pool.d/www.conf
 
-sed -i "s/user = www-data/user = vagrant/" /etc/php/7.1/fpm/pool.d/www.conf
-sed -i "s/group = www-data/group = vagrant/" /etc/php/7.1/fpm/pool.d/www.conf
+sed -i "s/user = www-data/user = $USER/" /etc/php/7.1/fpm/pool.d/www.conf
+sed -i "s/group = www-data/group = $USER/" /etc/php/7.1/fpm/pool.d/www.conf
 
-sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/7.1/fpm/pool.d/www.conf
-sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/7.1/fpm/pool.d/www.conf
+sed -i "s/listen\.owner.*/listen.owner = $USER/" /etc/php/7.1/fpm/pool.d/www.conf
+sed -i "s/listen\.group.*/listen.group = $USER/" /etc/php/7.1/fpm/pool.d/www.conf
 sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.1/fpm/pool.d/www.conf
 
-sed -i "s/user = www-data/user = vagrant/" /etc/php/7.0/fpm/pool.d/www.conf
-sed -i "s/group = www-data/group = vagrant/" /etc/php/7.0/fpm/pool.d/www.conf
+sed -i "s/user = www-data/user = $USER/" /etc/php/7.0/fpm/pool.d/www.conf
+sed -i "s/group = www-data/group = $USER/" /etc/php/7.0/fpm/pool.d/www.conf
 
-sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/7.0/fpm/pool.d/www.conf
-sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/7.0/fpm/pool.d/www.conf
+sed -i "s/listen\.owner.*/listen.owner = $USER/" /etc/php/7.0/fpm/pool.d/www.conf
+sed -i "s/listen\.group.*/listen.group = $USER/" /etc/php/7.0/fpm/pool.d/www.conf
 sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.0/fpm/pool.d/www.conf
 
-sed -i "s/user = www-data/user = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
-sed -i "s/group = www-data/group = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
+sed -i "s/user = www-data/user = $USER/" /etc/php/5.6/fpm/pool.d/www.conf
+sed -i "s/group = www-data/group = $USER/" /etc/php/5.6/fpm/pool.d/www.conf
 
-sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
-sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
+sed -i "s/listen\.owner.*/listen.owner = $USER/" /etc/php/5.6/fpm/pool.d/www.conf
+sed -i "s/listen\.group.*/listen.group = $USER/" /etc/php/5.6/fpm/pool.d/www.conf
 sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/5.6/fpm/pool.d/www.conf
 
 service nginx restart
@@ -273,11 +273,11 @@ service php7.1-fpm restart
 service php7.0-fpm restart
 service php5.6-fpm restart
 
-# Add Vagrant User To WWW-Data
+# Add User To WWW-Data
 
-usermod -a -G www-data vagrant
-id vagrant
-groups vagrant
+usermod -a -G www-data $USER
+id $USER
+groups $USER
 
 # Install Node
 
@@ -340,7 +340,7 @@ apt install -y blackfire-agent blackfire-php
 sudo wget http://repos.zend.com/zend-server/early-access/ZRay-Homestead/zray-standalone-php72.tar.gz -O - | sudo tar -xzf - -C /opt
 sudo ln -sf /opt/zray/zray.ini /etc/php/7.2/fpm/conf.d/zray.ini
 sudo ln -sf /opt/zray/lib/zray.so /usr/lib/php/20170718/zray.so
-sudo chown -R vagrant:vagrant /opt/zray
+sudo chown -R $USER:$USER /opt/zray
 
 # Install The Chrome Web Driver & Dusk Utilities
 
@@ -370,7 +370,7 @@ Description=Mailhog
 After=network.target
 
 [Service]
-User=vagrant
+User=$USER
 ExecStart=/usr/bin/env /usr/local/bin/mailhog > /dev/null 2>&1 &
 
 [Install]
@@ -407,18 +407,18 @@ mv wp-cli.phar /usr/local/bin/wp
 
 # Install oh-my-zsh
 
-git clone git://github.com/robbyrussell/oh-my-zsh.git /home/vagrant/.oh-my-zsh
-cp /home/vagrant/.oh-my-zsh/templates/zshrc.zsh-template /home/vagrant/.zshrc
-printf "\nsource ~/.bash_aliases\n" | tee -a /home/vagrant/.zshrc
-printf "\nsource ~/.profile\n" | tee -a /home/vagrant/.zshrc
-chown -R vagrant:vagrant /home/vagrant/.oh-my-zsh
-chown vagrant:vagrant /home/vagrant/.zshrc
+git clone git://github.com/robbyrussell/oh-my-zsh.git /home/$USER/.oh-my-zsh
+cp /home/$USER/.oh-my-zsh/templates/zshrc.zsh-template /home/$USER/.zshrc
+printf "\nsource ~/.bash_aliases\n" | tee -a /home/$USER/.zshrc
+printf "\nsource ~/.profile\n" | tee -a /home/$USER/.zshrc
+chown -R $USER:$USER /home/$USER/.oh-my-zsh
+chown $USER:$USER /home/$USER/.zshrc
 
 # Install Golang
 
 wget https://dl.google.com/go/go1.10.linux-amd64.tar.gz
 tar -C /usr/local -xzf go1.10.linux-amd64.tar.gz
-printf "\nPATH=\"/usr/local/go/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
+printf "\nPATH=\"/usr/local/go/bin:\$PATH\"\n" | tee -a /home/$USER/.profile
 rm -rf go1.10.linux-amd64.tar.gz
 
 # Install & Configure Postfix
@@ -437,11 +437,11 @@ apt -y upgrade
 
 apt -y autoremove
 apt -y clean
-chown -R vagrant:vagrant /home/vagrant
+chown -R $USER:$USER /home/$USER
 
 # Add Composer Global Bin To Path
 
-printf "\nPATH=\"$(sudo su - vagrant -c 'composer config -g home 2>/dev/null')/vendor/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
+printf "\nPATH=\"$(sudo su - $USER -c 'composer config -g home 2>/dev/null')/vendor/bin:\$PATH\"\n" | tee -a /home/$USER/.profile
 
 # Enable Swap Memory
 
