@@ -4,10 +4,10 @@ export DEBIAN_FRONTEND=noninteractive
 
 # Update Package List
 
-apt-get update
+apt update
 
 # Update System Packages
-apt-get -y upgrade
+apt -y upgrade
 
 # Force Locale
 
@@ -16,7 +16,7 @@ locale-gen en_US.UTF-8
 
 # Install Some PPAs
 
-apt-get install -y software-properties-common curl
+apt install -y software-properties-common curl
 
 apt-add-repository ppa:nginx/development -y
 apt-add-repository ppa:chris-lea/redis-server -y
@@ -39,11 +39,11 @@ curl --silent --location https://deb.nodesource.com/setup_8.x | bash -
 
 # Update Package Lists
 
-apt-get update
+apt update
 
 # Install Some Basic Packages
 
-apt-get install -y build-essential dos2unix gcc git libmcrypt4 libpcre3-dev ntp unzip \
+apt install -y build-essential dos2unix gcc git libmcrypt4 libpcre3-dev ntp unzip \
 make python2.7-dev python-pip re2c supervisor unattended-upgrades whois vim libnotify-bin \
 pv cifs-utils mcrypt bash-completion zsh ntpdate
 
@@ -53,7 +53,7 @@ ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 
 # Install PHP Stuffs
 # Current PHP
-apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
+apt install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
 php7.2-cli php7.2-dev \
 php7.2-pgsql php7.2-sqlite3 php7.2-gd \
 php7.2-curl php7.2-memcached \
@@ -63,7 +63,7 @@ php7.2-intl php7.2-readline \
 php-xdebug php-pear
 
 # PHP 7.1
-apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
+apt install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
 php7.1-cli php7.1-dev \
 php7.1-pgsql php7.1-sqlite3 php7.1-gd \
 php7.1-curl php7.1-memcached \
@@ -72,7 +72,7 @@ php7.1-xml php7.1-zip php7.1-bcmath php7.1-soap \
 php7.1-intl php7.1-readline
 
 # PHP 7.0
-apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
+apt install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
 php7.0-cli php7.0-dev \
 php7.0-pgsql php7.0-sqlite3 php7.0-gd \
 php7.0-curl php7.0-memcached \
@@ -81,7 +81,7 @@ php7.0-xml php7.0-zip php7.0-bcmath php7.0-soap \
 php7.0-intl php7.0-readline
 
 # PHP 5.6
-apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
+apt install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
 php5.6-cli php5.6-dev \
 php5.6-pgsql php5.6-sqlite3 php5.6-gd \
 php5.6-curl php5.6-memcached \
@@ -129,7 +129,7 @@ sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/5.6/cli/php.ini
 
 # Install Nginx & PHP-FPM
 
-apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
+apt install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
 nginx php7.1-fpm php7.2-fpm php7.0-fpm php5.6-fpm
 
 rm /etc/nginx/sites-enabled/default
@@ -281,7 +281,7 @@ groups vagrant
 
 # Install Node
 
-apt-get install -y nodejs
+apt install -y nodejs
 /usr/bin/npm install -g npm
 /usr/bin/npm install -g gulp-cli
 /usr/bin/npm install -g bower
@@ -290,12 +290,12 @@ apt-get install -y nodejs
 
 # Install SQLite
 
-apt-get install -y sqlite3 libsqlite3-dev
+apt install -y sqlite3 libsqlite3-dev
 
 # Install MySQL
 echo "mysql-server mysql-server/root_password password secret" | debconf-set-selections
 echo "mysql-server mysql-server/root_password_again password secret" | debconf-set-selections
-apt-get install -y mysql-server
+apt install -y mysql-server
 
 # Configure MySQL Password Lifetime
 
@@ -321,7 +321,7 @@ mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret my
 
 # Install Postgres
 
-apt-get install -y postgresql-10
+apt install -y postgresql-10
 
 # Configure Postgres Remote Access
 
@@ -333,7 +333,7 @@ service postgresql restart
 
 # Install Blackfire
 
-apt-get install -y blackfire-agent blackfire-php
+apt install -y blackfire-agent blackfire-php
 
 # Install Zend Z-Ray (for FPM only, not CLI)
 
@@ -344,7 +344,7 @@ sudo chown -R vagrant:vagrant /opt/zray
 
 # Install The Chrome Web Driver & Dusk Utilities
 
-apt-get -y install libxpm4 libxrender1 libgtk2.0-0 \
+apt -y install libxpm4 libxrender1 libgtk2.0-0 \
 libnss3 libgconf-2-4 chromium-browser \
 xvfb gtk2-engines-pixbuf xfonts-cyrillic \
 xfonts-100dpi xfonts-75dpi xfonts-base \
@@ -352,7 +352,7 @@ xfonts-scalable imagemagick x11-apps
 
 # Install Memcached & Beanstalk
 
-apt-get install -y redis-server memcached beanstalkd
+apt install -y redis-server memcached beanstalkd
 
 # Configure Beanstalkd
 
@@ -425,18 +425,18 @@ rm -rf go1.10.linux-amd64.tar.gz
 
 echo "postfix postfix/mailname string homestead.test" | debconf-set-selections
 echo "postfix postfix/main_mailer_type string 'Internet Site'" | debconf-set-selections
-apt-get install -y postfix
+apt install -y postfix
 sed -i "s/relayhost =/relayhost = [localhost]:1025/g" /etc/postfix/main.cf
 /etc/init.d/postfix reload
 
 # One last upgrade check
 
-apt-get -y upgrade
+apt -y upgrade
 
 # Clean Up
 
-apt-get -y autoremove
-apt-get -y clean
+apt -y autoremove
+apt -y clean
 chown -R vagrant:vagrant /home/vagrant
 
 # Add Composer Global Bin To Path
@@ -449,5 +449,5 @@ printf "\nPATH=\"$(sudo su - vagrant -c 'composer config -g home 2>/dev/null')/v
 /sbin/mkswap /var/swap.1
 /sbin/swapon /var/swap.1
 
-apt-get -y autoremove;
-apt-get -y clean;
+apt -y autoremove;
+apt -y clean;
