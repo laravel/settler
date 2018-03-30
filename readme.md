@@ -60,16 +60,16 @@ Unfortunately in my experience the installation is quite slow and may take an ho
 
 Reset the default to back to PHP 7.2: (Default)
 
-`` update-alternatives --set php /usr/bin/php7.2 ``
+`` sudo update-alternatives --set php /usr/bin/php7.2 ``
 
 Set the default php version to PHP 7.1:
 
-`` update-alternatives --set php /usr/bin/php7.1 ``
+`` sudo update-alternatives --set php /usr/bin/php7.1 ``
 
 Set the default php version to PHP 7.0:
 
-`` update-alternatives --set php /usr/bin/php7.0 ``
+`` sudo update-alternatives --set php /usr/bin/php7.0 ``
 
 Set the default php version to PHP 5.6:
 
-`` update-alternatives --set php /usr/bin/php5.6 ``
+`` sudo update-alternatives --set php /usr/bin/php5.6 ``
