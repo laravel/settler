@@ -18,19 +18,19 @@ locale-gen en_US.UTF-8
 
 apt-get install -y software-properties-common curl
 
-apt-add-repository ppa:nginx/development -y
-apt-add-repository ppa:chris-lea/redis-server -y
+#apt-add-repository ppa:nginx/development -y
+#apt-add-repository ppa:chris-lea/redis-server -y
 apt-add-repository ppa:ondrej/php -y
 
-curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
+#curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+#curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
 
 # gpg: key 5072E1F5: public key "MySQL Release Engineering <mysql-build@oss.oracle.com>" imported
 # apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys 5072E1F5
 # sh -c 'echo "deb http://repo.mysql.com/apt/ubuntu/ xenial mysql-5.7" >> /etc/apt/sources.list.d/mysql.list'
 
-echo 'deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main' >> /etc/apt/sources.list.d/pgdg.list
-wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+#echo 'deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main' >> /etc/apt/sources.list.d/pgdg.list
+#wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 
 curl -s https://packagecloud.io/gpg.key | apt-key add -
 echo "deb http://packages.blackfire.io/debian any main" | tee /etc/apt/sources.list.d/blackfire.list
@@ -39,13 +39,13 @@ curl --silent --location https://deb.nodesource.com/setup_8.x | bash -
 
 # Update Package Lists
 
-apt-get update
+
 
 # Install Some Basic Packages
 
-apt-get install -y build-essential dos2unix gcc git libmcrypt4 libpcre3-dev ntp unzip \
+apt-get install -y build-essential dos2unix gcc git libmcrypt4 libpcre3-dev libpng-dev ntp unzip \
 make python2.7-dev python-pip re2c supervisor unattended-upgrades whois vim libnotify-bin \
-pv cifs-utils mcrypt bash-completion zsh ntpdate
+pv cifs-utils mcrypt bash-completion zsh
 
 # Set My Timezone
 
@@ -416,7 +416,7 @@ chown vagrant:vagrant /home/vagrant/.zshrc
 
 # Install Golang
 
-golangVersion="1.10.1"
+golangVersion="1.10.2"
 wget https://dl.google.com/go/go${golangVersion}.linux-amd64.tar.gz -O golang.tar.gz
 tar -C /usr/local -xzf golang.tar.gz
 printf "\nPATH=\"/usr/local/go/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
@@ -449,6 +449,3 @@ printf "\nPATH=\"$(sudo su - vagrant -c 'composer config -g home 2>/dev/null')/v
 /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
 /sbin/mkswap /var/swap.1
 /sbin/swapon /var/swap.1
-
-apt-get -y autoremove;
-apt-get -y clean;
