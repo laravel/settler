@@ -18,7 +18,7 @@ locale-gen en_US.UTF-8
 
 apt-get install -y software-properties-common curl
 
-#apt-add-repository ppa:nginx/development -y
+apt-add-repository ppa:nginx/development -y
 #apt-add-repository ppa:chris-lea/redis-server -y
 apt-add-repository ppa:ondrej/php -y
 
@@ -38,8 +38,7 @@ echo "deb http://packages.blackfire.io/debian any main" | tee /etc/apt/sources.l
 curl --silent --location https://deb.nodesource.com/setup_8.x | bash -
 
 # Update Package Lists
-
-
+apt-get update
 
 # Install Some Basic Packages
 
