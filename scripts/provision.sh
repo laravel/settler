@@ -89,6 +89,8 @@ php5.6-xml php5.6-zip php5.6-bcmath php5.6-soap \
 php5.6-intl php5.6-readline php5.6-mcrypt
 
 update-alternatives --set php /usr/bin/php7.2
+update-alternatives --set php-config /usr/bin/php-config7.2
+update-alternatives --set phpize /usr/bin/phpize7.2
 
 # Install Composer
 
