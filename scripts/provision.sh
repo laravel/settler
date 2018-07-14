@@ -314,11 +314,18 @@ mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO 'homestead'@'0.0
 mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO 'homestead'@'%' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
 mysql --user="root" --password="secret" -e "FLUSH PRIVILEGES;"
 mysql --user="root" --password="secret" -e "CREATE DATABASE homestead character set UTF8mb4 collate utf8mb4_bin;"
-service mysql restart
+
+sudo tee /home/vagrant/.my.cnf <<EOL
+[mysqld]
+character-set-server=utf8mb4
+collation-server=utf8mb4_bin
+EOL
 
 # Add Timezone Support To MySQL
 
 mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret mysql
+
+service mysql restart
 
 # Install Postgres
 
