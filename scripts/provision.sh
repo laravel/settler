@@ -433,6 +433,12 @@ curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.pha
 chmod +x wp-cli.phar
 mv wp-cli.phar /usr/local/bin/wp
 
+# Install Drupal Console Launcher.
+
+curl --silent --location https://drupalconsole.com/installer --output drupal.phar
+chmod +x drupal.phar
+mv drupal.phar /usr/local/bin/drupal
+
 # Install oh-my-zsh
 
 git clone git://github.com/robbyrussell/oh-my-zsh.git /home/vagrant/.oh-my-zsh
