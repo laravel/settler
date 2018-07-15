@@ -181,24 +181,34 @@ touch /home/vagrant/.config/php/fpm/php7.1.ini
 touch /home/vagrant/.config/php/fpm/php7.0.ini
 touch /home/vagrant/.config/php/fpm/php5.6.ini
 
-# Create symlinks for the user PHP-CLI config files.
-sudo ln -sf /home/vagrant/.config/php/cli/shared.ini /etc/php/7.2/cli/conf.d/98-homestead-shared.ini
-sudo ln -sf /home/vagrant/.config/php/cli/shared.ini /etc/php/7.1/cli/conf.d/98-homestead-shared.ini
-sudo ln -sf /home/vagrant/.config/php/cli/shared.ini /etc/php/7.0/cli/conf.d/98-homestead-shared.ini
-sudo ln -sf /home/vagrant/.config/php/cli/shared.ini /etc/php/5.6/cli/conf.d/98-homestead-shared.ini
-sudo ln -sf /home/vagrant/.config/php/cli/php7.2.ini /etc/php/7.2/cli/conf.d/99-homestead-php7.2.ini
-sudo ln -sf /home/vagrant/.config/php/cli/php7.1.ini /etc/php/7.1/cli/conf.d/99-homestead-php7.1.ini
-sudo ln -sf /home/vagrant/.config/php/cli/php7.0.ini /etc/php/7.0/cli/conf.d/99-homestead-php7.0.ini
-sudo ln -sf /home/vagrant/.config/php/cli/php5.6.ini /etc/php/5.6/cli/conf.d/99-homestead-php5.6.ini
+# Create symlinks for the user PHP config files.
 
-# Create symlinks for the user PHP-FPM config files.
+# Configuration files for PHP 7.2 - CLI
+sudo ln -sf /home/vagrant/.config/php/cli/shared.ini /etc/php/7.2/cli/conf.d/98-homestead-shared.ini
+sudo ln -sf /home/vagrant/.config/php/cli/php7.2.ini /etc/php/7.2/cli/conf.d/99-homestead-php7.2.ini
+# Configuration files for PHP 7.2 - FPM
 sudo ln -sf /home/vagrant/.config/php/fpm/shared.ini /etc/php/7.2/fpm/conf.d/98-homestead-shared.ini
-sudo ln -sf /home/vagrant/.config/php/fpm/shared.ini /etc/php/7.1/fpm/conf.d/98-homestead-shared.ini
-sudo ln -sf /home/vagrant/.config/php/fpm/shared.ini /etc/php/7.0/fpm/conf.d/98-homestead-shared.ini
-sudo ln -sf /home/vagrant/.config/php/fpm/shared.ini /etc/php/5.6/fpm/conf.d/98-homestead-shared.ini
 sudo ln -sf /home/vagrant/.config/php/fpm/php7.2.ini /etc/php/7.2/fpm/conf.d/99-homestead-php7.2.ini
+
+# Configuration files for PHP 7.1 - CLI
+sudo ln -sf /home/vagrant/.config/php/cli/shared.ini /etc/php/7.1/cli/conf.d/98-homestead-shared.ini
+sudo ln -sf /home/vagrant/.config/php/cli/php7.1.ini /etc/php/7.1/cli/conf.d/99-homestead-php7.1.ini
+# Configuration files for PHP 7.1 - FPM
+sudo ln -sf /home/vagrant/.config/php/fpm/shared.ini /etc/php/7.1/fpm/conf.d/98-homestead-shared.ini
 sudo ln -sf /home/vagrant/.config/php/fpm/php7.1.ini /etc/php/7.1/fpm/conf.d/99-homestead-php7.1.ini
+
+# Configuration files for PHP 7.0 - CLI
+sudo ln -sf /home/vagrant/.config/php/cli/shared.ini /etc/php/7.0/cli/conf.d/98-homestead-shared.ini
+sudo ln -sf /home/vagrant/.config/php/cli/php7.0.ini /etc/php/7.0/cli/conf.d/99-homestead-php7.0.ini
+# Configuration files for PHP 7.0 - FPM
+sudo ln -sf /home/vagrant/.config/php/fpm/shared.ini /etc/php/7.0/fpm/conf.d/98-homestead-shared.ini
 sudo ln -sf /home/vagrant/.config/php/fpm/php7.0.ini /etc/php/7.0/fpm/conf.d/99-homestead-php7.0.ini
+
+# Configuration files for PHP 5.6 - CLI
+sudo ln -sf /home/vagrant/.config/php/cli/shared.ini /etc/php/5.6/cli/conf.d/98-homestead-shared.ini
+sudo ln -sf /home/vagrant/.config/php/cli/php5.6.ini /etc/php/5.6/cli/conf.d/99-homestead-php5.6.ini
+# Configuration files for PHP 5.6 - FPM
+sudo ln -sf /home/vagrant/.config/php/fpm/shared.ini /etc/php/5.6/fpm/conf.d/98-homestead-shared.ini
 sudo ln -sf /home/vagrant/.config/php/fpm/php5.6.ini /etc/php/5.6/fpm/conf.d/99-homestead-php5.6.ini
 
 # Disable XDebug On The CLI
