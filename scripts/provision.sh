@@ -136,6 +136,10 @@ nginx php7.1-fpm php7.2-fpm php7.0-fpm php5.6-fpm
 rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
 
+# Create a configuration file for Nginx overrides.
+touch /home/vagrant/.config/nginx/nginx.conf
+sudo ln -sf /home/vagrant/.config/nginx/nginx.conf /etc/nginx/conf.d/nginx.conf
+
 # Setup Some PHP-FPM Options
 echo "xdebug.remote_enable = 1" >> /etc/php/7.2/mods-available/xdebug.ini
 echo "xdebug.remote_connect_back = 1" >> /etc/php/7.2/mods-available/xdebug.ini
