@@ -104,7 +104,6 @@ sudo su vagrant <<'EOF'
 /usr/local/bin/composer global require "laravel/installer=~2.0"
 /usr/local/bin/composer global require "laravel/lumen-installer=~1.0"
 /usr/local/bin/composer global require "laravel/spark-installer=~2.0"
-/usr/local/bin/composer global require "drush/drush=~8"
 EOF
 
 # Set Some PHP CLI Settings
@@ -432,6 +431,13 @@ rm -rf flyway-commandline-4.2.0-linux-x64.tar.gz
 curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 chmod +x wp-cli.phar
 mv wp-cli.phar /usr/local/bin/wp
+
+# Install Drush Launcher.
+
+curl --silent --location https://github.com/drush-ops/drush-launcher/releases/download/0.6.0/drush.phar --output drush.phar
+chmod +x drush.phar
+mv drush.phar /usr/local/bin/drush
+drush self-update
 
 # Install Drupal Console Launcher.
 
