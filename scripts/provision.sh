@@ -107,27 +107,6 @@ sudo su vagrant <<'EOF'
 /usr/local/bin/composer global require "drush/drush=~8"
 EOF
 
-# Set Some PHP CLI Settings
-sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.2/cli/php.ini
-sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.2/cli/php.ini
-sudo sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.2/cli/php.ini
-sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.2/cli/php.ini
-
-sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.1/cli/php.ini
-sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.1/cli/php.ini
-sudo sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.1/cli/php.ini
-sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.1/cli/php.ini
-
-sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.0/cli/php.ini
-sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.0/cli/php.ini
-sudo sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.0/cli/php.ini
-sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/cli/php.ini
-
-sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/5.6/cli/php.ini
-sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/5.6/cli/php.ini
-sudo sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/5.6/cli/php.ini
-sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/5.6/cli/php.ini
-
 # Install Nginx & PHP-FPM
 
 apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
@@ -136,80 +115,91 @@ nginx php7.1-fpm php7.2-fpm php7.0-fpm php5.6-fpm
 rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
 
-# Setup Some PHP-FPM Options
-echo "xdebug.remote_enable = 1" >> /etc/php/7.2/mods-available/xdebug.ini
-echo "xdebug.remote_connect_back = 1" >> /etc/php/7.2/mods-available/xdebug.ini
-echo "xdebug.remote_port = 9000" >> /etc/php/7.2/mods-available/xdebug.ini
-echo "xdebug.max_nesting_level = 512" >> /etc/php/7.2/mods-available/xdebug.ini
-echo "opcache.revalidate_freq = 0" >> /etc/php/7.2/mods-available/opcache.ini
+# Create folders for PHP configuration override files.
 
-echo "xdebug.remote_enable = 1" >> /etc/php/7.1/mods-available/xdebug.ini
-echo "xdebug.remote_connect_back = 1" >> /etc/php/7.1/mods-available/xdebug.ini
-echo "xdebug.remote_port = 9000" >> /etc/php/7.1/mods-available/xdebug.ini
-echo "xdebug.max_nesting_level = 512" >> /etc/php/7.1/mods-available/xdebug.ini
-echo "opcache.revalidate_freq = 0" >> /etc/php/7.1/mods-available/opcache.ini
+mkdir -p /home/vagrant/.config/php/{cli,fpm}
 
-echo "xdebug.remote_enable = 1" >> /etc/php/7.0/mods-available/xdebug.ini
-echo "xdebug.remote_connect_back = 1" >> /etc/php/7.0/mods-available/xdebug.ini
-echo "xdebug.remote_port = 9000" >> /etc/php/7.0/mods-available/xdebug.ini
-echo "xdebug.max_nesting_level = 512" >> /etc/php/7.0/mods-available/xdebug.ini
-echo "opcache.revalidate_freq = 0" >> /etc/php/7.0/mods-available/opcache.ini
+# Create the default file for PHP-CLI configuration.
+cat > /home/vagrant/.config/php/cli/shared.defaults.ini << EOF
+error_reporting = E_ALL
+display_errors = On
+memory_limit = 512M
+date.timezone = UTC
+EOF
 
-echo "xdebug.remote_enable = 1" >> /etc/php/5.6/mods-available/xdebug.ini
-echo "xdebug.remote_connect_back = 1" >> /etc/php/5.6/mods-available/xdebug.ini
-echo "xdebug.remote_port = 9000" >> /etc/php/5.6/mods-available/xdebug.ini
-echo "xdebug.max_nesting_level = 512" >> /etc/php/5.6/mods-available/xdebug.ini
-echo "opcache.revalidate_freq = 0" >> /etc/php/5.6/mods-available/opcache.ini
+# Create the shared file for PHP-CLI configuration.
+if [ ! -f /home/vagrant/.config/php/cli/shared.ini ]; then
+  cp /home/vagrant/.config/php/cli/shared.defaults.ini /home/vagrant/.config/php/cli/shared.ini
+fi
 
-sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.2/fpm/php.ini
-sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.2/fpm/php.ini
-sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.2/fpm/php.ini
-sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.2/fpm/php.ini
-sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.2/fpm/php.ini
-sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.2/fpm/php.ini
-sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.2/fpm/php.ini
+# Create the default file for PHP-FPM configuration.
+cat > /home/vagrant/.config/php/fpm/shared.defaults.ini << EOF
+error_reporting = E_ALL
+display_errors = On
+cgi.fix_pathinfo = 0
+memory_limit = 512M
+upload_max_filesize = 100M
+post_max_size = 100M
+date.timezone = UTC
 
-printf "[openssl]\n" | tee -a /etc/php/7.2/fpm/php.ini
-printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.2/fpm/php.ini
+[openssl]
+openssl.cainfo = /etc/ssl/certs/ca-certificates.crt
 
-printf "[curl]\n" | tee -a /etc/php/7.2/fpm/php.ini
-printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.2/fpm/php.ini
+[curl]
+curl.cainfo = /etc/ssl/certs/ca-certificates.crt
 
-sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.1/fpm/php.ini
-sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.1/fpm/php.ini
-sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.1/fpm/php.ini
-sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.1/fpm/php.ini
-sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.1/fpm/php.ini
-sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.1/fpm/php.ini
-sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.1/fpm/php.ini
+[opcache]
+zend_extension = opcache.so
+opcache.revalidate_freq = 0
 
-printf "[openssl]\n" | tee -a /etc/php/7.1/fpm/php.ini
-printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.1/fpm/php.ini
+[xdebug]
+zend_extension = xdebug.so
+xdebug.idekey = "phpstorm"
+xdebug.remote_enable = 1
+xdebug.remote_connect_back = 1
+xdebug.remote_host = "192.168.10.1"
+xdebug.remote_port = 9000
+xdebug.max_nesting_level = 300     
+xdebug.scream = 0
+xdebug.show_local_vars = 1
+EOF
 
-printf "[curl]\n" | tee -a /etc/php/7.1/fpm/php.ini
-printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.1/fpm/php.ini
+# Create the shared file for PHP-FPM configuration.
+if [ ! -f /home/vagrant/.config/php/fpm/shared.ini ]; then
+  cp /home/vagrant/.config/php/fpm/shared.defaults.ini /home/vagrant/.config/php/fpm/shared.ini
+fi
 
-sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.0/fpm/php.ini
-sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.0/fpm/php.ini
-sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini
-sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.0/fpm/php.ini
-sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.0/fpm/php.ini
-sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.0/fpm/php.ini
-sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/fpm/php.ini
+# Create config files if don't exist.
+touch /home/vagrant/.config/php/cli/shared.ini
+touch /home/vagrant/.config/php/cli/php7.2.ini
+touch /home/vagrant/.config/php/cli/php7.1.ini
+touch /home/vagrant/.config/php/cli/php7.0.ini
+touch /home/vagrant/.config/php/cli/php5.6.ini
+touch /home/vagrant/.config/php/fpm/shared.ini
+touch /home/vagrant/.config/php/fpm/php7.2.ini
+touch /home/vagrant/.config/php/fpm/php7.1.ini
+touch /home/vagrant/.config/php/fpm/php7.0.ini
+touch /home/vagrant/.config/php/fpm/php5.6.ini
 
-printf "[curl]\n" | tee -a /etc/php/7.0/fpm/php.ini
-printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.0/fpm/php.ini
+# Create symlinks for the user PHP-CLI config files.
+sudo ln -sf /home/vagrant/.config/php/cli/shared.ini /etc/php/7.2/cli/conf.d/98-homestead-shared.ini
+sudo ln -sf /home/vagrant/.config/php/cli/shared.ini /etc/php/7.1/cli/conf.d/98-homestead-shared.ini
+sudo ln -sf /home/vagrant/.config/php/cli/shared.ini /etc/php/7.0/cli/conf.d/98-homestead-shared.ini
+sudo ln -sf /home/vagrant/.config/php/cli/shared.ini /etc/php/5.6/cli/conf.d/98-homestead-shared.ini
+sudo ln -sf /home/vagrant/.config/php/cli/php7.2.ini /etc/php/7.2/cli/conf.d/99-homestead-php7.2.ini
+sudo ln -sf /home/vagrant/.config/php/cli/php7.1.ini /etc/php/7.1/cli/conf.d/99-homestead-php7.1.ini
+sudo ln -sf /home/vagrant/.config/php/cli/php7.0.ini /etc/php/7.0/cli/conf.d/99-homestead-php7.0.ini
+sudo ln -sf /home/vagrant/.config/php/cli/php5.6.ini /etc/php/5.6/cli/conf.d/99-homestead-php5.6.ini
 
-sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/5.6/fpm/php.ini
-sed -i "s/display_errors = .*/display_errors = On/" /etc/php/5.6/fpm/php.ini
-sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/5.6/fpm/php.ini
-sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/5.6/fpm/php.ini
-sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/5.6/fpm/php.ini
-sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/5.6/fpm/php.ini
-sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/5.6/fpm/php.ini
-
-printf "[curl]\n" | tee -a /etc/php/5.6/fpm/php.ini
-printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/5.6/fpm/php.ini
+# Create symlinks for the user PHP-FPM config files.
+sudo ln -sf /home/vagrant/.config/php/fpm/shared.ini /etc/php/7.2/fpm/conf.d/98-homestead-shared.ini
+sudo ln -sf /home/vagrant/.config/php/fpm/shared.ini /etc/php/7.1/fpm/conf.d/98-homestead-shared.ini
+sudo ln -sf /home/vagrant/.config/php/fpm/shared.ini /etc/php/7.0/fpm/conf.d/98-homestead-shared.ini
+sudo ln -sf /home/vagrant/.config/php/fpm/shared.ini /etc/php/5.6/fpm/conf.d/98-homestead-shared.ini
+sudo ln -sf /home/vagrant/.config/php/fpm/php7.2.ini /etc/php/7.2/fpm/conf.d/99-homestead-php7.2.ini
+sudo ln -sf /home/vagrant/.config/php/fpm/php7.1.ini /etc/php/7.1/fpm/conf.d/99-homestead-php7.1.ini
+sudo ln -sf /home/vagrant/.config/php/fpm/php7.0.ini /etc/php/7.0/fpm/conf.d/99-homestead-php7.0.ini
+sudo ln -sf /home/vagrant/.config/php/fpm/php5.6.ini /etc/php/5.6/fpm/conf.d/99-homestead-php5.6.ini
 
 # Disable XDebug On The CLI
 
