@@ -439,6 +439,12 @@ chmod +x drush.phar
 mv drush.phar /usr/local/bin/drush
 drush self-update
 
+# Install Drupal Console Launcher.
+
+curl --silent --location https://drupalconsole.com/installer --output drupal.phar
+chmod +x drupal.phar
+mv drupal.phar /usr/local/bin/drupal
+
 # Install oh-my-zsh
 
 git clone git://github.com/robbyrussell/oh-my-zsh.git /home/vagrant/.oh-my-zsh
