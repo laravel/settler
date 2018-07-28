@@ -348,7 +348,7 @@ apt-get install -y blackfire-agent blackfire-php
 
 # Install Zend Z-Ray (for FPM only, not CLI)
 
-sudo wget http://repos.zend.com/zend-server/early-access/ZRay-Homestead/zray-standalone-php72.tar.gz -O - | sudo tar -xzf - -C /opt
+sudo wget http://repos.zend.com/zend-server/early-access/ZRay-Homestead/install-zray-homestead.zip -O - | sudo tar -xzf - -C /opt
 sudo chown -R vagrant:vagrant /opt/zray
 
 # Install The Chrome Web Driver & Dusk Utilities
