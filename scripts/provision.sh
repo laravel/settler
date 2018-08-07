@@ -61,6 +61,15 @@ php7.2-xml php7.2-zip php7.2-bcmath php7.2-soap \
 php7.2-intl php7.2-readline php7.2-ldap \
 php-xdebug php-pear
 
+# PHP 7.3
+apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
+php7.3-cli php7.3-dev \
+php7.3-pgsql php7.3-sqlite3 php7.3-gd \
+php7.3-curl \
+php7.3-imap php7.3-mysql php7.3-mbstring \
+php7.3-xml php7.3-zip php7.3-bcmath php7.3-soap \
+php7.3-intl php7.3-readline
+
 # PHP 7.1
 apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
 php7.1-cli php7.1-dev \
@@ -112,6 +121,11 @@ sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.2/cli/php.in
 sudo sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.2/cli/php.ini
 sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.2/cli/php.ini
 
+sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.3/cli/php.ini
+sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.3/cli/php.ini
+sudo sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.3/cli/php.ini
+sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.3/cli/php.ini
+
 sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.1/cli/php.ini
 sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.1/cli/php.ini
 sudo sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.1/cli/php.ini
@@ -130,12 +144,14 @@ sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/5.6/cli/php.ini
 # Install Nginx & PHP-FPM
 
 apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
-nginx php7.1-fpm php7.2-fpm php7.0-fpm php5.6-fpm
+nginx php7.1-fpm php7.3-fpm php7.2-fpm php7.0-fpm php5.6-fpm
 
 rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
 
 # Create a configuration file for Nginx overrides.
+sudo mkdir -p /home/vagrant/.config/nginx
+sudo chown -R vagrant:vagrant /home/vagrant
 touch /home/vagrant/.config/nginx/nginx.conf
 sudo ln -sf /home/vagrant/.config/nginx/nginx.conf /etc/nginx/conf.d/nginx.conf
 
@@ -145,6 +161,12 @@ echo "xdebug.remote_connect_back = 1" >> /etc/php/7.2/mods-available/xdebug.ini
 echo "xdebug.remote_port = 9000" >> /etc/php/7.2/mods-available/xdebug.ini
 echo "xdebug.max_nesting_level = 512" >> /etc/php/7.2/mods-available/xdebug.ini
 echo "opcache.revalidate_freq = 0" >> /etc/php/7.2/mods-available/opcache.ini
+
+echo "xdebug.remote_enable = 1" >> /etc/php/7.3/mods-available/xdebug.ini
+echo "xdebug.remote_connect_back = 1" >> /etc/php/7.3/mods-available/xdebug.ini
+echo "xdebug.remote_port = 9000" >> /etc/php/7.3/mods-available/xdebug.ini
+echo "xdebug.max_nesting_level = 512" >> /etc/php/7.3/mods-available/xdebug.ini
+echo "opcache.revalidate_freq = 0" >> /etc/php/7.3/mods-available/opcache.ini
 
 echo "xdebug.remote_enable = 1" >> /etc/php/7.1/mods-available/xdebug.ini
 echo "xdebug.remote_connect_back = 1" >> /etc/php/7.1/mods-available/xdebug.ini
@@ -177,6 +199,20 @@ printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php
 
 printf "[curl]\n" | tee -a /etc/php/7.2/fpm/php.ini
 printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.2/fpm/php.ini
+
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.3/fpm/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.3/fpm/php.ini
+sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.3/fpm/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.3/fpm/php.ini
+sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.3/fpm/php.ini
+sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.3/fpm/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.3/fpm/php.ini
+
+printf "[openssl]\n" | tee -a /etc/php/7.3/fpm/php.ini
+printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.3/fpm/php.ini
+
+printf "[curl]\n" | tee -a /etc/php/7.3/fpm/php.ini
+printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.3/fpm/php.ini
 
 sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.1/fpm/php.ini
 sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.1/fpm/php.ini
@@ -250,6 +286,17 @@ sed -i "s/# server_names_hash_bucket_size.*/server_names_hash_bucket_size 64;/" 
 sed -i "s/user = www-data/user = vagrant/" /etc/php/7.2/fpm/pool.d/www.conf
 sed -i "s/group = www-data/group = vagrant/" /etc/php/7.2/fpm/pool.d/www.conf
 
+sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/7.2/fpm/pool.d/www.conf
+sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/7.2/fpm/pool.d/www.conf
+sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.2/fpm/pool.d/www.conf
+
+sed -i "s/user = www-data/user = vagrant/" /etc/php/7.3/fpm/pool.d/www.conf
+sed -i "s/group = www-data/group = vagrant/" /etc/php/7.3/fpm/pool.d/www.conf
+
+sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/7.3/fpm/pool.d/www.conf
+sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/7.3/fpm/pool.d/www.conf
+sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.3/fpm/pool.d/www.conf
+
 sed -i "s/user = www-data/user = vagrant/" /etc/php/7.1/fpm/pool.d/www.conf
 sed -i "s/group = www-data/group = vagrant/" /etc/php/7.1/fpm/pool.d/www.conf
 
@@ -273,6 +320,7 @@ sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/5.6/fpm/pool.d/www.conf
 
 service nginx restart
 service php7.2-fpm restart
+service php7.3-fpm restart
 service php7.1-fpm restart
 service php7.0-fpm restart
 service php5.6-fpm restart
@@ -348,7 +396,7 @@ apt-get install -y blackfire-agent blackfire-php
 
 # Install Zend Z-Ray (for FPM only, not CLI)
 
-sudo wget http://repos.zend.com/zend-server/early-access/ZRay-Homestead/install-zray-homestead.zip -O - | sudo tar -xzf - -C /opt
+sudo wget http://repos.zend.com/zend-server/early-access/ZRay-Homestead/zray-standalone-php72.tar.gz -O - | sudo tar -xzf - -C /opt
 sudo chown -R vagrant:vagrant /opt/zray
 
 # Install The Chrome Web Driver & Dusk Utilities
@@ -402,15 +450,15 @@ apt-get install -y crystal libssl1.0-dev
 
 # Install Lucky Framework for Crystal
 
-wget https://github.com/luckyframework/lucky_cli/archive/v0.10.0-rc3.tar.gz
-tar -zxvf v0.10.0-rc3.tar.gz
-cd lucky_cli-0.10.0-rc3
-crystal deps
+wget https://github.com/luckyframework/lucky_cli/archive/v0.11.0.tar.gz
+tar -zxvf v0.11.0.tar.gz
+cd lucky_cli-0.11.0
+shards install
 crystal build src/lucky.cr --release --no-debug
 mv lucky /usr/local/bin/.
 cd /home/vagrant
-rm -rf lucky_cli-0.10.0-rc3
-rm -rf v0.10.0-rc3.tar.gz
+rm -rf lucky_cli-0.11.0
+rm -rf v0.11.0.tar.gz
 
 # Install Heroku CLI
 
@@ -466,7 +514,7 @@ tar -C /usr/local -xzf golang.tar.gz
 printf "\nPATH=\"/usr/local/go/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
 rm -rf golang.tar.gz
 
-# Install & Configure Postfix
+# Install & Configure Postfix]
 
 echo "postfix postfix/mailname string homestead.test" | debconf-set-selections
 echo "postfix postfix/main_mailer_type string 'Internet Site'" | debconf-set-selections
