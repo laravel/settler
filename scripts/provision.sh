@@ -522,6 +522,13 @@ apt-get install -y postfix
 sed -i "s/relayhost =/relayhost = [localhost]:1025/g" /etc/postfix/main.cf
 /etc/init.d/postfix reload
 
+# Update / Override motd
+
+sed -i "s/motd.ubuntu.com/homestead.joeferguson.me/g" /etc/default/motd-news
+rm -rf /etc/update-motd.d/10-help-text
+rm -rf /etc/update-motd.d/50-landscape-sysinfo
+service motd-news restart
+
 # One last upgrade check
 
 apt-get -y upgrade
