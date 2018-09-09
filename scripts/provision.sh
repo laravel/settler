@@ -522,6 +522,16 @@ apt-get install -y postfix
 sed -i "s/relayhost =/relayhost = [localhost]:1025/g" /etc/postfix/main.cf
 /etc/init.d/postfix reload
 
+# Install .net core
+
+wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb
+
+sudo apt-get -y install apt-transport-https
+sudo apt-get update
+sudo apt-get -y install dotnet-sdk-2.1
+sudo rm -rf packages-microsoft-prod.deb
+
 # Update / Override motd
 
 sed -i "s/motd.ubuntu.com/homestead.joeferguson.me/g" /etc/default/motd-news
