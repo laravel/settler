@@ -553,10 +553,10 @@ git clone https://github.com/rbenv/ruby-build.git /home/vagrant/.rbenv/plugins/r
 echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> /home/vagrant/.bashrc
 exec $SHELL
 
-rbenv install 2.5.1
-rbenv global 2.5.1
+rbenv install 2.5.3
+rbenv global 2.5.3
 apt-get -y install ruby`ruby -e 'puts RUBY_VERSION[/\d+\.\d+/]'`-dev
-gem install rails -v 5.2.0
+gem install rails -v 5.2.1
 
 # One last upgrade check
 
