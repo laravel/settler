@@ -450,15 +450,15 @@ apt-get install -y crystal
 
 # Install Lucky Framework for Crystal
 
-wget https://github.com/luckyframework/lucky_cli/archive/v0.11.0.tar.gz
-tar -zxvf v0.11.0.tar.gz
-cd lucky_cli-0.11.0
-shards install
-crystal build src/lucky.cr --release --no-debug
-mv lucky /usr/local/bin/.
-cd /home/vagrant
-rm -rf lucky_cli-0.11.0
-rm -rf v0.11.0.tar.gz
+#wget https://github.com/luckyframework/lucky_cli/archive/v0.11.0.tar.gz
+#tar -zxvf v0.11.0.tar.gz
+#cd lucky_cli-0.11.0
+#shards install
+#crystal build src/lucky.cr --release --no-debug
+#mv lucky /usr/local/bin/.
+#cd /home/vagrant
+#rm -rf lucky_cli-0.11.0
+#rm -rf v0.11.0.tar.gz
 
 # Install Heroku CLI
 
@@ -547,11 +547,11 @@ libffi-dev rbenv
 git clone https://github.com/rbenv/rbenv.git /home/vagrant/.rbenv
 echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> /home/vagrant/.bashrc
 echo 'eval "$(rbenv init -)"' >> /home/vagrant/.bashrc
-exec $SHELL
+#exec $SHELL
 
 git clone https://github.com/rbenv/ruby-build.git /home/vagrant/.rbenv/plugins/ruby-build
 echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> /home/vagrant/.bashrc
-exec $SHELL
+#exec $SHELL
 
 rbenv install 2.5.3
 rbenv global 2.5.3
