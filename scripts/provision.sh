@@ -547,16 +547,38 @@ libffi-dev rbenv
 git clone https://github.com/rbenv/rbenv.git /home/vagrant/.rbenv
 echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> /home/vagrant/.bashrc
 echo 'eval "$(rbenv init -)"' >> /home/vagrant/.bashrc
-#exec $SHELL
 
 git clone https://github.com/rbenv/ruby-build.git /home/vagrant/.rbenv/plugins/ruby-build
 echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> /home/vagrant/.bashrc
-#exec $SHELL
 
 rbenv install 2.5.3
 rbenv global 2.5.3
 apt-get -y install ruby`ruby -e 'puts RUBY_VERSION[/\d+\.\d+/]'`-dev
 gem install rails -v 5.2.1
+
+# Install socket-wrench Repo
+
+cd /var/www
+git clone -b release https://github.com/svpernova09/socket-wrench.git
+chown vagrant:vagrant /var/www/socket-wrench
+chmod -R 777 /var/www/socket-wrench/storage
+chmod -R 777 /var/www/socket-wrench/bootstrap
+cp /var/www/socket-wrench/.env.example /var/www/socket-wrench/.env
+/usr/bin/php /var/www/socket-wrench/artisan key:generate
+/usr/bin/php /var/www/socket-wrench/artisan migrate
+/usr/bin/php /var/www/socket-wrench/artisan db:seed
+
+sudo tee /etc/supervisor/conf.d/socket-wrench.conf <<EOL
+[program:socket-wrench]
+command=/usr/bin/php /var/www/socket-wrench/artisan websockets:serve
+numprocs=1
+autostart=true
+autorestart=true
+user=vagrant
+EOL
+
+supervisorctl update
+supervisorctl start socket-wrench
 
 # One last upgrade check
 
