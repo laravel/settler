@@ -508,7 +508,7 @@ chown vagrant:vagrant /home/vagrant/.zshrc
 
 # Install Golang
 
-golangVersion="1.11.2"
+golangVersion="1.11.3"
 wget https://dl.google.com/go/go${golangVersion}.linux-amd64.tar.gz -O golang.tar.gz
 tar -C /usr/local -xzf golang.tar.gz
 printf "\nPATH=\"/usr/local/go/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
