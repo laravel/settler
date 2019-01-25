@@ -473,10 +473,10 @@ echo 'eval "$(rbenv init -)"' >> /home/vagrant/.bashrc
 git clone https://github.com/rbenv/ruby-build.git /home/vagrant/.rbenv/plugins/ruby-build
 echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> /home/vagrant/.bashrc
 
-rbenv install 2.5.3
-rbenv global 2.5.3
+rbenv install 2.6.0
+rbenv global 2.6.0
 apt-get -y install ruby`ruby -e 'puts RUBY_VERSION[/\d+\.\d+/]'`-dev
-gem install rails -v 5.2.1
+gem install rails -v 5.2.2
 
 # Install socket-wrench Repo
 
