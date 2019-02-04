@@ -513,6 +513,7 @@ apt-get -y autoremove
 apt-get -y clean
 chown -R vagrant:vagrant /home/vagrant
 #chown -R vagrant:vagrant /var/www/socket-wrench
+chown -R vagrant:vagrant /usr/local/bin
 
 # Add Composer Global Bin To Path
 
