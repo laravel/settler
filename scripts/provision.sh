@@ -473,35 +473,35 @@ echo 'eval "$(rbenv init -)"' >> /home/vagrant/.bashrc
 git clone https://github.com/rbenv/ruby-build.git /home/vagrant/.rbenv/plugins/ruby-build
 echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> /home/vagrant/.bashrc
 
-rbenv install 2.6.0
-rbenv global 2.6.0
+rbenv install 2.6.1
+rbenv global 2.6.1
 apt-get -y install ruby`ruby -e 'puts RUBY_VERSION[/\d+\.\d+/]'`-dev
 gem install rails -v 5.2.2
 
 # Install socket-wrench Repo
-
-mysql --user="root" --password="secret" -e "CREATE DATABASE socket_wrench character set UTF8mb4 collate utf8mb4_bin;"
-cd /var/www
-git clone -b release https://github.com/svpernova09/socket-wrench.git
-chown vagrant:vagrant /var/www/socket-wrench
-chmod -R 777 /var/www/socket-wrench/storage
-chmod -R 777 /var/www/socket-wrench/bootstrap
-cp /var/www/socket-wrench/.env.example /var/www/socket-wrench/.env
-/usr/bin/php /var/www/socket-wrench/artisan key:generate
-/usr/bin/php /var/www/socket-wrench/artisan migrate
-/usr/bin/php /var/www/socket-wrench/artisan db:seed
-
-sudo tee /etc/supervisor/conf.d/socket-wrench.conf <<EOL
-[program:socket-wrench]
-command=/usr/bin/php /var/www/socket-wrench/artisan websockets:serve
-numprocs=1
-autostart=true
-autorestart=true
-user=vagrant
-EOL
-
-supervisorctl update
-supervisorctl start socket-wrench
+#
+#mysql --user="root" --password="secret" -e "CREATE DATABASE socket_wrench character set UTF8mb4 collate utf8mb4_bin;"
+#cd /var/www
+#git clone -b release https://github.com/svpernova09/socket-wrench.git
+#chown vagrant:vagrant /var/www/socket-wrench
+#chmod -R 777 /var/www/socket-wrench/storage
+#chmod -R 777 /var/www/socket-wrench/bootstrap
+#cp /var/www/socket-wrench/.env.example /var/www/socket-wrench/.env
+#/usr/bin/php /var/www/socket-wrench/artisan key:generate
+#/usr/bin/php /var/www/socket-wrench/artisan migrate
+#/usr/bin/php /var/www/socket-wrench/artisan db:seed
+#
+#sudo tee /etc/supervisor/conf.d/socket-wrench.conf <<EOL
+#[program:socket-wrench]
+#command=/usr/bin/php /var/www/socket-wrench/artisan websockets:serve
+#numprocs=1
+#autostart=true
+#autorestart=true
+#user=vagrant
+#EOL
+#
+#supervisorctl update
+#supervisorctl start socket-wrench
 
 # One last upgrade check
 
@@ -512,7 +512,7 @@ apt-get -y upgrade
 apt-get -y autoremove
 apt-get -y clean
 chown -R vagrant:vagrant /home/vagrant
-chown -R vagrant:vagrant /var/www/socket-wrench
+#chown -R vagrant:vagrant /var/www/socket-wrench
 
 # Add Composer Global Bin To Path
 
