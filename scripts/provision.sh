@@ -88,9 +88,10 @@ update-alternatives --set phpize /usr/bin/phpize7.3
 curl -sS https://getcomposer.org/installer | php
 mv composer.phar /usr/local/bin/composer
 
-# Install Laravel Envoy & Installer
+# Install Laravel Envoy, Installer, and prestissimo for parallel downloads
 
 sudo su vagrant <<'EOF'
+/usr/local/bin/composer global require hirak/prestissimo
 /usr/local/bin/composer global require "laravel/envoy=~1.0"
 /usr/local/bin/composer global require "laravel/installer=~2.0"
 /usr/local/bin/composer global require "laravel/lumen-installer=~1.0"
