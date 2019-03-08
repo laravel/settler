@@ -32,9 +32,6 @@ apt-add-repository ppa:ondrej/php -y
 #echo 'deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main' >> /etc/apt/sources.list.d/pgdg.list
 #wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 
-# Install avahi for mDNS support
-apt install -y avahi-daemon
-
 wget -q -O - https://packages.blackfire.io/gpg.key | apt-key add -
 echo "deb http://packages.blackfire.io/debian any main" | tee /etc/apt/sources.list.d/blackfire.list
 
@@ -47,7 +44,7 @@ apt-get update
 
 apt-get install -y build-essential dos2unix gcc git libmcrypt4 libpcre3-dev libpng-dev ntp unzip \
 make python2.7-dev python-pip re2c supervisor unattended-upgrades whois vim libnotify-bin \
-pv cifs-utils mcrypt bash-completion zsh graphviz
+pv cifs-utils mcrypt bash-completion zsh graphviz avahi-daemon
 
 # Set My Timezone
 
