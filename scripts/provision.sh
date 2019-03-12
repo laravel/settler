@@ -286,7 +286,7 @@ lvcreate -L 40G -T vagrant-vg/thinpool
 # lvextend.
 lvcreate -V10G -T vagrant-vg/thinpool -n mysql-master
 mkfs.ext4 /dev/vagrant-vg/mysql-master
-echo -e "/dev/vagrant-vg/mysql-master\t/vagrant-vg/master\text4\terrors=remount-ro\t0\t1" >> /etc/fstab
+echo "/dev/vagrant-vg/mysql-master\t/vagrant-vg/master\text4\terrors=remount-ro\t0\t1" >> /etc/fstab
 mount -a
 chown mysql:mysql /vagrant-vg/master
 
