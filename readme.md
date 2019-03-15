@@ -13,5 +13,4 @@ If you know what you are doing:
 * Clone [chef/bento](https://github.com/chef/bento) into same top level folder as this repo.
 * Run `./bin/link-to-bento.sh`
 * Run `cd ../bento` and work there for the remainder.
-* Replace `scripts/cleanup.sh` with `scripts/homestead.sh` in file `ubuntu/ubuntu-18.04-amd64.json`
 * Follow normal [Packer](https://www.packer.io/) practice of building `ubuntu/ubuntu-18.04-amd64.json`
