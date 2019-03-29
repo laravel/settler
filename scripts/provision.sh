@@ -272,6 +272,36 @@ echo "mysql-server mysql-server/root_password password secret" | debconf-set-sel
 echo "mysql-server mysql-server/root_password_again password secret" | debconf-set-selections
 apt-get install -y mysql-server
 
+# Install LMM for database snapshots
+apt-get install -y thin-provisioning-tools bc
+git clone -b ubuntu-18.04 https://github.com/Lullabot/lmm.git /opt/lmm
+ln -s /opt/lmm/lmm /usr/local/sbin/lmm
+
+# Create a thinly provisioned volume to move the database to. We use 40G as the
+# size leaving ~5GB free for other volumes.
+mkdir -p /vagrant-vg/master
+lvcreate -L 40G -T vagrant-vg/thinpool
+
+# Create a 10GB volume for the database. If needed, it can be expanded with
+# lvextend.
+lvcreate -V10G -T vagrant-vg/thinpool -n mysql-master
+mkfs.ext4 /dev/vagrant-vg/mysql-master
+echo "/dev/vagrant-vg/mysql-master\t/vagrant-vg/master\text4\terrors=remount-ro\t0\t1" >> /etc/fstab
+mount -a
+chown mysql:mysql /vagrant-vg/master
+
+# Move the data directory and symlink it in.
+systemctl stop mysql
+mv /var/lib/mysql/* /vagrant-vg/master
+rm -rf /var/lib/mysql
+ln -s /vagrant-vg/master /var/lib/mysql
+
+# Allow mysqld to access the new data directories.
+echo '/vagrant-vg/ r,' >> /etc/apparmor.d/local/usr.sbin.mysqld
+echo '/vagrant-vg/** rwk,' >> /etc/apparmor.d/local/usr.sbin.mysqld
+systemctl restart apparmor
+systemctl start mysql
+
 # Configure MySQL Password Lifetime
 
 echo "default_password_lifetime = 0" >> /etc/mysql/mysql.conf.d/mysqld.cnf
