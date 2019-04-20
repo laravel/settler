@@ -19,18 +19,7 @@ locale-gen en_US.UTF-8
 apt-get install -y software-properties-common curl
 
 apt-add-repository ppa:nginx/development -y
-#apt-add-repository ppa:chris-lea/redis-server -y
 apt-add-repository ppa:ondrej/php -y
-
-#curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-#curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
-
-# gpg: key 5072E1F5: public key "MySQL Release Engineering <mysql-build@oss.oracle.com>" imported
-# apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys 5072E1F5
-# sh -c 'echo "deb http://repo.mysql.com/apt/ubuntu/ xenial mysql-5.7" >> /etc/apt/sources.list.d/mysql.list'
-
-#echo 'deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main' >> /etc/apt/sources.list.d/pgdg.list
-#wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 
 wget -q -O - https://packages.blackfire.io/gpg.key | apt-key add -
 echo "deb http://packages.blackfire.io/debian any main" | tee /etc/apt/sources.list.d/blackfire.list
@@ -53,31 +42,18 @@ ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 # Install PHP Stuffs
 # Current PHP
 apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
-php7.3-cli php7.3-dev \
-php7.3-pgsql php7.3-sqlite3 php7.3-gd \
-php7.3-curl \
-php7.3-imap php7.3-mysql php7.3-mbstring \
-php7.3-xml php7.3-zip php7.3-bcmath php7.3-soap \
-php7.3-intl php7.3-readline
+php7.3-cli php7.3-dev php7.3-pgsql php7.3-sqlite3 php7.3-gd php7.3-curl \
+php7.3-imap php7.3-mysql php7.3-mbstring php7.3-xml php7.3-zip php7.3-bcmath php7.3-soap php7.3-intl php7.3-readline
 
 # PHP 7.2
-apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
-php7.2-cli php7.2-dev \
-php7.2-pgsql php7.2-sqlite3 php7.2-gd \
-php7.2-curl php7.2-memcached \
-php7.2-imap php7.2-mysql php7.2-mbstring \
-php7.2-xml php7.2-zip php7.2-bcmath php7.2-soap \
-php7.2-intl php7.2-readline php7.2-ldap \
-php-xdebug php-pear
+apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages php7.2-cli php7.2-dev \
+php7.2-pgsql php7.2-sqlite3 php7.2-gd php7.2-curl php7.2-memcached php7.2-imap php7.2-mysql php7.2-mbstring \
+php7.2-xml php7.2-zip php7.2-bcmath php7.2-soap php7.2-intl php7.2-readline php7.2-ldap php-xdebug php-pear
 
 # PHP 7.1
 apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
-php7.1-cli php7.1-dev \
-php7.1-pgsql php7.1-sqlite3 php7.1-gd \
-php7.1-curl php7.1-memcached \
-php7.1-imap php7.1-mysql php7.1-mbstring \
-php7.1-xml php7.1-zip php7.1-bcmath php7.1-soap \
-php7.1-intl php7.1-readline
+php7.1-cli php7.1-dev php7.1-pgsql php7.1-sqlite3 php7.1-gd php7.1-curl php7.1-memcached php7.1-imap php7.1-mysql \
+php7.1-mbstring php7.1-xml php7.1-zip php7.1-bcmath php7.1-soap php7.1-intl php7.1-readline
 
 update-alternatives --set php /usr/bin/php7.3
 update-alternatives --set php-config /usr/bin/php-config7.3
@@ -279,26 +255,27 @@ ln -s /opt/lmm/lmm /usr/local/sbin/lmm
 
 # Create a thinly provisioned volume to move the database to. We use 40G as the
 # size leaving ~5GB free for other volumes.
-mkdir -p /vagrant-vg/master
-lvcreate -L 40G -T vagrant-vg/thinpool
+mkdir -p /homestead-vg/master
+sudo lvs
+lvcreate -L 40G -T homestead-vg/thinpool
 
 # Create a 10GB volume for the database. If needed, it can be expanded with
 # lvextend.
-lvcreate -V10G -T vagrant-vg/thinpool -n mysql-master
-mkfs.ext4 /dev/vagrant-vg/mysql-master
-echo "/dev/vagrant-vg/mysql-master\t/vagrant-vg/master\text4\terrors=remount-ro\t0\t1" >> /etc/fstab
+lvcreate -V10G -T homestead-vg/thinpool -n mysql-master
+mkfs.ext4 /dev/homestead-vg/mysql-master
+echo "/dev/homestead-vg/mysql-master\t/homestead-vg/master\text4\terrors=remount-ro\t0\t1" >> /etc/fstab
 mount -a
-chown mysql:mysql /vagrant-vg/master
+chown mysql:mysql /homestead-vg/master
 
 # Move the data directory and symlink it in.
 systemctl stop mysql
-mv /var/lib/mysql/* /vagrant-vg/master
+mv /var/lib/mysql/* /homestead-vg/master
 rm -rf /var/lib/mysql
-ln -s /vagrant-vg/master /var/lib/mysql
+ln -s /homestead-vg/master /var/lib/mysql
 
 # Allow mysqld to access the new data directories.
-echo '/vagrant-vg/ r,' >> /etc/apparmor.d/local/usr.sbin.mysqld
-echo '/vagrant-vg/** rwk,' >> /etc/apparmor.d/local/usr.sbin.mysqld
+echo '/homestead-vg/ r,' >> /etc/apparmor.d/local/usr.sbin.mysqld
+echo '/homestead-vg/** rwk,' >> /etc/apparmor.d/local/usr.sbin.mysqld
 systemctl restart apparmor
 systemctl start mysql
 
@@ -347,19 +324,6 @@ service postgresql restart
 
 apt-get install -y blackfire-agent blackfire-php
 
-# Install Zend Z-Ray (for FPM only, not CLI)
-
-sudo wget http://repos.zend.com/zend-server/early-access/ZRay-Homestead/zray-standalone-php72.tar.gz -O - | sudo tar -xzf - -C /opt
-sudo chown -R vagrant:vagrant /opt/zray
-
-# Install The Chrome Web Driver & Dusk Utilities
-
-apt-get -y install libxpm4 libxrender1 libgtk2.0-0 \
-libnss3 libgconf-2-4 chromium-browser \
-xvfb gtk2-engines-pixbuf xfonts-cyrillic \
-xfonts-100dpi xfonts-75dpi xfonts-base \
-xfonts-scalable imagemagick x11-apps
-
 # Install Memcached & Beanstalk
 
 apt-get install -y redis-server memcached beanstalkd
@@ -394,24 +358,6 @@ systemctl enable mailhog
 
 systemctl enable supervisor.service
 service supervisor start
-
-# Install Crystal Programming Language Support
-#apt-key adv --keyserver hkp://keys.gnupg.net:80 --recv-keys 09617FD37CC06B54
-#echo "deb https://dist.crystal-lang.org/apt crystal main" | tee /etc/apt/sources.list.d/crystal.list
-#apt-get update
-#apt-get install -y crystal
-
-# Install Lucky Framework for Crystal
-
-#wget https://github.com/luckyframework/lucky_cli/archive/v0.11.0.tar.gz
-#tar -zxvf v0.11.0.tar.gz
-#cd lucky_cli-0.11.0
-#shards install
-#crystal build src/lucky.cr --release --no-debug
-#mv lucky /usr/local/bin/.
-#cd /home/vagrant
-#rm -rf lucky_cli-0.11.0
-#rm -rf v0.11.0.tar.gz
 
 # Install Heroku CLI
 
@@ -450,23 +396,6 @@ curl --silent --location https://drupalconsole.com/installer --output drupal.pha
 chmod +x drupal.phar
 mv drupal.phar /usr/local/bin/drupal
 
-# Install oh-my-zsh
-
-git clone git://github.com/robbyrussell/oh-my-zsh.git /home/vagrant/.oh-my-zsh
-cp /home/vagrant/.oh-my-zsh/templates/zshrc.zsh-template /home/vagrant/.zshrc
-printf "\nsource ~/.bash_aliases\n" | tee -a /home/vagrant/.zshrc
-printf "\nsource ~/.profile\n" | tee -a /home/vagrant/.zshrc
-chown -R vagrant:vagrant /home/vagrant/.oh-my-zsh
-chown vagrant:vagrant /home/vagrant/.zshrc
-
-# Install Golang
-
-golangVersion="1.12.4"
-wget https://dl.google.com/go/go${golangVersion}.linux-amd64.tar.gz -O golang.tar.gz
-tar -C /usr/local -xzf golang.tar.gz go
-printf "\nPATH=\"/usr/local/go/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
-rm -rf golang.tar.gz
-
 # Install & Configure Postfix]
 
 echo "postfix postfix/mailname string homestead.test" | debconf-set-selections
@@ -475,65 +404,12 @@ apt-get install -y postfix
 sed -i "s/relayhost =/relayhost = [localhost]:1025/g" /etc/postfix/main.cf
 /etc/init.d/postfix reload
 
-# Install .net core
-
-wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb
-sudo dpkg -i packages-microsoft-prod.deb
-
-sudo apt-get -y install apt-transport-https
-sudo apt-get update
-sudo apt-get -y install dotnet-sdk-2.1
-sudo rm -rf packages-microsoft-prod.deb
-
 # Update / Override motd
 
 sed -i "s/motd.ubuntu.com/homestead.joeferguson.me/g" /etc/default/motd-news
 rm -rf /etc/update-motd.d/10-help-text
 rm -rf /etc/update-motd.d/50-landscape-sysinfo
 service motd-news restart
-
-# Install Ruby & RVM
-
-apt-get -y install libssl-dev libyaml-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev software-properties-common \
-libffi-dev rbenv
-
-git clone https://github.com/rbenv/rbenv.git /home/vagrant/.rbenv
-echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> /home/vagrant/.bashrc
-echo 'eval "$(rbenv init -)"' >> /home/vagrant/.bashrc
-
-git clone https://github.com/rbenv/ruby-build.git /home/vagrant/.rbenv/plugins/ruby-build
-echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> /home/vagrant/.bashrc
-
-rbenv install 2.6.1
-rbenv global 2.6.1
-apt-get -y install ruby`ruby -e 'puts RUBY_VERSION[/\d+\.\d+/]'`-dev
-gem install rails -v 5.2.2
-rbenv rehash
-
-# Install socket-wrench Repo
-#
-#mysql --user="root" --password="secret" -e "CREATE DATABASE socket_wrench character set UTF8mb4 collate utf8mb4_bin;"
-#cd /var/www
-#git clone -b release https://github.com/svpernova09/socket-wrench.git
-#chown vagrant:vagrant /var/www/socket-wrench
-#chmod -R 777 /var/www/socket-wrench/storage
-#chmod -R 777 /var/www/socket-wrench/bootstrap
-#cp /var/www/socket-wrench/.env.example /var/www/socket-wrench/.env
-#/usr/bin/php /var/www/socket-wrench/artisan key:generate
-#/usr/bin/php /var/www/socket-wrench/artisan migrate
-#/usr/bin/php /var/www/socket-wrench/artisan db:seed
-#
-#sudo tee /etc/supervisor/conf.d/socket-wrench.conf <<EOL
-#[program:socket-wrench]
-#command=/usr/bin/php /var/www/socket-wrench/artisan websockets:serve
-#numprocs=1
-#autostart=true
-#autorestart=true
-#user=vagrant
-#EOL
-#
-#supervisorctl update
-#supervisorctl start socket-wrench
 
 # One last upgrade check
 
@@ -544,7 +420,6 @@ apt-get -y upgrade
 apt-get -y autoremove
 apt-get -y clean
 chown -R vagrant:vagrant /home/vagrant
-#chown -R vagrant:vagrant /var/www/socket-wrench
 chown -R vagrant:vagrant /usr/local/bin
 
 # Add Composer Global Bin To Path
