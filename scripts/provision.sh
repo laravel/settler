@@ -33,7 +33,7 @@ apt-get update
 
 apt-get install -y build-essential dos2unix gcc git libmcrypt4 libpcre3-dev libpng-dev ntp unzip \
 make python2.7-dev python-pip re2c supervisor unattended-upgrades whois vim libnotify-bin \
-pv cifs-utils mcrypt bash-completion zsh graphviz avahi-daemon
+pv cifs-utils mcrypt bash-completion zsh graphviz avahi-utils
 
 # Set My Timezone
 
