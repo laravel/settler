@@ -252,6 +252,7 @@ apt-get install -y mysql-server
 # Install LMM for database snapshots
 apt-get install -y thin-provisioning-tools bc
 git clone -b ubuntu-18.04 https://github.com/Lullabot/lmm.git /opt/lmm
+sed -e 's/vagrant-vg/homestead-vg/' -i /opt/lmm/config.sh
 ln -s /opt/lmm/lmm /usr/local/sbin/lmm
 
 # Create a thinly provisioned volume to move the database to. We use 40G as the
