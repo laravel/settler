@@ -223,13 +223,11 @@ service php7.3-fpm restart
 service php7.1-fpm restart
 
 # Add Vagrant User To WWW-Data
-
 usermod -a -G www-data vagrant
 id vagrant
 groups vagrant
 
 # Install Node
-
 apt-get install -y nodejs
 /usr/bin/npm install -g npm
 /usr/bin/npm install -g gulp-cli
@@ -238,7 +236,6 @@ apt-get install -y nodejs
 /usr/bin/npm install -g grunt-cli
 
 # Install SQLite
-
 apt-get install -y sqlite3 libsqlite3-dev
 
 # Install MySQL
@@ -248,7 +245,7 @@ apt-get install -y mysql-server
 
 # Install LMM for database snapshots
 apt-get install -y thin-provisioning-tools bc
-git clone -b ubuntu-18.04 https://github.com/Lullabot/lmm.git /opt/lmm
+git clone -b ubuntu-19.04 https://github.com/Lullabot/lmm.git /opt/lmm
 sed -e 's/vagrant-vg/homestead-vg/' -i /opt/lmm/config.sh
 ln -s /opt/lmm/lmm /usr/local/sbin/lmm
 
@@ -279,11 +276,9 @@ systemctl restart apparmor
 systemctl start mysql
 
 # Configure MySQL Password Lifetime
-
 echo "default_password_lifetime = 0" >> /etc/mysql/mysql.conf.d/mysqld.cnf
 
 # Configure MySQL Remote Access
-
 sed -i '/^bind-address/s/bind-address.*=.*/bind-address = 0.0.0.0/' /etc/mysql/mysql.conf.d/mysqld.cnf
 
 mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO root@'0.0.0.0' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
@@ -302,13 +297,10 @@ collation-server=utf8mb4_bin
 EOL
 
 # Add Timezone Support To MySQL
-
 mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret mysql
-
 service mysql restart
 
 # Install Postgres
-
 apt-get install -y postgresql
 
 # Configure Postgres Remote Access
@@ -320,16 +312,13 @@ sudo -u postgres /usr/bin/createdb --echo --owner=homestead homestead
 service postgresql restart
 
 # Install Memcached & Beanstalk
-
 apt-get install -y redis-server memcached beanstalkd
 
 # Configure Beanstalkd
-
 sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
 /etc/init.d/beanstalkd start
 
 # Install & Configure MailHog
-
 wget --quiet -O /usr/local/bin/mailhog https://github.com/mailhog/MailHog/releases/download/v0.2.1/MailHog_linux_amd64
 chmod +x /usr/local/bin/mailhog
 
@@ -350,22 +339,18 @@ systemctl daemon-reload
 systemctl enable mailhog
 
 # Configure Supervisor
-
 systemctl enable supervisor.service
 service supervisor start
 
 # Install Heroku CLI
-
 curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
 
 # Install ngrok
-
 wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
 unzip ngrok-stable-linux-amd64.zip -d /usr/local/bin
 rm -rf ngrok-stable-linux-amd64.zip
 
 # Install Flyway
-
 wget https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/4.2.0/flyway-commandline-4.2.0-linux-x64.tar.gz
 tar -zxvf flyway-commandline-4.2.0-linux-x64.tar.gz -C /usr/local
 chmod +x /usr/local/flyway-4.2.0/flyway
@@ -373,26 +358,22 @@ ln -s /usr/local/flyway-4.2.0/flyway /usr/local/bin/flyway
 rm -rf flyway-commandline-4.2.0-linux-x64.tar.gz
 
 # Install wp-cli
-
 curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 chmod +x wp-cli.phar
 mv wp-cli.phar /usr/local/bin/wp
 
 # Install Drush Launcher.
-
 curl --silent --location https://github.com/drush-ops/drush-launcher/releases/download/0.6.0/drush.phar --output drush.phar
 chmod +x drush.phar
 mv drush.phar /usr/local/bin/drush
 drush self-update
 
 # Install Drupal Console Launcher.
-
 curl --silent --location https://drupalconsole.com/installer --output drupal.phar
 chmod +x drupal.phar
 mv drupal.phar /usr/local/bin/drupal
 
 # Install & Configure Postfix]
-
 echo "postfix postfix/mailname string homestead.test" | debconf-set-selections
 echo "postfix postfix/main_mailer_type string 'Internet Site'" | debconf-set-selections
 apt-get install -y postfix
@@ -400,29 +381,24 @@ sed -i "s/relayhost =/relayhost = [localhost]:1025/g" /etc/postfix/main.cf
 /etc/init.d/postfix reload
 
 # Update / Override motd
-
 sed -i "s/motd.ubuntu.com/homestead.joeferguson.me/g" /etc/default/motd-news
 rm -rf /etc/update-motd.d/10-help-text
 rm -rf /etc/update-motd.d/50-landscape-sysinfo
 service motd-news restart
 
 # One last upgrade check
-
 apt-get -y upgrade
 
 # Clean Up
-
 apt-get -y autoremove
 apt-get -y clean
 chown -R vagrant:vagrant /home/vagrant
 chown -R vagrant:vagrant /usr/local/bin
 
 # Add Composer Global Bin To Path
-
 printf "\nPATH=\"$(sudo su - vagrant -c 'composer config -g home 2>/dev/null')/vendor/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
 
 # Enable Swap Memory
-
 /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
 /sbin/mkswap /var/swap.1
 /sbin/swapon /var/swap.1
