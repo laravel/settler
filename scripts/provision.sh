@@ -3,29 +3,28 @@
 export DEBIAN_FRONTEND=noninteractive
 
 # Update Package List
-apt-get update
+apt update
 
 # Update System Packages
-apt-get -y upgrade
+apt upgrade -y
 
 # Force Locale
-
 echo "LC_ALL=en_US.UTF-8" >> /etc/default/locale
 locale-gen en_US.UTF-8
 
 # Install Some PPAs
-apt-get install -y software-properties-common curl
+apt install -y software-properties-common curl
 
 apt-add-repository ppa:nginx/development -y
 apt-add-repository ppa:ondrej/php -y
 
-curl --silent --location https://deb.nodesource.com/setup_10.x | bash -
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 
 # Update Package Lists
-apt-get update
+apt update
 
 # Install Some Basic Packages
-apt-get install -y build-essential dos2unix gcc git libmcrypt4 libpcre3-dev libpng-dev ntp unzip \
+apt install -y build-essential dos2unix gcc git libmcrypt4 libpcre3-dev libpng-dev ntp unzip \
 make python2.7-dev python-pip re2c supervisor unattended-upgrades whois vim libnotify-bin \
 pv cifs-utils mcrypt bash-completion zsh graphviz avahi-daemon
 
@@ -34,18 +33,18 @@ ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 
 # Install PHP Stuffs
 # Current PHP
-apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
+apt install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
 php7.3-cli php7.3-dev php7.3-pgsql php7.3-sqlite3 php7.3-gd php7.3-curl php7.3-imap php7.3-mysql \
 php7.3-mbstring php7.3-xml php7.3-zip php7.3-bcmath php7.3-soap php7.3-intl php7.3-readline php7.3-ldap \
 php-xdebug php-memcached php-pear
 
 # PHP 7.2
-apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
+apt install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
 php7.2-cli php7.2-dev php7.2-pgsql php7.2-sqlite3 php7.2-gd php7.2-curl php7.2-imap php7.2-mysql \
 php7.2-mbstring php7.2-xml php7.2-zip php7.2-bcmath php7.2-soap php7.2-intl php7.2-readline php7.2-ldap
 
 # PHP 7.1
-apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
+apt install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
 php7.1-cli php7.1-dev php7.1-pgsql php7.1-sqlite3 php7.1-gd php7.1-curl php7.1-imap php7.1-mysql \
 php7.1-mbstring php7.1-xml php7.1-zip php7.1-bcmath php7.1-soap php7.1-intl php7.1-readline php7.1-ldap
 
@@ -83,7 +82,7 @@ sudo sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.1/cli/php.ini
 sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.1/cli/php.ini
 
 # Install Nginx & PHP-FPM
-apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
+apt install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
 nginx php7.1-fpm php7.3-fpm php7.2-fpm
 
 rm /etc/nginx/sites-enabled/default
@@ -218,7 +217,7 @@ id vagrant
 groups vagrant
 
 # Install Node
-apt-get install -y nodejs
+apt install -y nodejs
 /usr/bin/npm install -g npm
 /usr/bin/npm install -g gulp-cli
 /usr/bin/npm install -g bower
@@ -226,15 +225,15 @@ apt-get install -y nodejs
 /usr/bin/npm install -g grunt-cli
 
 # Install SQLite
-apt-get install -y sqlite3 libsqlite3-dev
+apt install -y sqlite3 libsqlite3-dev
 
 # Install MySQL
 echo "mysql-server mysql-server/root_password password secret" | debconf-set-selections
 echo "mysql-server mysql-server/root_password_again password secret" | debconf-set-selections
-apt-get install -y mysql-server
+apt install -y mysql-server
 
 # Install LMM for database snapshots
-apt-get install -y thin-provisioning-tools bc
+apt install -y thin-provisioning-tools bc
 git clone -b ubuntu-19.04 https://github.com/Lullabot/lmm.git /opt/lmm
 sed -e 's/vagrant-vg/homestead-vg/' -i /opt/lmm/config.sh
 ln -s /opt/lmm/lmm /usr/local/sbin/lmm
@@ -291,7 +290,7 @@ mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret my
 service mysql restart
 
 # Install Postgres
-apt-get install -y postgresql
+apt install -y postgresql
 
 # Configure Postgres Remote Access
 
@@ -302,7 +301,7 @@ sudo -u postgres /usr/bin/createdb --echo --owner=homestead homestead
 service postgresql restart
 
 # Install Memcached & Beanstalk
-apt-get install -y redis-server memcached beanstalkd
+apt install -y redis-server memcached beanstalkd
 
 # Configure Beanstalkd
 sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
@@ -366,7 +365,7 @@ mv drupal.phar /usr/local/bin/drupal
 # Install & Configure Postfix]
 echo "postfix postfix/mailname string homestead.test" | debconf-set-selections
 echo "postfix postfix/main_mailer_type string 'Internet Site'" | debconf-set-selections
-apt-get install -y postfix
+apt install -y postfix
 sed -i "s/relayhost =/relayhost = [localhost]:1025/g" /etc/postfix/main.cf
 /etc/init.d/postfix reload
 
@@ -377,16 +376,66 @@ rm -rf /etc/update-motd.d/50-landscape-sysinfo
 service motd-news restart
 
 # One last upgrade check
-apt-get -y upgrade
+apt upgrade -y
 
 # Clean Up
-apt-get -y autoremove
-apt-get -y clean
+apt -y autoremove
+apt -y clean
 chown -R vagrant:vagrant /home/vagrant
 chown -R vagrant:vagrant /usr/local/bin
 
 # Add Composer Global Bin To Path
 printf "\nPATH=\"$(sudo su - vagrant -c 'composer config -g home 2>/dev/null')/vendor/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
+
+# Perform some cleanup from bento/chef ubuntu/scripts/cleanup.sh
+# Delete Linux source
+dpkg --list \
+    | awk '{ print $2 }' \
+    | grep linux-source \
+    | xargs apt-get -y purge;
+
+# delete docs packages
+dpkg --list \
+    | awk '{ print $2 }' \
+    | grep -- '-doc$' \
+    | xargs apt-get -y purge;
+
+# Delete X11 libraries
+apt-get -y purge libx11-data xauth libxmuu1 libxcb1 libx11-6 libxext6;
+
+# Delete obsolete networking
+apt-get -y purge ppp pppconfig pppoeconf;
+
+# Delete oddities
+apt-get -y purge popularity-contest installation-report command-not-found command-not-found-data friendly-recovery bash-completion fonts-ubuntu-font-family-console laptop-detect;
+
+# Exlude the files we don't need w/o uninstalling linux-firmware
+echo "==> Setup dpkg excludes for linux-firmware"
+cat <<_EOF_ | cat >> /etc/dpkg/dpkg.cfg.d/excludes
+#BENTO-BEGIN
+path-exclude=/lib/firmware/*
+path-exclude=/usr/share/doc/linux-firmware/*
+#BENTO-END
+_EOF_
+
+# Delete the massive firmware packages
+rm -rf /lib/firmware/*
+rm -rf /usr/share/doc/linux-firmware/*
+
+apt-get -y autoremove;
+apt-get -y clean;
+
+# Remove docs
+rm -rf /usr/share/doc/*
+
+# Remove caches
+find /var/cache -type f -exec rm -rf {} \;
+
+# delete any logs that have built up during the install
+find /var/log/ -name *.log -exec rm -f {} \;
+
+# Blank netplan machine-id (DUID) so machines get unique ID generated on boot.
+truncate -s 0 /etc/machine-id
 
 # Enable Swap Memory
 /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
