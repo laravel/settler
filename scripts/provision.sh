@@ -21,9 +21,6 @@ apt-get install -y software-properties-common curl
 apt-add-repository ppa:nginx/development -y
 apt-add-repository ppa:ondrej/php -y
 
-wget -q -O - https://packages.blackfire.io/gpg.key | apt-key add -
-echo "deb http://packages.blackfire.io/debian any main" | tee /etc/apt/sources.list.d/blackfire.list
-
 curl --silent --location https://deb.nodesource.com/setup_10.x | bash -
 
 # Update Package Lists
@@ -321,10 +318,6 @@ echo "host    all             all             10.0.2.2/32               md5" | t
 sudo -u postgres psql -c "CREATE ROLE homestead LOGIN PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
 sudo -u postgres /usr/bin/createdb --echo --owner=homestead homestead
 service postgresql restart
-
-# Install Blackfire
-
-apt-get install -y blackfire-agent blackfire-php
 
 # Install Memcached & Beanstalk
 
