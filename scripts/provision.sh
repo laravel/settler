@@ -3,7 +3,6 @@
 export DEBIAN_FRONTEND=noninteractive
 
 # Update Package List
-
 apt-get update
 
 # Update System Packages
@@ -15,7 +14,6 @@ echo "LC_ALL=en_US.UTF-8" >> /etc/default/locale
 locale-gen en_US.UTF-8
 
 # Install Some PPAs
-
 apt-get install -y software-properties-common curl
 
 apt-add-repository ppa:nginx/development -y
@@ -27,13 +25,11 @@ curl --silent --location https://deb.nodesource.com/setup_10.x | bash -
 apt-get update
 
 # Install Some Basic Packages
-
 apt-get install -y build-essential dos2unix gcc git libmcrypt4 libpcre3-dev libpng-dev ntp unzip \
 make python2.7-dev python-pip re2c supervisor unattended-upgrades whois vim libnotify-bin \
 pv cifs-utils mcrypt bash-completion zsh graphviz avahi-daemon
 
 # Set My Timezone
-
 ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 
 # Install PHP Stuffs
@@ -58,12 +54,10 @@ update-alternatives --set php-config /usr/bin/php-config7.3
 update-alternatives --set phpize /usr/bin/phpize7.3
 
 # Install Composer
-
 curl -sS https://getcomposer.org/installer | php
 mv composer.phar /usr/local/bin/composer
 
 # Install Laravel Envoy, Installer, and prestissimo for parallel downloads
-
 sudo su vagrant <<'EOF'
 /usr/local/bin/composer global require hirak/prestissimo
 /usr/local/bin/composer global require "laravel/envoy=~1.0"
@@ -89,7 +83,6 @@ sudo sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.1/cli/php.ini
 sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.1/cli/php.ini
 
 # Install Nginx & PHP-FPM
-
 apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
 nginx php7.1-fpm php7.3-fpm php7.2-fpm
 
@@ -164,11 +157,9 @@ printf "[curl]\n" | tee -a /etc/php/7.1/fpm/php.ini
 printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.1/fpm/php.ini
 
 # Disable XDebug On The CLI
-
 sudo phpdismod -s cli xdebug
 
 # Copy fastcgi_params to Nginx because they broke it on the PPA
-
 cat > /etc/nginx/fastcgi_params << EOF
 fastcgi_param	QUERY_STRING		\$query_string;
 fastcgi_param	REQUEST_METHOD		\$request_method;
@@ -192,7 +183,6 @@ fastcgi_param	REDIRECT_STATUS		200;
 EOF
 
 # Set The Nginx & PHP-FPM User
-
 sed -i "s/user www-data;/user vagrant;/" /etc/nginx/nginx.conf
 sed -i "s/# server_names_hash_bucket_size.*/server_names_hash_bucket_size 64;/" /etc/nginx/nginx.conf
 
