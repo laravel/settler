@@ -234,7 +234,7 @@ apt install -y mysql-server
 
 # Install LMM for database snapshots
 apt install -y thin-provisioning-tools bc
-git clone -b ubuntu-19.04 https://github.com/Lullabot/lmm.git /opt/lmm
+git clone -b ubuntu-18.04 https://github.com/Lullabot/lmm.git /opt/lmm
 sed -e 's/vagrant-vg/homestead-vg/' -i /opt/lmm/config.sh
 ln -s /opt/lmm/lmm /usr/local/sbin/lmm
 
@@ -400,14 +400,11 @@ dpkg --list \
     | grep -- '-doc$' \
     | xargs apt-get -y purge;
 
-# Delete X11 libraries
-apt-get -y purge libx11-data xauth libxmuu1 libxcb1 libx11-6 libxext6;
-
 # Delete obsolete networking
-apt-get -y purge ppp pppconfig pppoeconf;
+apt-get -y purge ppp pppconfig pppoeconf
 
 # Delete oddities
-apt-get -y purge popularity-contest installation-report command-not-found command-not-found-data friendly-recovery bash-completion fonts-ubuntu-font-family-console laptop-detect;
+apt-get -y purge popularity-contest installation-report command-not-found command-not-found-data friendly-recovery bash-completion fonts-ubuntu-font-family-console laptop-detect
 
 # Exlude the files we don't need w/o uninstalling linux-firmware
 echo "==> Setup dpkg excludes for linux-firmware"
