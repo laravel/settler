@@ -3,17 +3,17 @@
 export DEBIAN_FRONTEND=noninteractive
 
 # Update Package List
-apt update
+apt-get update
 
 # Update System Packages
-apt upgrade -y
+apt-get upgrade -y
 
 # Force Locale
 echo "LC_ALL=en_US.UTF-8" >> /etc/default/locale
 locale-gen en_US.UTF-8
 
 # Install Some PPAs
-apt install -y software-properties-common curl
+apt-get install -y software-properties-common curl
 
 apt-add-repository ppa:nginx/development -y
 apt-add-repository ppa:ondrej/php -y
@@ -21,10 +21,10 @@ apt-add-repository ppa:ondrej/php -y
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 
 # Update Package Lists
-apt update
+apt-get update
 
 # Install Some Basic Packages
-apt install -y build-essential dos2unix gcc git libmcrypt4 libpcre3-dev libpng-dev ntp unzip \
+apt-get install -y build-essential dos2unix gcc git libmcrypt4 libpcre3-dev libpng-dev ntp unzip \
 make python2.7-dev python-pip re2c supervisor unattended-upgrades whois vim libnotify-bin \
 pv cifs-utils mcrypt bash-completion zsh graphviz avahi-daemon
 
@@ -33,20 +33,30 @@ ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 
 # Install PHP Stuffs
 # Current PHP
-apt install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
+apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
 php7.3-cli php7.3-dev php7.3-pgsql php7.3-sqlite3 php7.3-gd php7.3-curl php7.3-imap php7.3-mysql \
 php7.3-mbstring php7.3-xml php7.3-zip php7.3-bcmath php7.3-soap php7.3-intl php7.3-readline php7.3-ldap \
 php-xdebug php-memcached php-pear
 
 # PHP 7.2
-apt install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
+apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
 php7.2-cli php7.2-dev php7.2-pgsql php7.2-sqlite3 php7.2-gd php7.2-curl php7.2-imap php7.2-mysql \
 php7.2-mbstring php7.2-xml php7.2-zip php7.2-bcmath php7.2-soap php7.2-intl php7.2-readline php7.2-ldap
 
 # PHP 7.1
-apt install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
+apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
 php7.1-cli php7.1-dev php7.1-pgsql php7.1-sqlite3 php7.1-gd php7.1-curl php7.1-imap php7.1-mysql \
 php7.1-mbstring php7.1-xml php7.1-zip php7.1-bcmath php7.1-soap php7.1-intl php7.1-readline php7.1-ldap
+
+# PHP 7.0
+apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
+php7.0-cli php7.0-dev php7.0-pgsql php7.0-sqlite3 php7.0-gd php7.0-curl php7.0-imap php7.0-mysql \
+php7.0-mbstring php7.0-xml php7.0-zip php7.0-bcmath php7.0-soap php7.0-intl php7.0-readline php7.0-ldap
+
+# PHP 5.6
+apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
+php5.6-cli php5.6-dev php5.6-pgsql php5.6-sqlite3 php5.6-gd php5.6-curl php5.6-imap php5.6-mysql \
+php5.6-mbstring php5.6-xml php5.6-zip php5.6-bcmath php5.6-soap php5.6-intl php5.6-readline php5.6-ldap
 
 update-alternatives --set php /usr/bin/php7.3
 update-alternatives --set php-config /usr/bin/php-config7.3
@@ -81,9 +91,19 @@ sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.1/cli/php.in
 sudo sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.1/cli/php.ini
 sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.1/cli/php.ini
 
+sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.0/cli/php.ini
+sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.0/cli/php.ini
+sudo sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.0/cli/php.ini
+sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/cli/php.ini
+
+sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/5.6/cli/php.ini
+sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/5.6/cli/php.ini
+sudo sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/5.6/cli/php.ini
+sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/5.6/cli/php.ini
+
 # Install Nginx & PHP-FPM
-apt install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
-nginx php7.1-fpm php7.3-fpm php7.2-fpm
+apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
+nginx php7.1-fpm php7.3-fpm php7.2-fpm php7.0-fpm php5.6-fpm
 
 rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
@@ -112,6 +132,18 @@ echo "xdebug.remote_connect_back = 1" >> /etc/php/7.1/mods-available/xdebug.ini
 echo "xdebug.remote_port = 9000" >> /etc/php/7.1/mods-available/xdebug.ini
 echo "xdebug.max_nesting_level = 512" >> /etc/php/7.1/mods-available/xdebug.ini
 echo "opcache.revalidate_freq = 0" >> /etc/php/7.1/mods-available/opcache.ini
+
+echo "xdebug.remote_enable = 1" >> /etc/php/7.0/mods-available/xdebug.ini
+echo "xdebug.remote_connect_back = 1" >> /etc/php/7.0/mods-available/xdebug.ini
+echo "xdebug.remote_port = 9000" >> /etc/php/7.0/mods-available/xdebug.ini
+echo "xdebug.max_nesting_level = 512" >> /etc/php/7.0/mods-available/xdebug.ini
+echo "opcache.revalidate_freq = 0" >> /etc/php/7.0/mods-available/opcache.ini
+
+echo "xdebug.remote_enable = 1" >> /etc/php/5.6/mods-available/xdebug.ini
+echo "xdebug.remote_connect_back = 1" >> /etc/php/5.6/mods-available/xdebug.ini
+echo "xdebug.remote_port = 9000" >> /etc/php/5.6/mods-available/xdebug.ini
+echo "xdebug.max_nesting_level = 512" >> /etc/php/5.6/mods-available/xdebug.ini
+echo "opcache.revalidate_freq = 0" >> /etc/php/5.6/mods-available/opcache.ini
 
 sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.3/fpm/php.ini
 sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.3/fpm/php.ini
@@ -154,6 +186,34 @@ printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php
 
 printf "[curl]\n" | tee -a /etc/php/7.1/fpm/php.ini
 printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.1/fpm/php.ini
+
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.0/fpm/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.0/fpm/php.ini
+sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.0/fpm/php.ini
+sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.0/fpm/php.ini
+sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.0/fpm/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/fpm/php.ini
+
+printf "[openssl]\n" | tee -a /etc/php/7.0/fpm/php.ini
+printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.0/fpm/php.ini
+
+printf "[curl]\n" | tee -a /etc/php/7.0/fpm/php.ini
+printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.0/fpm/php.ini
+
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/5.6/fpm/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/5.6/fpm/php.ini
+sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/5.6/fpm/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/5.6/fpm/php.ini
+sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/5.6/fpm/php.ini
+sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/5.6/fpm/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/5.6/fpm/php.ini
+
+printf "[openssl]\n" | tee -a /etc/php/5.6/fpm/php.ini
+printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/5.6/fpm/php.ini
+
+printf "[curl]\n" | tee -a /etc/php/5.6/fpm/php.ini
+printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/5.6/fpm/php.ini
 
 # Disable XDebug On The CLI
 sudo phpdismod -s cli xdebug
@@ -206,10 +266,26 @@ sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/7.1/fpm/pool.d/www.c
 sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/7.1/fpm/pool.d/www.conf
 sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.1/fpm/pool.d/www.conf
 
+sed -i "s/user = www-data/user = vagrant/" /etc/php/7.0/fpm/pool.d/www.conf
+sed -i "s/group = www-data/group = vagrant/" /etc/php/7.0/fpm/pool.d/www.conf
+
+sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/7.0/fpm/pool.d/www.conf
+sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/7.0/fpm/pool.d/www.conf
+sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.0/fpm/pool.d/www.conf
+
+sed -i "s/user = www-data/user = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
+sed -i "s/group = www-data/group = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
+
+sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
+sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
+sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/5.6/fpm/pool.d/www.conf
+
 service nginx restart
 service php7.2-fpm restart
 service php7.3-fpm restart
 service php7.1-fpm restart
+service php7.0-fpm restart
+service php5.6-fpm restart
 
 # Add Vagrant User To WWW-Data
 usermod -a -G www-data vagrant
@@ -217,7 +293,7 @@ id vagrant
 groups vagrant
 
 # Install Node
-apt install -y nodejs
+apt-get install -y nodejs
 /usr/bin/npm install -g npm
 /usr/bin/npm install -g gulp-cli
 /usr/bin/npm install -g bower
@@ -225,15 +301,15 @@ apt install -y nodejs
 /usr/bin/npm install -g grunt-cli
 
 # Install SQLite
-apt install -y sqlite3 libsqlite3-dev
+apt-get install -y sqlite3 libsqlite3-dev
 
 # Install MySQL
 echo "mysql-server mysql-server/root_password password secret" | debconf-set-selections
 echo "mysql-server mysql-server/root_password_again password secret" | debconf-set-selections
-apt install -y mysql-server
+apt-get install -y mysql-server
 
 # Install LMM for database snapshots
-apt install -y thin-provisioning-tools bc
+apt-get install -y thin-provisioning-tools bc
 git clone -b ubuntu-18.04 https://github.com/Lullabot/lmm.git /opt/lmm
 sed -e 's/vagrant-vg/homestead-vg/' -i /opt/lmm/config.sh
 ln -s /opt/lmm/lmm /usr/local/sbin/lmm
@@ -290,18 +366,18 @@ mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret my
 service mysql restart
 
 # Install Postgres
-apt install -y postgresql
+apt-get install -y postgresql
 
 # Configure Postgres Remote Access
 
-sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/11/main/postgresql.conf
-echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/11/main/pg_hba.conf
+sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/10/main/postgresql.conf
+echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/10/main/pg_hba.conf
 sudo -u postgres psql -c "CREATE ROLE homestead LOGIN PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
 sudo -u postgres /usr/bin/createdb --echo --owner=homestead homestead
 service postgresql restart
 
 # Install Memcached & Beanstalk
-apt install -y redis-server memcached beanstalkd
+apt-get install -y redis-server memcached beanstalkd
 
 # Configure Beanstalkd
 sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
@@ -365,7 +441,7 @@ mv drupal.phar /usr/local/bin/drupal
 # Install & Configure Postfix]
 echo "postfix postfix/mailname string homestead.test" | debconf-set-selections
 echo "postfix postfix/main_mailer_type string 'Internet Site'" | debconf-set-selections
-apt install -y postfix
+apt-get install -y postfix
 sed -i "s/relayhost =/relayhost = [localhost]:1025/g" /etc/postfix/main.cf
 /etc/init.d/postfix reload
 
@@ -376,7 +452,7 @@ rm -rf /etc/update-motd.d/50-landscape-sysinfo
 service motd-news restart
 
 # One last upgrade check
-apt upgrade -y
+apt-get upgrade -y
 
 # Clean Up
 apt -y autoremove
