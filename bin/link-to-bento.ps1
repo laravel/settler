@@ -7,6 +7,7 @@ $TextReplacements = @(,
     @('scripts/cleanup.sh', 'scripts/homestead.sh'),
     @('"cpus": "1"', '"cpus": "4"'),
     @('"memory": "1024"', '"memory": "4096"')
+    @('"disk_size": "65536"', '"disk_size": "131072"')
 )
 
 # Set the configuration_version for Hyper-V
