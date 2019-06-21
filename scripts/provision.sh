@@ -438,7 +438,7 @@ curl --silent --location https://drupalconsole.com/installer --output drupal.pha
 chmod +x drupal.phar
 mv drupal.phar /usr/local/bin/drupal
 
-# Install & Configure Postfix]
+# Install & Configure Postfix
 echo "postfix postfix/mailname string homestead.test" | debconf-set-selections
 echo "postfix postfix/main_mailer_type string 'Internet Site'" | debconf-set-selections
 apt-get install -y postfix
@@ -463,7 +463,7 @@ chown -R vagrant:vagrant /usr/local/bin
 # Add Composer Global Bin To Path
 printf "\nPATH=\"$(sudo su - vagrant -c 'composer config -g home 2>/dev/null')/vendor/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
 
-# Perform some cleanup from bento/chef ubuntu/scripts/cleanup.sh
+# Perform some cleanup from chef/bento packer_templates/ubuntu/scripts/cleanup.sh
 # Delete Linux source
 dpkg --list \
     | awk '{ print $2 }' \
@@ -480,7 +480,7 @@ dpkg --list \
 apt-get -y purge ppp pppconfig pppoeconf
 
 # Delete oddities
-apt-get -y purge popularity-contest installation-report command-not-found command-not-found-data friendly-recovery bash-completion fonts-ubuntu-font-family-console laptop-detect
+apt-get -y purge popularity-contest installation-report command-not-found command-not-found-data friendly-recovery bash-completion fonts-ubuntu-font-family-console laptop-detect;
 
 # Exlude the files we don't need w/o uninstalling linux-firmware
 echo "==> Setup dpkg excludes for linux-firmware"
