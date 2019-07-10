@@ -20,13 +20,21 @@ apt-add-repository ppa:ondrej/php -y
 
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 
+sudo tee /etc/apt/sources.list.d/pgdg.list <<END
+deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main
+END
+
+wget https://www.postgresql.org/media/keys/ACCC4CF8.asc
+sudo apt-key add ACCC4CF8.asc
+rm -rf ACCC4CF8.asc
+
 # Update Package Lists
 apt-get update
 
 # Install Some Basic Packages
 apt-get install -y build-essential dos2unix gcc git libmcrypt4 libpcre3-dev libpng-dev ntp unzip \
 make python2.7-dev python-pip re2c supervisor unattended-upgrades whois vim libnotify-bin \
-pv cifs-utils mcrypt bash-completion zsh graphviz avahi-daemon
+pv cifs-utils mcrypt bash-completion zsh graphviz avahi-daemon bash-completion
 
 # Set My Timezone
 ln -sf /usr/share/zoneinfo/UTC /etc/localtime
@@ -370,12 +378,12 @@ mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret my
 service mysql restart
 
 # Install Postgres
-apt-get install -y postgresql
+apt-get install -y postgresql-11 postgresql-server-dev-11
 
 # Configure Postgres Remote Access
 
-sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/10/main/postgresql.conf
-echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/10/main/pg_hba.conf
+sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/11/main/postgresql.conf
+echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/11/main/pg_hba.conf
 sudo -u postgres psql -c "CREATE ROLE homestead LOGIN PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
 sudo -u postgres /usr/bin/createdb --echo --owner=homestead homestead
 service postgresql restart
