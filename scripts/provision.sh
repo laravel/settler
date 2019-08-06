@@ -32,7 +32,7 @@ apt-get update
 # Install Some Basic Packages
 apt-get install -y build-essential dos2unix gcc git libmcrypt4 libpcre3-dev libpng-dev ntp unzip make python2.7-dev \
 python-pip re2c supervisor unattended-upgrades whois vim libnotify-bin pv cifs-utils mcrypt bash-completion zsh \
-graphviz avahi-daemon bash-completion tshark
+graphviz avahi-daemon bash-completion tshark imagemagick
 
 # Set My Timezone
 ln -sf /usr/share/zoneinfo/UTC /etc/localtime
@@ -42,7 +42,7 @@ ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 apt-get install -y --allow-change-held-packages \
 php7.3-cli php7.3-bcmath php7.3-curl php7.3-dev php7.3-gd php7.3-imap php7.3-intl  php7.3-json  php7.3-ldap \
 php7.3-mbstring php7.3-mysql php7.3-odbc php7.3-pgsql php7.3-phpdbg php7.3-pspell php7.3-soap php7.3-sqlite3 \
-php7.3-xml php7.3-zip php7.3-readline php-memcached php-xdebug php-pear
+php7.3-xml php7.3-zip php7.3-readline php-memcached php-xdebug php-pear php-imagick
 
 # PHP 7.2
 apt-get install -y --allow-change-held-packages \
