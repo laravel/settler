@@ -32,7 +32,7 @@ apt-get update
 # Install Some Basic Packages
 apt-get install -y build-essential dos2unix gcc git libmcrypt4 libpcre3-dev libpng-dev ntp unzip make python2.7-dev \
 python-pip re2c supervisor unattended-upgrades whois vim libnotify-bin pv cifs-utils mcrypt bash-completion zsh \
-graphviz avahi-daemon bash-completion
+graphviz avahi-daemon bash-completion tshark
 
 # Set My Timezone
 ln -sf /usr/share/zoneinfo/UTC /etc/localtime
