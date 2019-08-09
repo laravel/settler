@@ -54,19 +54,19 @@ php7.2-xml php7.2-zip php7.2-readline
 apt-get install -y --allow-change-held-packages \
 php7.1-cli php7.1-bcmath php7.1-curl php7.1-dev php7.1-gd php7.1-imap php7.1-intl  php7.1-json  php7.1-ldap \
 php7.1-mbstring php7.1-mysql php7.1-odbc php7.1-pgsql php7.1-phpdbg php7.1-pspell php7.1-soap php7.1-sqlite3 \
-php7.1-xml php7.1-zip php7.1-readline
+php7.1-xml php7.1-zip php7.1-readline php7.1-mcrypt
 
 # PHP 7.0
 apt-get install -y --allow-change-held-packages \
 php7.0-cli php7.0-bcmath php7.0-curl php7.0-dev php7.0-gd php7.0-imap php7.0-intl  php7.0-json  php7.0-ldap \
 php7.0-mbstring php7.0-mysql php7.0-odbc php7.0-pgsql php7.0-phpdbg php7.0-pspell php7.0-soap php7.0-sqlite3 \
-php7.0-xml php7.0-zip php7.0-readline
+php7.0-xml php7.0-zip php7.0-readline php7.0-mcrypt
 
 # PHP 5.6
 apt-get install -y --allow-change-held-packages \
 php5.6-cli php5.6-bcmath php5.6-curl php5.6-dev php5.6-gd php5.6-imap php5.6-intl  php5.6-json  php5.6-ldap \
 php5.6-mbstring php5.6-mysql php5.6-odbc php5.6-pgsql php5.6-phpdbg php5.6-pspell php5.6-soap php5.6-sqlite3 \
-php5.6-xml php5.6-zip php5.6-readline
+php5.6-xml php5.6-zip php5.6-readline php5.6-mcrypt
 
 update-alternatives --set php /usr/bin/php7.3
 update-alternatives --set php-config /usr/bin/php-config7.3
