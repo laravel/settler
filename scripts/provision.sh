@@ -17,6 +17,7 @@ apt-get install -y software-properties-common curl
 
 apt-add-repository ppa:nginx/development -y
 apt-add-repository ppa:ondrej/php -y
+apt-add-repository ppa:chris-lea/redis-server -y
 
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 
