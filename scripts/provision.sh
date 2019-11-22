@@ -100,7 +100,7 @@ sudo su vagrant <<'EOF'
 /usr/local/bin/composer global require "laravel/envoy=^1.6"
 /usr/local/bin/composer global require "laravel/installer=^2.1"
 /usr/local/bin/composer global require "laravel/lumen-installer=^1.1"
-/usr/local/bin/composer global require "laravel/spark-installer=dev-master"
+/usr/local/bin/composer global require "laravel/spark-installer=^3.1"
 EOF
 
 # Set Some PHP CLI Settings
