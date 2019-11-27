@@ -31,7 +31,7 @@ wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-
 apt-get update
 
 # Install Some Basic Packages
-apt-get install -y build-essential dos2unix gcc git libmcrypt4 libpcre3-dev libpng-dev ntp unzip make python2.7-dev \
+apt-get install -y build-essential dos2unix gcc git libmcrypt4 libpcre3-dev libpng-dev chrony unzip make python2.7-dev \
 python-pip re2c supervisor unattended-upgrades whois vim libnotify-bin pv cifs-utils mcrypt bash-completion zsh \
 graphviz avahi-daemon tshark imagemagick
 
@@ -528,6 +528,9 @@ dpkg --list \
 
 # Delete obsolete networking
 apt-get -y purge ppp pppconfig pppoeconf
+
+# Configure chronyd to fix clock-drift when VM-host sleeps/hibernates.
+sed -i "s/^makestep.*/makestep 1 -1/" /etc/chrony/chrony.conf
 
 # Delete oddities
 apt-get -y purge popularity-contest installation-report command-not-found command-not-found-data friendly-recovery \
