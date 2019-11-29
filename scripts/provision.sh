@@ -98,9 +98,10 @@ mv composer.phar /usr/local/bin/composer
 sudo su vagrant <<'EOF'
 /usr/local/bin/composer global require hirak/prestissimo
 /usr/local/bin/composer global require "laravel/envoy=^1.6"
-/usr/local/bin/composer global require "laravel/installer=^2.1"
+/usr/local/bin/composer global require "laravel/installer=^3.1"
 /usr/local/bin/composer global require "laravel/lumen-installer=^1.1"
 /usr/local/bin/composer global require "laravel/spark-installer=^3.1"
+/usr/local/bin/composer global require "slince/composer-registry-manager=^2.0"
 EOF
 
 # Set Some PHP CLI Settings
