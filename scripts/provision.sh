@@ -428,7 +428,7 @@ mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret my
 service mysql restart
 
 # Install Postgres
-apt-get install -y postgresql-11 postgresql-server-dev-11
+apt-get install -y postgresql-11 postgresql-server-dev-11 postgresql-11-postgis-3 postgresql-11-postgis-3-scripts
 
 # Configure Postgres Remote Access
 
