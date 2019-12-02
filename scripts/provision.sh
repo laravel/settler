@@ -38,14 +38,9 @@ graphviz avahi-daemon tshark imagemagick
 # Set My Timezone
 ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 
-# Install PHP Stuffs
-# PHP 7.3
+# Install Generic PHP packages
 apt-get install -y --allow-change-held-packages \
-php7.3 php7.3-bcmath php7.3-bz2 php7.3-cgi php7.3-cli php7.3-common php7.3-curl php7.3-dba php7.3-dev \
-php7.3-enchant php7.3-fpm php7.3-gd php7.3-gmp php7.3-imagick php7.3-imap php7.3-interbase php7.3-intl php7.3-json php7.3-ldap \
-php7.3-mbstring php7.3-memcached php7.3-mysql php7.3-odbc php7.3-opcache php7.3-pear php7.3-pgsql php7.3-phpdbg php7.3-pspell php7.3-readline \
-php7.3-recode php7.3-redis php7.3-snmp php7.3-soap php7.3-sqlite3 php7.3-sybase php7.3-tidy php7.3-xdebug php7.3-xml php7.3-xmlrpc php7.3-xsl \
-php7.3-zip
+php-imagick php-memcached php-redis php-xdebug php-dev
 
 # PHP 7.4
 apt-get install -y --allow-change-held-packages \
@@ -53,6 +48,13 @@ php7.4 php7.4-bcmath php7.4-bz2 php7.4-cgi php7.4-cli php7.4-common php7.4-curl 
 php7.4-enchant php7.4-fpm php7.4-gd php7.4-gmp php7.4-imap php7.4-interbase php7.4-intl php7.4-json php7.4-ldap \
 php7.4-mbstring php7.4-mysql php7.4-odbc php7.4-opcache php7.4-pgsql php7.4-phpdbg php7.4-pspell php7.4-readline \
 php7.4-snmp php7.4-soap php7.4-sqlite3 php7.4-sybase php7.4-tidy php7.4-xml php7.4-xmlrpc php7.4-xsl php7.4-zip
+
+# PHP 7.3
+apt-get install -y --allow-change-held-packages \
+php7.3 php7.3-bcmath php7.3-bz2 php7.3-cgi php7.3-cli php7.3-common php7.3-curl php7.3-dba php7.3-dev php7.3-enchant \
+php7.3-fpm php7.3-gd php7.3-gmp php7.3-imap php7.3-interbase php7.3-intl php7.3-json php7.3-ldap php7.3-mbstring \
+php7.3-mysql php7.3-odbc php7.3-opcache php7.3-pgsql php7.3-phpdbg php7.3-pspell php7.3-readline php7.3-recode \
+php7.3-snmp php7.3-soap php7.3-sqlite3 php7.3-sybase php7.3-tidy php7.3-xml php7.3-xmlrpc php7.3-xsl php7.3-zip
 
 # PHP 7.2
 apt-get install -y --allow-change-held-packages \
@@ -98,9 +100,9 @@ mv composer.phar /usr/local/bin/composer
 sudo su vagrant <<'EOF'
 /usr/local/bin/composer global require hirak/prestissimo
 /usr/local/bin/composer global require "laravel/envoy=^1.6"
-/usr/local/bin/composer global require "laravel/installer=^3.1"
+/usr/local/bin/composer global require "laravel/installer=^3.0.1"
 /usr/local/bin/composer global require "laravel/lumen-installer=^1.1"
-/usr/local/bin/composer global require "laravel/spark-installer=^3.1"
+/usr/local/bin/composer global require "laravel/spark-installer=dev-master"
 /usr/local/bin/composer global require "slince/composer-registry-manager=^2.0"
 EOF
 
@@ -438,8 +440,10 @@ sudo -u postgres psql -c "CREATE ROLE homestead LOGIN PASSWORD 'secret' SUPERUSE
 sudo -u postgres /usr/bin/createdb --echo --owner=homestead homestead
 service postgresql restart
 
-# Install Memcached & Beanstalk
+# Install Redis, Memcached, & Beanstalk
 apt-get install -y redis-server memcached beanstalkd
+systemctl enable redis-server
+service redis-server start
 
 # Configure Beanstalkd
 sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
