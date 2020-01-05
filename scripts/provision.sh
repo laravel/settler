@@ -382,11 +382,11 @@ ln -s /opt/lmm/lmm /usr/local/sbin/lmm
 # size leaving ~5GB free for other volumes.
 mkdir -p /homestead-vg/master
 sudo lvs
-lvcreate -L 40G -T homestead-vg/thinpool
+lvcreate -L 64G -T homestead-vg/thinpool
 
 # Create a 10GB volume for the database. If needed, it can be expanded with
 # lvextend.
-lvcreate -V10G -T homestead-vg/thinpool -n mysql-master
+lvcreate -V64G -T homestead-vg/thinpool -n mysql-master
 mkfs.ext4 /dev/homestead-vg/mysql-master
 echo "/dev/homestead-vg/mysql-master\t/homestead-vg/master\text4\terrors=remount-ro\t0\t1" >> /etc/fstab
 mount -a
