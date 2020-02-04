@@ -378,13 +378,13 @@ git clone -b ubuntu-18.04 https://github.com/Lullabot/lmm.git /opt/lmm
 sed -e 's/vagrant-vg/homestead-vg/' -i /opt/lmm/config.sh
 ln -s /opt/lmm/lmm /usr/local/sbin/lmm
 
-# Create a thinly provisioned volume to move the database to. We use 40G as the
+# Create a thinly provisioned volume to move the database to. We use 64G as the
 # size leaving ~5GB free for other volumes.
 mkdir -p /homestead-vg/master
 sudo lvs
 lvcreate -L 64G -T homestead-vg/thinpool
 
-# Create a 10GB volume for the database. If needed, it can be expanded with
+# Create a 64GB volume for the database. If needed, it can be expanded with
 # lvextend.
 lvcreate -V64G -T homestead-vg/thinpool -n mysql-master
 mkfs.ext4 /dev/homestead-vg/mysql-master
