@@ -99,7 +99,7 @@ mv composer.phar /usr/local/bin/composer
 # Install Laravel Envoy, Installer, and prestissimo for parallel downloads
 sudo su vagrant <<'EOF'
 /usr/local/bin/composer global require hirak/prestissimo
-/usr/local/bin/composer global require "laravel/envoy=^1.6"
+/usr/local/bin/composer global require "laravel/envoy=^2.0"
 /usr/local/bin/composer global require "laravel/installer=^3.0.1"
 /usr/local/bin/composer global require "laravel/lumen-installer=^1.1"
 /usr/local/bin/composer global require "laravel/spark-installer=dev-master"
