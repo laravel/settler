@@ -429,11 +429,11 @@ EOL
 mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret mysql
 service mysql restart
 
-# Install Postgres
-apt-get install -y postgresql-9.6 postgresql-server-dev-9.6 postgresql-9.6-postgis-3 postgresql-9.6-postgis-3-scripts
-apt-get install -y postgresql-10 postgresql-server-dev-10 postgresql-10-postgis-3 postgresql-10-postgis-3-scripts
-apt-get install -y postgresql-11 postgresql-server-dev-11 postgresql-11-postgis-3 postgresql-11-postgis-3-scripts
+# Install Postgres in this specific order so version 12 gets port 5432
 apt-get install -y postgresql-12 postgresql-server-dev-12 postgresql-12-postgis-3 postgresql-12-postgis-3-scripts
+apt-get install -y postgresql-11 postgresql-server-dev-11 postgresql-11-postgis-3 postgresql-11-postgis-3-scripts
+apt-get install -y postgresql-10 postgresql-server-dev-10 postgresql-10-postgis-3 postgresql-10-postgis-3-scripts
+apt-get install -y postgresql-9.6 postgresql-server-dev-9.6 postgresql-9.6-postgis-3 postgresql-9.6-postgis-3-scripts
 
 # Disable Older Versions of Postgres
 sudo systemctl disable postgresql@9.6-main
