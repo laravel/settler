@@ -477,7 +477,6 @@ service redis-server start
 
 # Configure Beanstalkd
 sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
-/etc/init.d/beanstalkd start
 
 # Install & Configure MailHog
 wget --quiet -O /usr/local/bin/mailhog https://github.com/mailhog/MailHog/releases/download/v0.2.1/MailHog_linux_amd64
@@ -593,6 +592,13 @@ _EOF_
 # Delete the massive firmware packages
 rm -rf /lib/firmware/*
 rm -rf /usr/share/doc/linux-firmware/*
+
+# Disable services to lower initial overhead
+systemctl disable redis-server
+systemctl disable postgresql@9.6-main
+systemctl disable postgresql@10-main
+systemctl disable postgresql@11-main
+systemctl disable postgresql@12-main
 
 apt-get -y autoremove;
 apt-get -y clean;
