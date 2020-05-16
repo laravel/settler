@@ -451,12 +451,6 @@ apt-get install -y postgresql-11 postgresql-server-dev-11 postgresql-11-postgis-
 apt-get install -y postgresql-10 postgresql-server-dev-10 postgresql-10-postgis-3 postgresql-10-postgis-3-scripts
 apt-get install -y postgresql-9.6 postgresql-server-dev-9.6 postgresql-9.6-postgis-3 postgresql-9.6-postgis-3-scripts
 
-# Disable Older Versions of Postgres
-sudo systemctl disable postgresql@9.6-main
-sudo systemctl disable postgresql@10-main
-sudo systemctl disable postgresql@11-main
-sudo systemctl enable postgresql@12-main
-
 # Configure Postgres Remote Access
 sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/9.6/main/postgresql.conf
 echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/9.6/main/pg_hba.conf
