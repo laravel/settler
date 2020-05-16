@@ -352,52 +352,55 @@ bind-address = 0.0.0.0
 default_authentication_plugin = mysql_native_password
 EOF
 
-## Install LMM for database snapshots
-#apt-get install -y thin-provisioning-tools bc
-#git clone https://github.com/Lullabot/lmm.git /opt/lmm
-#sed -e 's/mysql/vgubuntu-20/' -i /opt/lmm/config.sh
-#ln -s /opt/lmm/lmm /usr/local/sbin/lmm
-#
-## Create a thinly provisioned volume to move the database to. We use 64G as the
-## size leaving ~5GB free for other volumes.
-#mkdir -p /vgubuntu-20/master
-#sudo lvs
-#lvcreate -L 64G -T vgubuntu-20/thinpool
-#
-## Create a 64GB volume for the database. If needed, it can be expanded with
-## lvextend.
-#lvcreate -V64G -T vgubuntu-20/thinpool -n mysql-master
-#mkfs.ext4 /dev/vgubuntu-20/mysql-master
-#echo "/dev/vgubuntu-20/mysql-master\t/vgubuntu-20/master\text4\terrors=remount-ro\t0\t1" >> /etc/fstab
-#mount -a
-#chown mysql:mysql /vgubuntu-20/master
-#
-## Move the data directory and symlink it in.
-#systemctl stop mysql
-#mv /var/lib/mysql/* /vgubuntu-20/master
-#rm -rf /var/lib/mysql
-#ln -s /vgubuntu-20/master /var/lib/mysql
-#
-## Allow mysqld to access the new data directories.
-#echo '/vgubuntu-20/ r,' >> /etc/apparmor.d/local/usr.sbin.mysqld
-#echo '/vgubuntu-20/** rwk,' >> /etc/apparmor.d/local/usr.sbin.mysqld
-#systemctl restart apparmor
-#systemctl start mysql
+# Install LMM for database snapshots
+apt-get install -y thin-provisioning-tools bc
+git clone https://github.com/Lullabot/lmm.git /opt/lmm
+sed -e 's/mysql/homestead-vg/' -i /opt/lmm/config.sh
+ln -s /opt/lmm/lmm /usr/local/sbin/lmm
+
+# Create a thinly provisioned volume to move the database to. We use 64G as the
+# size leaving ~5GB free for other volumes.
+mkdir -p /homestead-vg/master
+sudo lvs
+lvcreate -L 64G -T homestead-vg/thinpool
+
+# Create a 64GB volume for the database. If needed, it can be expanded with
+# lvextend.
+lvcreate -V64G -T homestead-vg/thinpool -n mysql-master
+mkfs.ext4 /dev/homestead-vg/mysql-master
+echo "/dev/homestead-vg/mysql-master\t/homestead-vg/master\text4\terrors=remount-ro\t0\t1" >> /etc/fstab
+mount -a
+chown mysql:mysql /homestead-vg/master
+
+# Move the data directory and symlink it in.
+systemctl stop mysql
+mv /var/lib/mysql/* /homestead-vg/master
+rm -rf /var/lib/mysql
+ln -s /homestead-vg/master /var/lib/mysql
+
+# Allow mysqld to access the new data directories.
+echo '/homestead-vg/ r,' >> /etc/apparmor.d/local/usr.sbin.mysqld
+echo '/homestead-vg/** rwk,' >> /etc/apparmor.d/local/usr.sbin.mysqld
+systemctl restart apparmor
+systemctl start mysql
 
 # Configure MySQL Password Lifetime
 echo "default_password_lifetime = 0" >> /etc/mysql/mysql.conf.d/mysqld.cnf
 
 # Configure MySQL Remote Access
 sed -i '/^bind-address/s/bind-address.*=.*/bind-address = 0.0.0.0/' /etc/mysql/mysql.conf.d/mysqld.cnf
-
-mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO root@'0.0.0.0' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
 service mysql restart
 
-mysql --user="root" --password="secret" -e "CREATE USER 'homestead'@'0.0.0.0' IDENTIFIED BY 'secret';"
-mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO 'homestead'@'0.0.0.0' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
-mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO 'homestead'@'%' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
-mysql --user="root" --password="secret" -e "FLUSH PRIVILEGES;"
-mysql --user="root" --password="secret" -e "CREATE DATABASE homestead character set UTF8mb4 collate utf8mb4_bin;"
+export MYSQL_PWD=secret
+
+mysql --user="root" -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'secret';"
+mysql --user="root" -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;"
+mysql --user="root" -e "CREATE USER 'homestead'@'0.0.0.0' IDENTIFIED BY 'secret';"
+mysql --user="root" -e "CREATE USER 'homestead'@'%' IDENTIFIED BY 'secret';"
+mysql --user="root" -e "GRANT ALL PRIVILEGES ON *.* TO 'homestead'@'0.0.0.0' WITH GRANT OPTION;"
+mysql --user="root" -e "GRANT ALL PRIVILEGES ON *.* TO 'homestead'@'%' WITH GRANT OPTION;"
+mysql --user="root" -e "FLUSH PRIVILEGES;"
+mysql --user="root" -e "CREATE DATABASE homestead character set UTF8mb4 collate utf8mb4_bin;"
 
 sudo tee /home/vagrant/.my.cnf <<EOL
 [mysqld]
@@ -409,101 +412,101 @@ EOL
 mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret mysql
 service mysql restart
 
-# Install Postgres in this specific order so version 12 gets port 5432
-apt-get install -y postgresql-12 postgresql-server-dev-12 postgresql-12-postgis-3 postgresql-12-postgis-3-scripts
-apt-get install -y postgresql-11 postgresql-server-dev-11 postgresql-11-postgis-3 postgresql-11-postgis-3-scripts
-apt-get install -y postgresql-10 postgresql-server-dev-10 postgresql-10-postgis-3 postgresql-10-postgis-3-scripts
-apt-get install -y postgresql-9.6 postgresql-server-dev-9.6 postgresql-9.6-postgis-3 postgresql-9.6-postgis-3-scripts
-
-# Disable Older Versions of Postgres
-sudo systemctl disable postgresql@9.6-main
-sudo systemctl disable postgresql@10-main
-sudo systemctl disable postgresql@11-main
-sudo systemctl enable postgresql@12-main
-
-# Configure Postgres Remote Access
-sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/9.6/main/postgresql.conf
-echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/9.6/main/pg_hba.conf
-sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/10/main/postgresql.conf
-echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/10/main/pg_hba.conf
-sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/11/main/postgresql.conf
-echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/11/main/pg_hba.conf
-sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/12/main/postgresql.conf
-echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/12/main/pg_hba.conf
-sudo -u postgres psql -c "CREATE ROLE homestead LOGIN PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
-sudo -u postgres /usr/bin/createdb --echo --owner=homestead homestead
-service postgresql@12-main restart
-
-# Install Redis, Memcached, & Beanstalk
-apt-get install -y redis-server memcached beanstalkd
-systemctl enable redis-server
-service redis-server start
-
-# Configure Beanstalkd
-sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
-/etc/init.d/beanstalkd start
-
-# Install & Configure MailHog
-wget --quiet -O /usr/local/bin/mailhog https://github.com/mailhog/MailHog/releases/download/v0.2.1/MailHog_linux_amd64
-chmod +x /usr/local/bin/mailhog
-
-sudo tee /etc/systemd/system/mailhog.service <<EOL
-[Unit]
-Description=Mailhog
-After=network.target
-
-[Service]
-User=vagrant
-ExecStart=/usr/bin/env /usr/local/bin/mailhog > /dev/null 2>&1 &
-
-[Install]
-WantedBy=multi-user.target
-EOL
-
-systemctl daemon-reload
-systemctl enable mailhog
-
-# Configure Supervisor
-systemctl enable supervisor.service
-service supervisor start
-
-# Install Heroku CLI
-curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
-
-# Install ngrok
-wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
-unzip ngrok-stable-linux-amd64.zip -d /usr/local/bin
-rm -rf ngrok-stable-linux-amd64.zip
-
-# Install Flyway
-wget https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/4.2.0/flyway-commandline-4.2.0-linux-x64.tar.gz
-tar -zxvf flyway-commandline-4.2.0-linux-x64.tar.gz -C /usr/local
-chmod +x /usr/local/flyway-4.2.0/flyway
-ln -s /usr/local/flyway-4.2.0/flyway /usr/local/bin/flyway
-rm -rf flyway-commandline-4.2.0-linux-x64.tar.gz
-
-# Install wp-cli
-curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-chmod +x wp-cli.phar
-mv wp-cli.phar /usr/local/bin/wp
-
-# Install Drush Launcher.
-curl --silent --location https://github.com/drush-ops/drush-launcher/releases/download/0.6.0/drush.phar --output drush.phar
-chmod +x drush.phar
-mv drush.phar /usr/local/bin/drush
-drush self-update
-
-# Install Drupal Console Launcher.
-curl --silent --location https://drupalconsole.com/installer --output drupal.phar
-chmod +x drupal.phar
-mv drupal.phar /usr/local/bin/drupal
-
-# Install & Configure Postfix
-echo "postfix postfix/mailname string homestead.test" | debconf-set-selections
-echo "postfix postfix/main_mailer_type string 'Internet Site'" | debconf-set-selections
-apt-get install -y postfix
-sed -i "s/relayhost =/relayhost = [localhost]:1025/g" /etc/postfix/main.cf
-/etc/init.d/postfix reload
+## Install Postgres in this specific order so version 12 gets port 5432
+#apt-get install -y postgresql-12 postgresql-server-dev-12 postgresql-12-postgis-3 postgresql-12-postgis-3-scripts
+#apt-get install -y postgresql-11 postgresql-server-dev-11 postgresql-11-postgis-3 postgresql-11-postgis-3-scripts
+#apt-get install -y postgresql-10 postgresql-server-dev-10 postgresql-10-postgis-3 postgresql-10-postgis-3-scripts
+#apt-get install -y postgresql-9.6 postgresql-server-dev-9.6 postgresql-9.6-postgis-3 postgresql-9.6-postgis-3-scripts
+#
+## Disable Older Versions of Postgres
+#sudo systemctl disable postgresql@9.6-main
+#sudo systemctl disable postgresql@10-main
+#sudo systemctl disable postgresql@11-main
+#sudo systemctl enable postgresql@12-main
+#
+## Configure Postgres Remote Access
+#sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/9.6/main/postgresql.conf
+#echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/9.6/main/pg_hba.conf
+#sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/10/main/postgresql.conf
+#echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/10/main/pg_hba.conf
+#sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/11/main/postgresql.conf
+#echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/11/main/pg_hba.conf
+#sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/12/main/postgresql.conf
+#echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/12/main/pg_hba.conf
+#sudo -u postgres psql -c "CREATE ROLE homestead LOGIN PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
+#sudo -u postgres /usr/bin/createdb --echo --owner=homestead homestead
+#service postgresql@12-main restart
+#
+## Install Redis, Memcached, & Beanstalk
+#apt-get install -y redis-server memcached beanstalkd
+#systemctl enable redis-server
+#service redis-server start
+#
+## Configure Beanstalkd
+#sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
+#/etc/init.d/beanstalkd start
+#
+## Install & Configure MailHog
+#wget --quiet -O /usr/local/bin/mailhog https://github.com/mailhog/MailHog/releases/download/v0.2.1/MailHog_linux_amd64
+#chmod +x /usr/local/bin/mailhog
+#
+#sudo tee /etc/systemd/system/mailhog.service <<EOL
+#[Unit]
+#Description=Mailhog
+#After=network.target
+#
+#[Service]
+#User=vagrant
+#ExecStart=/usr/bin/env /usr/local/bin/mailhog > /dev/null 2>&1 &
+#
+#[Install]
+#WantedBy=multi-user.target
+#EOL
+#
+#systemctl daemon-reload
+#systemctl enable mailhog
+#
+## Configure Supervisor
+#systemctl enable supervisor.service
+#service supervisor start
+#
+## Install Heroku CLI
+#curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+#
+## Install ngrok
+#wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+#unzip ngrok-stable-linux-amd64.zip -d /usr/local/bin
+#rm -rf ngrok-stable-linux-amd64.zip
+#
+## Install Flyway
+#wget https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/4.2.0/flyway-commandline-4.2.0-linux-x64.tar.gz
+#tar -zxvf flyway-commandline-4.2.0-linux-x64.tar.gz -C /usr/local
+#chmod +x /usr/local/flyway-4.2.0/flyway
+#ln -s /usr/local/flyway-4.2.0/flyway /usr/local/bin/flyway
+#rm -rf flyway-commandline-4.2.0-linux-x64.tar.gz
+#
+## Install wp-cli
+#curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+#chmod +x wp-cli.phar
+#mv wp-cli.phar /usr/local/bin/wp
+#
+## Install Drush Launcher.
+#curl --silent --location https://github.com/drush-ops/drush-launcher/releases/download/0.6.0/drush.phar --output drush.phar
+#chmod +x drush.phar
+#mv drush.phar /usr/local/bin/drush
+#drush self-update
+#
+## Install Drupal Console Launcher.
+#curl --silent --location https://drupalconsole.com/installer --output drupal.phar
+#chmod +x drupal.phar
+#mv drupal.phar /usr/local/bin/drupal
+#
+## Install & Configure Postfix
+#echo "postfix postfix/mailname string homestead.test" | debconf-set-selections
+#echo "postfix postfix/main_mailer_type string 'Internet Site'" | debconf-set-selections
+#apt-get install -y postfix
+#sed -i "s/relayhost =/relayhost = [localhost]:1025/g" /etc/postfix/main.cf
+#/etc/init.d/postfix reload
 
 # Update / Override motd
 sed -i "s/motd.ubuntu.com/homestead.joeferguson.me/g" /etc/default/motd-news
@@ -543,8 +546,7 @@ apt-get -y purge ppp pppconfig pppoeconf
 sed -i "s/^makestep.*/makestep 1 -1/" /etc/chrony/chrony.conf
 
 # Delete oddities
-apt-get -y purge popularity-contest installation-report command-not-found command-not-found-data friendly-recovery \
-fonts-ubuntu-font-family-console laptop-detect
+apt-get -y purge popularity-contest installation-report command-not-found friendly-recovery laptop-detect
 
 # Exlude the files we don't need w/o uninstalling linux-firmware
 echo "==> Setup dpkg excludes for linux-firmware"
