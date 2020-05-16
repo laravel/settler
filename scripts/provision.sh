@@ -35,310 +35,343 @@ graphviz avahi-daemon tshark imagemagick
 # Set My Timezone
 ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 
-## Install Generic PHP packages
-#apt-get install -y --allow-change-held-packages \
-#php-imagick php-memcached php-redis php-xdebug php-dev
-#
-## PHP 7.4
-#apt-get install -y --allow-change-held-packages \
-#php7.4 php7.4-bcmath php7.4-bz2 php7.4-cgi php7.4-cli php7.4-common php7.4-curl php7.4-dba php7.4-dev \
-#php7.4-enchant php7.4-fpm php7.4-gd php7.4-gmp php7.4-imap php7.4-interbase php7.4-intl php7.4-json php7.4-ldap \
-#php7.4-mbstring php7.4-mysql php7.4-odbc php7.4-opcache php7.4-pgsql php7.4-phpdbg php7.4-pspell php7.4-readline \
-#php7.4-snmp php7.4-soap php7.4-sqlite3 php7.4-sybase php7.4-tidy php7.4-xml php7.4-xmlrpc php7.4-xsl php7.4-zip
-#
-## PHP 7.3
-#apt-get install -y --allow-change-held-packages \
-#php7.3 php7.3-bcmath php7.3-bz2 php7.3-cgi php7.3-cli php7.3-common php7.3-curl php7.3-dba php7.3-dev php7.3-enchant \
-#php7.3-fpm php7.3-gd php7.3-gmp php7.3-imap php7.3-interbase php7.3-intl php7.3-json php7.3-ldap php7.3-mbstring \
-#php7.3-mysql php7.3-odbc php7.3-opcache php7.3-pgsql php7.3-phpdbg php7.3-pspell php7.3-readline php7.3-recode \
-#php7.3-snmp php7.3-soap php7.3-sqlite3 php7.3-sybase php7.3-tidy php7.3-xml php7.3-xmlrpc php7.3-xsl php7.3-zip
-#
-## PHP 7.2
-#apt-get install -y --allow-change-held-packages \
-#php7.2-bcmath php7.2-bz2 php7.2-dba php7.2-enchant php7.2-fpm php7.2-imap php7.2-interbase php7.2-intl \
-#php7.2-mbstring php7.2-phpdbg php7.2-soap php7.2-sybase php7.2-xsl php7.2-zip php7.2-cgi php7.2-cli php7.2-common \
-#php7.2-curl php7.2-dev php7.2-gd php7.2-gmp php7.2-json php7.2-ldap php7.2-mysql php7.2-odbc php7.2-opcache \
-#php7.2-pgsql php7.2-pspell php7.2-readline php7.2-recode php7.2-snmp php7.2-sqlite3 php7.2-tidy php7.2-xml \
-#php7.2-xmlrpc
-#
-## PHP 7.1
-#apt-get install -y --allow-change-held-packages \
-#php7.1-bcmath php7.1-bz2 php7.1-cgi php7.1-cli php7.1-common php7.1-curl php7.1-dba php7.1-dev php7.1-enchant \
-#php7.1-fpm php7.1-gd php7.1-gmp php7.1-imap php7.1-interbase php7.1-intl php7.1-json php7.1-ldap php7.1-mbstring \
-#php7.1-mcrypt php7.1-mysql php7.1-odbc php7.1-opcache php7.1-pgsql php7.1-phpdbg php7.1-pspell php7.1-readline \
-#php7.1-recode php7.1-snmp php7.1-soap php7.1-sqlite3 php7.1-sybase php7.1-tidy php7.1-xml php7.1-xmlrpc php7.1-xsl \
-#php7.1-zip
-#
-## PHP 7.0
-#apt-get install -y --allow-change-held-packages \
-#php7.0-bcmath php7.0-bz2 php7.0-cgi php7.0-cli php7.0-common php7.0-curl php7.0-dba php7.0-dev php7.0-enchant \
-#php7.0-fpm php7.0-gd php7.0-gmp php7.0-imap php7.0-interbase php7.0-intl php7.0-json php7.0-ldap php7.0-mbstring \
-#php7.0-mcrypt php7.0-mysql php7.0-odbc php7.0-opcache php7.0-pgsql php7.0-phpdbg php7.0-pspell php7.0-readline \
-#php7.0-recode php7.0-snmp php7.0-soap php7.0-sqlite3 php7.0-sybase php7.0-tidy php7.0-xml php7.0-xmlrpc php7.0-xsl \
-#php7.0-zip
-#
-## PHP 5.6
-#apt-get install -y --allow-change-held-packages \
-#php5.6-bcmath php5.6-bz2 php5.6-cgi php5.6-cli php5.6-common php5.6-curl php5.6-dba php5.6-dev php5.6-enchant \
-#php5.6-fpm php5.6-gd php5.6-gmp php5.6-imap php5.6-interbase php5.6-intl php5.6-json php5.6-ldap php5.6-mbstring \
-#php5.6-mcrypt php5.6-mysql php5.6-odbc php5.6-opcache php5.6-pgsql php5.6-phpdbg php5.6-pspell php5.6-readline \
-#php5.6-recode php5.6-snmp php5.6-soap php5.6-sqlite3 php5.6-sybase php5.6-tidy php5.6-xml php5.6-xmlrpc php5.6-xsl \
-#php5.6-zip
-#
-#update-alternatives --set php /usr/bin/php7.4
-#update-alternatives --set php-config /usr/bin/php-config7.4
-#update-alternatives --set phpize /usr/bin/phpize7.4
-#
-## Install Composer
-#curl -sS https://getcomposer.org/installer | php
-#mv composer.phar /usr/local/bin/composer
-#
-## Install Laravel Envoy, Installer, and prestissimo for parallel downloads
-#sudo su vagrant <<'EOF'
-#/usr/local/bin/composer global require hirak/prestissimo
-#/usr/local/bin/composer global require "laravel/envoy=^2.0"
-#/usr/local/bin/composer global require "laravel/installer=^3.0.1"
-#/usr/local/bin/composer global require "laravel/lumen-installer=^1.1"
-#/usr/local/bin/composer global require "laravel/spark-installer=dev-master"
-#/usr/local/bin/composer global require "slince/composer-registry-manager=^2.0"
-#EOF
-#
-## Set Some PHP CLI Settings
-#sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.4/cli/php.ini
-#sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.4/cli/php.ini
-#sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.4/cli/php.ini
-#sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.4/cli/php.ini
-#
-#sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.3/cli/php.ini
-#sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.3/cli/php.ini
-#sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.3/cli/php.ini
-#sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.3/cli/php.ini
-#
-#sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.2/cli/php.ini
-#sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.2/cli/php.ini
-#sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.2/cli/php.ini
-#sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.2/cli/php.ini
-#
-#sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.1/cli/php.ini
-#sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.1/cli/php.ini
-#sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.1/cli/php.ini
-#sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.1/cli/php.ini
-#
-#sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.0/cli/php.ini
-#sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.0/cli/php.ini
-#sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.0/cli/php.ini
-#sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/cli/php.ini
-#
-#sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/5.6/cli/php.ini
-#sed -i "s/display_errors = .*/display_errors = On/" /etc/php/5.6/cli/php.ini
-#sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/5.6/cli/php.ini
-#sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/5.6/cli/php.ini
-#
-## Install Nginx
-#apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages nginx
-#
-#rm /etc/nginx/sites-enabled/default
-#rm /etc/nginx/sites-available/default
-#
-## Create a configuration file for Nginx overrides.
-#mkdir -p /home/vagrant/.config/nginx
-#chown -R vagrant:vagrant /home/vagrant
-#touch /home/vagrant/.config/nginx/nginx.conf
-#ln -sf /home/vagrant/.config/nginx/nginx.conf /etc/nginx/conf.d/nginx.conf
-#
-## Setup Some PHP-FPM Options
-#echo "xdebug.remote_enable = 1" >> /etc/php/7.4/mods-available/xdebug.ini
-#echo "xdebug.remote_connect_back = 1" >> /etc/php/7.4/mods-available/xdebug.ini
-#echo "xdebug.remote_port = 9000" >> /etc/php/7.4/mods-available/xdebug.ini
-#echo "xdebug.max_nesting_level = 512" >> /etc/php/7.4/mods-available/xdebug.ini
-#echo "opcache.revalidate_freq = 0" >> /etc/php/7.4/mods-available/opcache.ini
-#
-#echo "xdebug.remote_enable = 1" >> /etc/php/7.3/mods-available/xdebug.ini
-#echo "xdebug.remote_connect_back = 1" >> /etc/php/7.3/mods-available/xdebug.ini
-#echo "xdebug.remote_port = 9000" >> /etc/php/7.3/mods-available/xdebug.ini
-#echo "xdebug.max_nesting_level = 512" >> /etc/php/7.3/mods-available/xdebug.ini
-#echo "opcache.revalidate_freq = 0" >> /etc/php/7.3/mods-available/opcache.ini
-#
-#echo "xdebug.remote_enable = 1" >> /etc/php/7.2/mods-available/xdebug.ini
-#echo "xdebug.remote_connect_back = 1" >> /etc/php/7.2/mods-available/xdebug.ini
-#echo "xdebug.remote_port = 9000" >> /etc/php/7.2/mods-available/xdebug.ini
-#echo "xdebug.max_nesting_level = 512" >> /etc/php/7.2/mods-available/xdebug.ini
-#echo "opcache.revalidate_freq = 0" >> /etc/php/7.2/mods-available/opcache.ini
-#
-#echo "xdebug.remote_enable = 1" >> /etc/php/7.1/mods-available/xdebug.ini
-#echo "xdebug.remote_connect_back = 1" >> /etc/php/7.1/mods-available/xdebug.ini
-#echo "xdebug.remote_port = 9000" >> /etc/php/7.1/mods-available/xdebug.ini
-#echo "xdebug.max_nesting_level = 512" >> /etc/php/7.1/mods-available/xdebug.ini
-#echo "opcache.revalidate_freq = 0" >> /etc/php/7.1/mods-available/opcache.ini
-#
-#echo "xdebug.remote_enable = 1" >> /etc/php/7.0/mods-available/xdebug.ini
-#echo "xdebug.remote_connect_back = 1" >> /etc/php/7.0/mods-available/xdebug.ini
-#echo "xdebug.remote_port = 9000" >> /etc/php/7.0/mods-available/xdebug.ini
-#echo "xdebug.max_nesting_level = 512" >> /etc/php/7.0/mods-available/xdebug.ini
-#echo "opcache.revalidate_freq = 0" >> /etc/php/7.0/mods-available/opcache.ini
-#
-#echo "xdebug.remote_enable = 1" >> /etc/php/5.6/mods-available/xdebug.ini
-#echo "xdebug.remote_connect_back = 1" >> /etc/php/5.6/mods-available/xdebug.ini
-#echo "xdebug.remote_port = 9000" >> /etc/php/5.6/mods-available/xdebug.ini
-#echo "xdebug.max_nesting_level = 512" >> /etc/php/5.6/mods-available/xdebug.ini
-#echo "opcache.revalidate_freq = 0" >> /etc/php/5.6/mods-available/opcache.ini
-#
-#sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.4/fpm/php.ini
-#sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.4/fpm/php.ini
-#sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.4/fpm/php.ini
-#sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.4/fpm/php.ini
-#sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.4/fpm/php.ini
-#sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.4/fpm/php.ini
-#sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.4/fpm/php.ini
-#
-#printf "[openssl]\n" | tee -a /etc/php/7.4/fpm/php.ini
-#printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.4/fpm/php.ini
-#
-#printf "[curl]\n" | tee -a /etc/php/7.4/fpm/php.ini
-#printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.4/fpm/php.ini
-#
-#sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.3/fpm/php.ini
-#sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.3/fpm/php.ini
-#sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.3/fpm/php.ini
-#sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.3/fpm/php.ini
-#sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.3/fpm/php.ini
-#sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.3/fpm/php.ini
-#sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.3/fpm/php.ini
-#
-#printf "[openssl]\n" | tee -a /etc/php/7.3/fpm/php.ini
-#printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.3/fpm/php.ini
-#
-#printf "[curl]\n" | tee -a /etc/php/7.3/fpm/php.ini
-#printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.3/fpm/php.ini
-#
-#sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.2/fpm/php.ini
-#sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.2/fpm/php.ini
-#sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.2/fpm/php.ini
-#sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.2/fpm/php.ini
-#sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.2/fpm/php.ini
-#sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.2/fpm/php.ini
-#sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.2/fpm/php.ini
-#
-#printf "[openssl]\n" | tee -a /etc/php/7.2/fpm/php.ini
-#printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.2/fpm/php.ini
-#
-#printf "[curl]\n" | tee -a /etc/php/7.2/fpm/php.ini
-#printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.2/fpm/php.ini
-#
-#sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.1/fpm/php.ini
-#sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.1/fpm/php.ini
-#sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.1/fpm/php.ini
-#sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.1/fpm/php.ini
-#sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.1/fpm/php.ini
-#sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.1/fpm/php.ini
-#sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.1/fpm/php.ini
-#
-#printf "[openssl]\n" | tee -a /etc/php/7.1/fpm/php.ini
-#printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.1/fpm/php.ini
-#
-#printf "[curl]\n" | tee -a /etc/php/7.1/fpm/php.ini
-#printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.1/fpm/php.ini
-#
-#sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.0/fpm/php.ini
-#sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.0/fpm/php.ini
-#sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini
-#sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.0/fpm/php.ini
-#sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.0/fpm/php.ini
-#sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.0/fpm/php.ini
-#sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/fpm/php.ini
-#
-#printf "[openssl]\n" | tee -a /etc/php/7.0/fpm/php.ini
-#printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.0/fpm/php.ini
-#
-#printf "[curl]\n" | tee -a /etc/php/7.0/fpm/php.ini
-#printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.0/fpm/php.ini
-#
-#sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/5.6/fpm/php.ini
-#sed -i "s/display_errors = .*/display_errors = On/" /etc/php/5.6/fpm/php.ini
-#sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/5.6/fpm/php.ini
-#sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/5.6/fpm/php.ini
-#sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/5.6/fpm/php.ini
-#sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/5.6/fpm/php.ini
-#sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/5.6/fpm/php.ini
-#
-#printf "[openssl]\n" | tee -a /etc/php/5.6/fpm/php.ini
-#printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/5.6/fpm/php.ini
-#
-#printf "[curl]\n" | tee -a /etc/php/5.6/fpm/php.ini
-#printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/5.6/fpm/php.ini
-#
-## Disable XDebug On The CLI
-#sudo phpdismod -s cli xdebug
-#
-## Set The Nginx & PHP-FPM User
-#sed -i "s/user www-data;/user vagrant;/" /etc/nginx/nginx.conf
-#sed -i "s/# server_names_hash_bucket_size.*/server_names_hash_bucket_size 64;/" /etc/nginx/nginx.conf
-#
-#sed -i "s/user = www-data/user = vagrant/" /etc/php/7.4/fpm/pool.d/www.conf
-#sed -i "s/group = www-data/group = vagrant/" /etc/php/7.4/fpm/pool.d/www.conf
-#
-#sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/7.4/fpm/pool.d/www.conf
-#sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/7.4/fpm/pool.d/www.conf
-#sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.4/fpm/pool.d/www.conf
-#
-#sed -i "s/user = www-data/user = vagrant/" /etc/php/7.3/fpm/pool.d/www.conf
-#sed -i "s/group = www-data/group = vagrant/" /etc/php/7.3/fpm/pool.d/www.conf
-#
-#sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/7.3/fpm/pool.d/www.conf
-#sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/7.3/fpm/pool.d/www.conf
-#sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.3/fpm/pool.d/www.conf
-#
-#sed -i "s/user = www-data/user = vagrant/" /etc/php/7.2/fpm/pool.d/www.conf
-#sed -i "s/group = www-data/group = vagrant/" /etc/php/7.2/fpm/pool.d/www.conf
-#
-#sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/7.2/fpm/pool.d/www.conf
-#sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/7.2/fpm/pool.d/www.conf
-#sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.2/fpm/pool.d/www.conf
-#
-#sed -i "s/user = www-data/user = vagrant/" /etc/php/7.1/fpm/pool.d/www.conf
-#sed -i "s/group = www-data/group = vagrant/" /etc/php/7.1/fpm/pool.d/www.conf
-#
-#sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/7.1/fpm/pool.d/www.conf
-#sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/7.1/fpm/pool.d/www.conf
-#sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.1/fpm/pool.d/www.conf
-#
-#sed -i "s/user = www-data/user = vagrant/" /etc/php/7.0/fpm/pool.d/www.conf
-#sed -i "s/group = www-data/group = vagrant/" /etc/php/7.0/fpm/pool.d/www.conf
-#
-#sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/7.0/fpm/pool.d/www.conf
-#sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/7.0/fpm/pool.d/www.conf
-#sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.0/fpm/pool.d/www.conf
-#
-#sed -i "s/user = www-data/user = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
-#sed -i "s/group = www-data/group = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
-#
-#sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
-#sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
-#sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/5.6/fpm/pool.d/www.conf
-#
-#service nginx restart
-#service php7.4-fpm restart
-#service php7.3-fpm restart
-#service php7.2-fpm restart
-#service php7.1-fpm restart
-#service php7.0-fpm restart
-#service php5.6-fpm restart
-#
-## Add Vagrant User To WWW-Data
-#usermod -a -G www-data vagrant
-#id vagrant
-#groups vagrant
-#
-## Install Node
-#apt-get install -y nodejs
-#/usr/bin/npm install -g npm
-#/usr/bin/npm install -g gulp-cli
-#/usr/bin/npm install -g bower
-#/usr/bin/npm install -g yarn
-#/usr/bin/npm install -g grunt-cli
-#
-## Install SQLite
-#apt-get install -y sqlite3 libsqlite3-dev
+# Install Generic PHP packages
+apt-get install -y --allow-change-held-packages \
+php-imagick php-memcached php-redis php-xdebug php-dev
+
+# PHP 7.4
+apt-get install -y --allow-change-held-packages \
+php7.4 php7.4-bcmath php7.4-bz2 php7.4-cgi php7.4-cli php7.4-common php7.4-curl php7.4-dba php7.4-dev \
+php7.4-enchant php7.4-fpm php7.4-gd php7.4-gmp php7.4-imap php7.4-interbase php7.4-intl php7.4-json php7.4-ldap \
+php7.4-mbstring php7.4-mysql php7.4-odbc php7.4-opcache php7.4-pgsql php7.4-phpdbg php7.4-pspell php7.4-readline \
+php7.4-snmp php7.4-soap php7.4-sqlite3 php7.4-sybase php7.4-tidy php7.4-xml php7.4-xmlrpc php7.4-xsl php7.4-zip
+
+# PHP 7.3
+apt-get install -y --allow-change-held-packages \
+php7.3 php7.3-bcmath php7.3-bz2 php7.3-cgi php7.3-cli php7.3-common php7.3-curl php7.3-dba php7.3-dev php7.3-enchant \
+php7.3-fpm php7.3-gd php7.3-gmp php7.3-imap php7.3-interbase php7.3-intl php7.3-json php7.3-ldap php7.3-mbstring \
+php7.3-mysql php7.3-odbc php7.3-opcache php7.3-pgsql php7.3-phpdbg php7.3-pspell php7.3-readline php7.3-recode \
+php7.3-snmp php7.3-soap php7.3-sqlite3 php7.3-sybase php7.3-tidy php7.3-xml php7.3-xmlrpc php7.3-xsl php7.3-zip
+
+# PHP 7.2
+apt-get install -y --allow-change-held-packages \
+php7.2-bcmath php7.2-bz2 php7.2-dba php7.2-enchant php7.2-fpm php7.2-imap php7.2-interbase php7.2-intl \
+php7.2-mbstring php7.2-phpdbg php7.2-soap php7.2-sybase php7.2-xsl php7.2-zip php7.2-cgi php7.2-cli php7.2-common \
+php7.2-curl php7.2-dev php7.2-gd php7.2-gmp php7.2-json php7.2-ldap php7.2-mysql php7.2-odbc php7.2-opcache \
+php7.2-pgsql php7.2-pspell php7.2-readline php7.2-recode php7.2-snmp php7.2-sqlite3 php7.2-tidy php7.2-xml \
+php7.2-xmlrpc
+
+# PHP 7.1
+apt-get install -y --allow-change-held-packages \
+php7.1-bcmath php7.1-bz2 php7.1-cgi php7.1-cli php7.1-common php7.1-curl php7.1-dba php7.1-dev php7.1-enchant \
+php7.1-fpm php7.1-gd php7.1-gmp php7.1-imap php7.1-interbase php7.1-intl php7.1-json php7.1-ldap php7.1-mbstring \
+php7.1-mcrypt php7.1-mysql php7.1-odbc php7.1-opcache php7.1-pgsql php7.1-phpdbg php7.1-pspell php7.1-readline \
+php7.1-recode php7.1-snmp php7.1-soap php7.1-sqlite3 php7.1-sybase php7.1-tidy php7.1-xml php7.1-xmlrpc php7.1-xsl \
+php7.1-zip
+
+# PHP 7.0
+apt-get install -y --allow-change-held-packages \
+php7.0-bcmath php7.0-bz2 php7.0-cgi php7.0-cli php7.0-common php7.0-curl php7.0-dba php7.0-dev php7.0-enchant \
+php7.0-fpm php7.0-gd php7.0-gmp php7.0-imap php7.0-interbase php7.0-intl php7.0-json php7.0-ldap php7.0-mbstring \
+php7.0-mcrypt php7.0-mysql php7.0-odbc php7.0-opcache php7.0-pgsql php7.0-phpdbg php7.0-pspell php7.0-readline \
+php7.0-recode php7.0-snmp php7.0-soap php7.0-sqlite3 php7.0-sybase php7.0-tidy php7.0-xml php7.0-xmlrpc php7.0-xsl \
+php7.0-zip
+
+# PHP 5.6
+apt-get install -y --allow-change-held-packages \
+php5.6-bcmath php5.6-bz2 php5.6-cgi php5.6-cli php5.6-common php5.6-curl php5.6-dba php5.6-dev php5.6-enchant \
+php5.6-fpm php5.6-gd php5.6-gmp php5.6-imap php5.6-interbase php5.6-intl php5.6-json php5.6-ldap php5.6-mbstring \
+php5.6-mcrypt php5.6-mysql php5.6-odbc php5.6-opcache php5.6-pgsql php5.6-phpdbg php5.6-pspell php5.6-readline \
+php5.6-recode php5.6-snmp php5.6-soap php5.6-sqlite3 php5.6-sybase php5.6-tidy php5.6-xml php5.6-xmlrpc php5.6-xsl \
+php5.6-zip
+
+update-alternatives --set php /usr/bin/php7.4
+update-alternatives --set php-config /usr/bin/php-config7.4
+update-alternatives --set phpize /usr/bin/phpize7.4
+
+# Install Composer
+curl -sS https://getcomposer.org/installer | php
+mv composer.phar /usr/local/bin/composer
+
+# Install Laravel Envoy, Installer, and prestissimo for parallel downloads
+sudo su vagrant <<'EOF'
+/usr/local/bin/composer global require hirak/prestissimo
+/usr/local/bin/composer global require "laravel/envoy=^2.0"
+/usr/local/bin/composer global require "laravel/installer=^3.0.1"
+/usr/local/bin/composer global require "laravel/lumen-installer=^1.1"
+/usr/local/bin/composer global require "laravel/spark-installer=dev-master"
+/usr/local/bin/composer global require "slince/composer-registry-manager=^2.0"
+EOF
+
+# Set Some PHP CLI Settings
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.4/cli/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.4/cli/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.4/cli/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.4/cli/php.ini
+
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.3/cli/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.3/cli/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.3/cli/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.3/cli/php.ini
+
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.2/cli/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.2/cli/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.2/cli/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.2/cli/php.ini
+
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.1/cli/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.1/cli/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.1/cli/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.1/cli/php.ini
+
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.0/cli/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.0/cli/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.0/cli/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/cli/php.ini
+
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/5.6/cli/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/5.6/cli/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/5.6/cli/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/5.6/cli/php.ini
+
+# Install Apache
+apt-get install -y apache2 libapache2-mod-fcgid
+sed -i "s/www-data/vagrant/" /etc/apache2/envvars
+
+# Enable FPM
+a2enconf php5.6-fpm
+a2enconf php7.0-fpm
+a2enconf php7.1-fpm
+a2enconf php7.2-fpm
+a2enconf php7.3-fpm
+a2enconf php7.4-fpm
+
+# Assume user wants mode_rewrite support
+sudo a2enmod rewrite
+
+# Turn on HTTPS support
+sudo a2enmod ssl
+
+# Turn on proxy & fcgi
+sudo a2enmod proxy proxy_fcgi
+
+# Turn on headers support
+sudo a2enmod headers actions alias
+
+# Add Mutex to config to prevent auto restart issues
+if [ -z "$(grep '^Mutex posixsem$' /etc/apache2/apache2.conf)" ]
+then
+    echo 'Mutex posixsem' | sudo tee -a /etc/apache2/apache2.conf
+fi
+
+a2dissite 000-default
+systemctl disable apache2
+
+# Install Nginx
+apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages nginx
+
+rm /etc/nginx/sites-enabled/default
+rm /etc/nginx/sites-available/default
+
+# Create a configuration file for Nginx overrides.
+mkdir -p /home/vagrant/.config/nginx
+chown -R vagrant:vagrant /home/vagrant
+touch /home/vagrant/.config/nginx/nginx.conf
+ln -sf /home/vagrant/.config/nginx/nginx.conf /etc/nginx/conf.d/nginx.conf
+
+# Setup Some PHP-FPM Options
+echo "xdebug.remote_enable = 1" >> /etc/php/7.4/mods-available/xdebug.ini
+echo "xdebug.remote_connect_back = 1" >> /etc/php/7.4/mods-available/xdebug.ini
+echo "xdebug.remote_port = 9000" >> /etc/php/7.4/mods-available/xdebug.ini
+echo "xdebug.max_nesting_level = 512" >> /etc/php/7.4/mods-available/xdebug.ini
+echo "opcache.revalidate_freq = 0" >> /etc/php/7.4/mods-available/opcache.ini
+
+echo "xdebug.remote_enable = 1" >> /etc/php/7.3/mods-available/xdebug.ini
+echo "xdebug.remote_connect_back = 1" >> /etc/php/7.3/mods-available/xdebug.ini
+echo "xdebug.remote_port = 9000" >> /etc/php/7.3/mods-available/xdebug.ini
+echo "xdebug.max_nesting_level = 512" >> /etc/php/7.3/mods-available/xdebug.ini
+echo "opcache.revalidate_freq = 0" >> /etc/php/7.3/mods-available/opcache.ini
+
+echo "xdebug.remote_enable = 1" >> /etc/php/7.2/mods-available/xdebug.ini
+echo "xdebug.remote_connect_back = 1" >> /etc/php/7.2/mods-available/xdebug.ini
+echo "xdebug.remote_port = 9000" >> /etc/php/7.2/mods-available/xdebug.ini
+echo "xdebug.max_nesting_level = 512" >> /etc/php/7.2/mods-available/xdebug.ini
+echo "opcache.revalidate_freq = 0" >> /etc/php/7.2/mods-available/opcache.ini
+
+echo "xdebug.remote_enable = 1" >> /etc/php/7.1/mods-available/xdebug.ini
+echo "xdebug.remote_connect_back = 1" >> /etc/php/7.1/mods-available/xdebug.ini
+echo "xdebug.remote_port = 9000" >> /etc/php/7.1/mods-available/xdebug.ini
+echo "xdebug.max_nesting_level = 512" >> /etc/php/7.1/mods-available/xdebug.ini
+echo "opcache.revalidate_freq = 0" >> /etc/php/7.1/mods-available/opcache.ini
+
+echo "xdebug.remote_enable = 1" >> /etc/php/7.0/mods-available/xdebug.ini
+echo "xdebug.remote_connect_back = 1" >> /etc/php/7.0/mods-available/xdebug.ini
+echo "xdebug.remote_port = 9000" >> /etc/php/7.0/mods-available/xdebug.ini
+echo "xdebug.max_nesting_level = 512" >> /etc/php/7.0/mods-available/xdebug.ini
+echo "opcache.revalidate_freq = 0" >> /etc/php/7.0/mods-available/opcache.ini
+
+echo "xdebug.remote_enable = 1" >> /etc/php/5.6/mods-available/xdebug.ini
+echo "xdebug.remote_connect_back = 1" >> /etc/php/5.6/mods-available/xdebug.ini
+echo "xdebug.remote_port = 9000" >> /etc/php/5.6/mods-available/xdebug.ini
+echo "xdebug.max_nesting_level = 512" >> /etc/php/5.6/mods-available/xdebug.ini
+echo "opcache.revalidate_freq = 0" >> /etc/php/5.6/mods-available/opcache.ini
+
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.4/fpm/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.4/fpm/php.ini
+sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.4/fpm/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.4/fpm/php.ini
+sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.4/fpm/php.ini
+sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.4/fpm/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.4/fpm/php.ini
+
+printf "[openssl]\n" | tee -a /etc/php/7.4/fpm/php.ini
+printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.4/fpm/php.ini
+
+printf "[curl]\n" | tee -a /etc/php/7.4/fpm/php.ini
+printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.4/fpm/php.ini
+
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.3/fpm/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.3/fpm/php.ini
+sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.3/fpm/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.3/fpm/php.ini
+sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.3/fpm/php.ini
+sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.3/fpm/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.3/fpm/php.ini
+
+printf "[openssl]\n" | tee -a /etc/php/7.3/fpm/php.ini
+printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.3/fpm/php.ini
+
+printf "[curl]\n" | tee -a /etc/php/7.3/fpm/php.ini
+printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.3/fpm/php.ini
+
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.2/fpm/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.2/fpm/php.ini
+sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.2/fpm/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.2/fpm/php.ini
+sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.2/fpm/php.ini
+sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.2/fpm/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.2/fpm/php.ini
+
+printf "[openssl]\n" | tee -a /etc/php/7.2/fpm/php.ini
+printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.2/fpm/php.ini
+
+printf "[curl]\n" | tee -a /etc/php/7.2/fpm/php.ini
+printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.2/fpm/php.ini
+
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.1/fpm/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.1/fpm/php.ini
+sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.1/fpm/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.1/fpm/php.ini
+sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.1/fpm/php.ini
+sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.1/fpm/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.1/fpm/php.ini
+
+printf "[openssl]\n" | tee -a /etc/php/7.1/fpm/php.ini
+printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.1/fpm/php.ini
+
+printf "[curl]\n" | tee -a /etc/php/7.1/fpm/php.ini
+printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.1/fpm/php.ini
+
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.0/fpm/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.0/fpm/php.ini
+sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.0/fpm/php.ini
+sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.0/fpm/php.ini
+sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.0/fpm/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/fpm/php.ini
+
+printf "[openssl]\n" | tee -a /etc/php/7.0/fpm/php.ini
+printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.0/fpm/php.ini
+
+printf "[curl]\n" | tee -a /etc/php/7.0/fpm/php.ini
+printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.0/fpm/php.ini
+
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/5.6/fpm/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/5.6/fpm/php.ini
+sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/5.6/fpm/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/5.6/fpm/php.ini
+sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/5.6/fpm/php.ini
+sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/5.6/fpm/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/5.6/fpm/php.ini
+
+printf "[openssl]\n" | tee -a /etc/php/5.6/fpm/php.ini
+printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/5.6/fpm/php.ini
+
+printf "[curl]\n" | tee -a /etc/php/5.6/fpm/php.ini
+printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/5.6/fpm/php.ini
+
+# Disable XDebug On The CLI
+sudo phpdismod -s cli xdebug
+
+# Set The Nginx & PHP-FPM User
+sed -i "s/user www-data;/user vagrant;/" /etc/nginx/nginx.conf
+sed -i "s/# server_names_hash_bucket_size.*/server_names_hash_bucket_size 64;/" /etc/nginx/nginx.conf
+
+sed -i "s/user = www-data/user = vagrant/" /etc/php/7.4/fpm/pool.d/www.conf
+sed -i "s/group = www-data/group = vagrant/" /etc/php/7.4/fpm/pool.d/www.conf
+
+sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/7.4/fpm/pool.d/www.conf
+sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/7.4/fpm/pool.d/www.conf
+sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.4/fpm/pool.d/www.conf
+
+sed -i "s/user = www-data/user = vagrant/" /etc/php/7.3/fpm/pool.d/www.conf
+sed -i "s/group = www-data/group = vagrant/" /etc/php/7.3/fpm/pool.d/www.conf
+
+sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/7.3/fpm/pool.d/www.conf
+sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/7.3/fpm/pool.d/www.conf
+sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.3/fpm/pool.d/www.conf
+
+sed -i "s/user = www-data/user = vagrant/" /etc/php/7.2/fpm/pool.d/www.conf
+sed -i "s/group = www-data/group = vagrant/" /etc/php/7.2/fpm/pool.d/www.conf
+
+sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/7.2/fpm/pool.d/www.conf
+sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/7.2/fpm/pool.d/www.conf
+sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.2/fpm/pool.d/www.conf
+
+sed -i "s/user = www-data/user = vagrant/" /etc/php/7.1/fpm/pool.d/www.conf
+sed -i "s/group = www-data/group = vagrant/" /etc/php/7.1/fpm/pool.d/www.conf
+
+sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/7.1/fpm/pool.d/www.conf
+sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/7.1/fpm/pool.d/www.conf
+sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.1/fpm/pool.d/www.conf
+
+sed -i "s/user = www-data/user = vagrant/" /etc/php/7.0/fpm/pool.d/www.conf
+sed -i "s/group = www-data/group = vagrant/" /etc/php/7.0/fpm/pool.d/www.conf
+
+sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/7.0/fpm/pool.d/www.conf
+sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/7.0/fpm/pool.d/www.conf
+sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.0/fpm/pool.d/www.conf
+
+sed -i "s/user = www-data/user = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
+sed -i "s/group = www-data/group = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
+
+sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
+sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
+sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/5.6/fpm/pool.d/www.conf
+
+service nginx restart
+service php7.4-fpm restart
+service php7.3-fpm restart
+service php7.2-fpm restart
+service php7.1-fpm restart
+service php7.0-fpm restart
+service php5.6-fpm restart
+
+# Add Vagrant User To WWW-Data
+usermod -a -G www-data vagrant
+id vagrant
+groups vagrant
+
+# Install Node
+apt-get install -y nodejs
+/usr/bin/npm install -g npm
+/usr/bin/npm install -g gulp-cli
+/usr/bin/npm install -g bower
+/usr/bin/npm install -g yarn
+/usr/bin/npm install -g grunt-cli
+
+# Install SQLite
+apt-get install -y sqlite3 libsqlite3-dev
 
 # Install MySQL
 echo "mysql-server mysql-server/root_password password secret" | debconf-set-selections
@@ -412,101 +445,101 @@ EOL
 mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret mysql
 service mysql restart
 
-## Install Postgres in this specific order so version 12 gets port 5432
-#apt-get install -y postgresql-12 postgresql-server-dev-12 postgresql-12-postgis-3 postgresql-12-postgis-3-scripts
-#apt-get install -y postgresql-11 postgresql-server-dev-11 postgresql-11-postgis-3 postgresql-11-postgis-3-scripts
-#apt-get install -y postgresql-10 postgresql-server-dev-10 postgresql-10-postgis-3 postgresql-10-postgis-3-scripts
-#apt-get install -y postgresql-9.6 postgresql-server-dev-9.6 postgresql-9.6-postgis-3 postgresql-9.6-postgis-3-scripts
-#
-## Disable Older Versions of Postgres
-#sudo systemctl disable postgresql@9.6-main
-#sudo systemctl disable postgresql@10-main
-#sudo systemctl disable postgresql@11-main
-#sudo systemctl enable postgresql@12-main
-#
-## Configure Postgres Remote Access
-#sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/9.6/main/postgresql.conf
-#echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/9.6/main/pg_hba.conf
-#sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/10/main/postgresql.conf
-#echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/10/main/pg_hba.conf
-#sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/11/main/postgresql.conf
-#echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/11/main/pg_hba.conf
-#sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/12/main/postgresql.conf
-#echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/12/main/pg_hba.conf
-#sudo -u postgres psql -c "CREATE ROLE homestead LOGIN PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
-#sudo -u postgres /usr/bin/createdb --echo --owner=homestead homestead
-#service postgresql@12-main restart
-#
-## Install Redis, Memcached, & Beanstalk
-#apt-get install -y redis-server memcached beanstalkd
-#systemctl enable redis-server
-#service redis-server start
-#
-## Configure Beanstalkd
-#sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
-#/etc/init.d/beanstalkd start
-#
-## Install & Configure MailHog
-#wget --quiet -O /usr/local/bin/mailhog https://github.com/mailhog/MailHog/releases/download/v0.2.1/MailHog_linux_amd64
-#chmod +x /usr/local/bin/mailhog
-#
-#sudo tee /etc/systemd/system/mailhog.service <<EOL
-#[Unit]
-#Description=Mailhog
-#After=network.target
-#
-#[Service]
-#User=vagrant
-#ExecStart=/usr/bin/env /usr/local/bin/mailhog > /dev/null 2>&1 &
-#
-#[Install]
-#WantedBy=multi-user.target
-#EOL
-#
-#systemctl daemon-reload
-#systemctl enable mailhog
-#
-## Configure Supervisor
-#systemctl enable supervisor.service
-#service supervisor start
-#
-## Install Heroku CLI
-#curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
-#
-## Install ngrok
-#wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
-#unzip ngrok-stable-linux-amd64.zip -d /usr/local/bin
-#rm -rf ngrok-stable-linux-amd64.zip
-#
-## Install Flyway
-#wget https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/4.2.0/flyway-commandline-4.2.0-linux-x64.tar.gz
-#tar -zxvf flyway-commandline-4.2.0-linux-x64.tar.gz -C /usr/local
-#chmod +x /usr/local/flyway-4.2.0/flyway
-#ln -s /usr/local/flyway-4.2.0/flyway /usr/local/bin/flyway
-#rm -rf flyway-commandline-4.2.0-linux-x64.tar.gz
-#
-## Install wp-cli
-#curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-#chmod +x wp-cli.phar
-#mv wp-cli.phar /usr/local/bin/wp
-#
-## Install Drush Launcher.
-#curl --silent --location https://github.com/drush-ops/drush-launcher/releases/download/0.6.0/drush.phar --output drush.phar
-#chmod +x drush.phar
-#mv drush.phar /usr/local/bin/drush
-#drush self-update
-#
-## Install Drupal Console Launcher.
-#curl --silent --location https://drupalconsole.com/installer --output drupal.phar
-#chmod +x drupal.phar
-#mv drupal.phar /usr/local/bin/drupal
-#
-## Install & Configure Postfix
-#echo "postfix postfix/mailname string homestead.test" | debconf-set-selections
-#echo "postfix postfix/main_mailer_type string 'Internet Site'" | debconf-set-selections
-#apt-get install -y postfix
-#sed -i "s/relayhost =/relayhost = [localhost]:1025/g" /etc/postfix/main.cf
-#/etc/init.d/postfix reload
+# Install Postgres in this specific order so version 12 gets port 5432
+apt-get install -y postgresql-12 postgresql-server-dev-12 postgresql-12-postgis-3 postgresql-12-postgis-3-scripts
+apt-get install -y postgresql-11 postgresql-server-dev-11 postgresql-11-postgis-3 postgresql-11-postgis-3-scripts
+apt-get install -y postgresql-10 postgresql-server-dev-10 postgresql-10-postgis-3 postgresql-10-postgis-3-scripts
+apt-get install -y postgresql-9.6 postgresql-server-dev-9.6 postgresql-9.6-postgis-3 postgresql-9.6-postgis-3-scripts
+
+# Disable Older Versions of Postgres
+sudo systemctl disable postgresql@9.6-main
+sudo systemctl disable postgresql@10-main
+sudo systemctl disable postgresql@11-main
+sudo systemctl enable postgresql@12-main
+
+# Configure Postgres Remote Access
+sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/9.6/main/postgresql.conf
+echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/9.6/main/pg_hba.conf
+sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/10/main/postgresql.conf
+echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/10/main/pg_hba.conf
+sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/11/main/postgresql.conf
+echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/11/main/pg_hba.conf
+sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/12/main/postgresql.conf
+echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/12/main/pg_hba.conf
+sudo -u postgres psql -c "CREATE ROLE homestead LOGIN PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
+sudo -u postgres /usr/bin/createdb --echo --owner=homestead homestead
+service postgresql@12-main restart
+
+# Install Redis, Memcached, & Beanstalk
+apt-get install -y redis-server memcached beanstalkd
+systemctl enable redis-server
+service redis-server start
+
+# Configure Beanstalkd
+sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
+/etc/init.d/beanstalkd start
+
+# Install & Configure MailHog
+wget --quiet -O /usr/local/bin/mailhog https://github.com/mailhog/MailHog/releases/download/v0.2.1/MailHog_linux_amd64
+chmod +x /usr/local/bin/mailhog
+
+sudo tee /etc/systemd/system/mailhog.service <<EOL
+[Unit]
+Description=Mailhog
+After=network.target
+
+[Service]
+User=vagrant
+ExecStart=/usr/bin/env /usr/local/bin/mailhog > /dev/null 2>&1 &
+
+[Install]
+WantedBy=multi-user.target
+EOL
+
+systemctl daemon-reload
+systemctl enable mailhog
+
+# Configure Supervisor
+systemctl enable supervisor.service
+service supervisor start
+
+# Install Heroku CLI
+curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+
+# Install ngrok
+wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+unzip ngrok-stable-linux-amd64.zip -d /usr/local/bin
+rm -rf ngrok-stable-linux-amd64.zip
+
+# Install Flyway
+wget https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/4.2.0/flyway-commandline-4.2.0-linux-x64.tar.gz
+tar -zxvf flyway-commandline-4.2.0-linux-x64.tar.gz -C /usr/local
+chmod +x /usr/local/flyway-4.2.0/flyway
+ln -s /usr/local/flyway-4.2.0/flyway /usr/local/bin/flyway
+rm -rf flyway-commandline-4.2.0-linux-x64.tar.gz
+
+# Install wp-cli
+curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+chmod +x wp-cli.phar
+mv wp-cli.phar /usr/local/bin/wp
+
+# Install Drush Launcher.
+curl --silent --location https://github.com/drush-ops/drush-launcher/releases/download/0.6.0/drush.phar --output drush.phar
+chmod +x drush.phar
+mv drush.phar /usr/local/bin/drush
+drush self-update
+
+# Install Drupal Console Launcher.
+curl --silent --location https://drupalconsole.com/installer --output drupal.phar
+chmod +x drupal.phar
+mv drupal.phar /usr/local/bin/drupal
+
+# Install & Configure Postfix
+echo "postfix postfix/mailname string homestead.test" | debconf-set-selections
+echo "postfix postfix/main_mailer_type string 'Internet Site'" | debconf-set-selections
+apt-get install -y postfix
+sed -i "s/relayhost =/relayhost = [localhost]:1025/g" /etc/postfix/main.cf
+/etc/init.d/postfix reload
 
 # Update / Override motd
 sed -i "s/motd.ubuntu.com/homestead.joeferguson.me/g" /etc/default/motd-news
