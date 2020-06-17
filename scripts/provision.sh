@@ -606,6 +606,10 @@ find /var/cache -type f -exec rm -rf {} \;
 # delete any logs that have built up during the install
 find /var/log/ -name *.log -exec rm -f {} \;
 
+# What are you doing Ubuntu?
+# https://askubuntu.com/questions/1250974/user-root-cant-write-to-file-in-tmp-owned-by-someone-else-in-20-04-but-can-in
+sysctl fs.protected_regular=0
+
 # Blank netplan machine-id (DUID) so machines get unique ID generated on boot.
 truncate -s 0 /etc/machine-id
 
