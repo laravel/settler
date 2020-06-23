@@ -24,6 +24,19 @@ deb http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main
 END
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 
+## Install RabbitMQ signing key
+curl -fsSL https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc | sudo apt-key add -
+
+tee /etc/apt/sources.list.d/bintray.rabbitmq.list <<EOF
+## Installs the latest Erlang 23.x release.
+## Change component to "erlang-22.x" to install the latest 22.x version.
+## "bionic" as distribution name should work for any later Ubuntu or Debian release.
+## See the release to distribution mapping table in RabbitMQ doc guides to learn more.
+deb https://dl.bintray.com/rabbitmq-erlang/debian bionic erlang
+## Installs latest RabbitMQ release
+deb https://dl.bintray.com/rabbitmq/debian bionic main
+EOF
+
 ## Update Package Lists
 apt-get update
 
@@ -369,6 +382,9 @@ apt-get install -y nodejs
 /usr/bin/npm install -g bower
 /usr/bin/npm install -g yarn
 /usr/bin/npm install -g grunt-cli
+
+## Install rabbitmq-server and its dependencies
+apt-get install rabbitmq-server -y --fix-missing
 
 # Install SQLite
 apt-get install -y sqlite3 libsqlite3-dev
