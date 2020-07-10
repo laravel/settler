@@ -482,9 +482,9 @@ sudo -u postgres /usr/bin/createdb --echo --owner=homestead homestead
 service postgresql@12-main restart
 
 # Install Redis, Memcached, & Beanstalk
-apt-get install -y redis memcached beanstalkd
-systemctl enable redis
-service redis start
+apt-get install -y redis-server memcached beanstalkd
+systemctl enable redis-server
+service redis-server start
 
 # Configure Beanstalkd
 sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
@@ -605,7 +605,7 @@ rm -rf /lib/firmware/*
 rm -rf /usr/share/doc/linux-firmware/*
 
 # Disable services to lower initial overhead
-systemctl disable redis
+systemctl disable redis-server
 systemctl disable postgresql@9.6-main
 systemctl disable postgresql@10-main
 systemctl disable postgresql@11-main
