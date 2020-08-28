@@ -605,7 +605,6 @@ rm -rf /lib/firmware/*
 rm -rf /usr/share/doc/linux-firmware/*
 
 # Disable services to lower initial overhead
-systemctl disable redis-server
 systemctl disable postgresql@9.6-main
 systemctl disable postgresql@10-main
 systemctl disable postgresql@11-main
