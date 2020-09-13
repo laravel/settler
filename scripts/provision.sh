@@ -111,8 +111,7 @@ mv composer.phar /usr/local/bin/composer
 sudo su vagrant <<'EOF'
 /usr/local/bin/composer global require hirak/prestissimo
 /usr/local/bin/composer global require "laravel/envoy=^2.0"
-/usr/local/bin/composer global require "laravel/installer=^3.0.1"
-/usr/local/bin/composer global require "laravel/lumen-installer=^1.1"
+/usr/local/bin/composer global require "laravel/installer=^4.0.2"
 /usr/local/bin/composer global require "laravel/spark-installer=dev-master"
 /usr/local/bin/composer global require "slince/composer-registry-manager=^2.0"
 EOF
