@@ -95,9 +95,9 @@ php5.6-mcrypt php5.6-mysql php5.6-odbc php5.6-opcache php5.6-pgsql php5.6-phpdbg
 php5.6-recode php5.6-snmp php5.6-soap php5.6-sqlite3 php5.6-sybase php5.6-tidy php5.6-xml php5.6-xmlrpc php5.6-xsl \
 php5.6-zip
 
-update-alternatives --set php /usr/bin/php7.4
-update-alternatives --set php-config /usr/bin/php-config7.4
-update-alternatives --set phpize /usr/bin/phpize7.4
+update-alternatives --set php /usr/bin/php8.0
+update-alternatives --set php-config /usr/bin/php-config8.0
+update-alternatives --set phpize /usr/bin/phpize8.0
 
 # Install Composer
 curl -sS https://getcomposer.org/installer | php
