@@ -102,7 +102,7 @@ update-alternatives --set phpize /usr/bin/phpize8.0
 # Install Composer
 curl -sS https://getcomposer.org/installer | php
 mv composer.phar /usr/local/bin/composer
-
+chown -R vagrant:vagrant /home/vagrant/.config
 # Install Global Packages
 sudo su vagrant <<'EOF'
 /usr/local/bin/composer global require "laravel/envoy=^2.0"
