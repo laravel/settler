@@ -568,10 +568,14 @@ sed -i "s/relayhost =/relayhost = [localhost]:1025/g" /etc/postfix/main.cf
 /etc/init.d/postfix reload
 
 # Update / Override motd
+echo "export ENABLED=1"| tee -a /etc/default/motd-news
 sed -i "s/motd.ubuntu.com/homestead.joeferguson.me/g" /etc/update-motd.d/50-motd-news
 rm -rf /etc/update-motd.d/10-help-text
 rm -rf /etc/update-motd.d/50-landscape-sysinfo
+rm -rf /etc/update-motd.d/99-bento
 service motd-news restart
+bash /etc/update-motd.d/50-motd-news --force
+bash /etc/update-motd.d/50-motd-news --force
 
 # One last upgrade check
 apt-get upgrade -y
