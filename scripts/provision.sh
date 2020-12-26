@@ -12,27 +12,39 @@ apt-get upgrade -y
 echo "LC_ALL=en_US.UTF-8" >> /etc/default/locale
 locale-gen en_US.UTF-8
 
-# Install Some PPAs
 apt-get install -y software-properties-common curl
 
-apt-add-repository ppa:nginx/development -y
+# Install Some PPAs
 apt-add-repository ppa:ondrej/php -y
 apt-add-repository ppa:chris-lea/redis-server -y
-
-curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-
-sudo tee /etc/apt/sources.list.d/pgdg.list <<END
-deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main
+# NodeJS
+curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+# PostgreSQL
+tee /etc/apt/sources.list.d/pgdg.list <<END
+deb http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main
 END
 
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 
-# Update Package Lists
+## Install RabbitMQ signing key
+curl -fsSL https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc | sudo apt-key add -
+
+tee /etc/apt/sources.list.d/bintray.rabbitmq.list <<EOF
+## Installs the latest Erlang 23.x release.
+## Change component to "erlang-22.x" to install the latest 22.x version.
+## "bionic" as distribution name should work for any later Ubuntu or Debian release.
+## See the release to distribution mapping table in RabbitMQ doc guides to learn more.
+deb https://dl.bintray.com/rabbitmq-erlang/debian bionic erlang
+## Installs latest RabbitMQ release
+deb https://dl.bintray.com/rabbitmq/debian bionic main
+EOF
+
+## Update Package Lists
 apt-get update
 
 # Install Some Basic Packages
-apt-get install -y build-essential dos2unix gcc git git-lfs libmcrypt4 libpcre3-dev libpng-dev chrony unzip make python2.7-dev \
-python-pip re2c supervisor unattended-upgrades whois vim libnotify-bin pv cifs-utils mcrypt bash-completion zsh \
+apt-get install -y build-essential dos2unix gcc git git-lfs libmcrypt4 libpcre3-dev libpng-dev chrony unzip make \
+python3-pip re2c supervisor unattended-upgrades whois vim libnotify-bin pv cifs-utils mcrypt bash-completion zsh \
 graphviz avahi-daemon tshark imagemagick
 
 # Set My Timezone
@@ -103,6 +115,7 @@ update-alternatives --set phpize /usr/bin/phpize8.0
 curl -sS https://getcomposer.org/installer | php
 mv composer.phar /usr/local/bin/composer
 chown -R vagrant:vagrant /home/vagrant/.config
+
 # Install Global Packages
 sudo su vagrant <<'EOF'
 /usr/local/bin/composer global require "laravel/envoy=^2.0"
@@ -112,53 +125,86 @@ sudo su vagrant <<'EOF'
 EOF
 
 # Set Some PHP CLI Settings
-sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/8.0/cli/php.ini
-sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/8.0/cli/php.ini
-sudo sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/8.0/cli/php.ini
-sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/8.0/cli/php.ini
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/8.0/cli/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/8.0/cli/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/8.0/cli/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/8.0/cli/php.ini
 
-sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.4/cli/php.ini
-sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.4/cli/php.ini
-sudo sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.4/cli/php.ini
-sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.4/cli/php.ini
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.4/cli/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.4/cli/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.4/cli/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.4/cli/php.ini
 
-sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.3/cli/php.ini
-sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.3/cli/php.ini
-sudo sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.3/cli/php.ini
-sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.3/cli/php.ini
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.3/cli/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.3/cli/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.3/cli/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.3/cli/php.ini
 
-sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.2/cli/php.ini
-sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.2/cli/php.ini
-sudo sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.2/cli/php.ini
-sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.2/cli/php.ini
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.2/cli/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.2/cli/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.2/cli/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.2/cli/php.ini
 
-sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.1/cli/php.ini
-sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.1/cli/php.ini
-sudo sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.1/cli/php.ini
-sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.1/cli/php.ini
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.1/cli/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.1/cli/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.1/cli/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.1/cli/php.ini
 
-sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.0/cli/php.ini
-sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.0/cli/php.ini
-sudo sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.0/cli/php.ini
-sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/cli/php.ini
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.0/cli/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.0/cli/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.0/cli/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/cli/php.ini
 
-sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/5.6/cli/php.ini
-sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/5.6/cli/php.ini
-sudo sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/5.6/cli/php.ini
-sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/5.6/cli/php.ini
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/5.6/cli/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/5.6/cli/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/5.6/cli/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/5.6/cli/php.ini
+
+# Install Apache
+apt-get install -y apache2 libapache2-mod-fcgid
+sed -i "s/www-data/vagrant/" /etc/apache2/envvars
+
+# Enable FPM
+a2enconf php5.6-fpm
+a2enconf php7.0-fpm
+a2enconf php7.1-fpm
+a2enconf php7.2-fpm
+a2enconf php7.3-fpm
+a2enconf php7.4-fpm
+a2enconf php8.0-fpm
+
+# Assume user wants mode_rewrite support
+sudo a2enmod rewrite
+
+# Turn on HTTPS support
+sudo a2enmod ssl
+
+# Turn on proxy & fcgi
+sudo a2enmod proxy proxy_fcgi
+
+# Turn on headers support
+sudo a2enmod headers actions alias
+
+# Add Mutex to config to prevent auto restart issues
+if [ -z "$(grep '^Mutex posixsem$' /etc/apache2/apache2.conf)" ]
+then
+    echo 'Mutex posixsem' | sudo tee -a /etc/apache2/apache2.conf
+fi
+
+a2dissite 000-default
+systemctl disable apache2
 
 # Install Nginx
-apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
-nginx
+apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages nginx
 
 rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
 
 # Create a configuration file for Nginx overrides.
-sudo mkdir -p /home/vagrant/.config/nginx
-sudo chown -R vagrant:vagrant /home/vagrant
+mkdir -p /home/vagrant/.config/nginx
+chown -R vagrant:vagrant /home/vagrant
 touch /home/vagrant/.config/nginx/nginx.conf
-sudo ln -sf /home/vagrant/.config/nginx/nginx.conf /etc/nginx/conf.d/nginx.conf
+ln -sf /home/vagrant/.config/nginx/nginx.conf /etc/nginx/conf.d/nginx.conf
 
 # Setup Some PHP-FPM Options
 echo "xdebug.remote_enable = 1" >> /etc/php/8.0/mods-available/xdebug.ini
@@ -203,20 +249,6 @@ echo "xdebug.remote_port = 9000" >> /etc/php/5.6/mods-available/xdebug.ini
 echo "xdebug.max_nesting_level = 512" >> /etc/php/5.6/mods-available/xdebug.ini
 echo "opcache.revalidate_freq = 0" >> /etc/php/5.6/mods-available/opcache.ini
 
-sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.4/fpm/php.ini
-sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.4/fpm/php.ini
-sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.4/fpm/php.ini
-sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.4/fpm/php.ini
-sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.4/fpm/php.ini
-sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.4/fpm/php.ini
-sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.4/fpm/php.ini
-
-printf "[openssl]\n" | tee -a /etc/php/7.4/fpm/php.ini
-printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.4/fpm/php.ini
-
-printf "[curl]\n" | tee -a /etc/php/7.4/fpm/php.ini
-printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.4/fpm/php.ini
-
 sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/8.0/fpm/php.ini
 sed -i "s/display_errors = .*/display_errors = On/" /etc/php/8.0/fpm/php.ini
 sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/8.0/fpm/php.ini
@@ -230,6 +262,20 @@ printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php
 
 printf "[curl]\n" | tee -a /etc/php/8.0/fpm/php.ini
 printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/8.0/fpm/php.ini
+
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.4/fpm/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.4/fpm/php.ini
+sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.4/fpm/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.4/fpm/php.ini
+sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.4/fpm/php.ini
+sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.4/fpm/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.4/fpm/php.ini
+
+printf "[openssl]\n" | tee -a /etc/php/7.4/fpm/php.ini
+printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.4/fpm/php.ini
+
+printf "[curl]\n" | tee -a /etc/php/7.4/fpm/php.ini
+printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.4/fpm/php.ini
 
 sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.3/fpm/php.ini
 sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.3/fpm/php.ini
@@ -303,29 +349,6 @@ printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/5.
 
 # Disable XDebug On The CLI
 sudo phpdismod -s cli xdebug
-
-# Copy fastcgi_params to Nginx because they broke it on the PPA
-cat > /etc/nginx/fastcgi_params << EOF
-fastcgi_param	QUERY_STRING		\$query_string;
-fastcgi_param	REQUEST_METHOD		\$request_method;
-fastcgi_param	CONTENT_TYPE		\$content_type;
-fastcgi_param	CONTENT_LENGTH		\$content_length;
-fastcgi_param	SCRIPT_FILENAME		\$request_filename;
-fastcgi_param	SCRIPT_NAME		\$fastcgi_script_name;
-fastcgi_param	REQUEST_URI		\$request_uri;
-fastcgi_param	DOCUMENT_URI		\$document_uri;
-fastcgi_param	DOCUMENT_ROOT		\$document_root;
-fastcgi_param	SERVER_PROTOCOL		\$server_protocol;
-fastcgi_param	GATEWAY_INTERFACE	CGI/1.1;
-fastcgi_param	SERVER_SOFTWARE		nginx/\$nginx_version;
-fastcgi_param	REMOTE_ADDR		\$remote_addr;
-fastcgi_param	REMOTE_PORT		\$remote_port;
-fastcgi_param	SERVER_ADDR		\$server_addr;
-fastcgi_param	SERVER_PORT		\$server_port;
-fastcgi_param	SERVER_NAME		\$server_name;
-fastcgi_param	HTTPS			\$https if_not_empty;
-fastcgi_param	REDIRECT_STATUS		200;
-EOF
 
 # Set The Nginx & PHP-FPM User
 sed -i "s/user www-data;/user vagrant;/" /etc/nginx/nginx.conf
@@ -402,6 +425,9 @@ apt-get install -y nodejs
 /usr/bin/npm install -g yarn
 /usr/bin/npm install -g grunt-cli
 
+## Install rabbitmq-server and its dependencies
+apt-get install rabbitmq-server -y --fix-missing
+
 # Install SQLite
 apt-get install -y sqlite3 libsqlite3-dev
 
@@ -410,10 +436,17 @@ echo "mysql-server mysql-server/root_password password secret" | debconf-set-sel
 echo "mysql-server mysql-server/root_password_again password secret" | debconf-set-selections
 apt-get install -y mysql-server
 
+# Configure MySQL 8 Remote Access and Native Pluggable Authentication
+cat > /etc/mysql/conf.d/mysqld.cnf << EOF
+[mysqld]
+bind-address = 0.0.0.0
+default_authentication_plugin = mysql_native_password
+EOF
+
 # Install LMM for database snapshots
 apt-get install -y thin-provisioning-tools bc
-git clone -b ubuntu-18.04 https://github.com/Lullabot/lmm.git /opt/lmm
-sed -e 's/vagrant-vg/homestead-vg/' -i /opt/lmm/config.sh
+git clone https://github.com/Lullabot/lmm.git /opt/lmm
+sed -e 's/mysql/homestead-vg/' -i /opt/lmm/config.sh
 ln -s /opt/lmm/lmm /usr/local/sbin/lmm
 
 # Create a thinly provisioned volume to move the database to. We use 64G as the
@@ -447,15 +480,18 @@ echo "default_password_lifetime = 0" >> /etc/mysql/mysql.conf.d/mysqld.cnf
 
 # Configure MySQL Remote Access
 sed -i '/^bind-address/s/bind-address.*=.*/bind-address = 0.0.0.0/' /etc/mysql/mysql.conf.d/mysqld.cnf
-
-mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO root@'0.0.0.0' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
 service mysql restart
 
-mysql --user="root" --password="secret" -e "CREATE USER 'homestead'@'0.0.0.0' IDENTIFIED BY 'secret';"
-mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO 'homestead'@'0.0.0.0' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
-mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO 'homestead'@'%' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
-mysql --user="root" --password="secret" -e "FLUSH PRIVILEGES;"
-mysql --user="root" --password="secret" -e "CREATE DATABASE homestead character set UTF8mb4 collate utf8mb4_bin;"
+export MYSQL_PWD=secret
+
+mysql --user="root" -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'secret';"
+mysql --user="root" -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;"
+mysql --user="root" -e "CREATE USER 'homestead'@'0.0.0.0' IDENTIFIED BY 'secret';"
+mysql --user="root" -e "CREATE USER 'homestead'@'%' IDENTIFIED BY 'secret';"
+mysql --user="root" -e "GRANT ALL PRIVILEGES ON *.* TO 'homestead'@'0.0.0.0' WITH GRANT OPTION;"
+mysql --user="root" -e "GRANT ALL PRIVILEGES ON *.* TO 'homestead'@'%' WITH GRANT OPTION;"
+mysql --user="root" -e "FLUSH PRIVILEGES;"
+mysql --user="root" -e "CREATE DATABASE homestead character set UTF8mb4 collate utf8mb4_bin;"
 
 sudo tee /home/vagrant/.my.cnf <<EOL
 [mysqld]
@@ -467,7 +503,7 @@ EOL
 mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret mysql
 service mysql restart
 
-# Install Postgres in this specific order so version 12 gets port 5432
+# Install Postgres in this specific order so version 13 gets port 5432
 apt-get install -y postgresql-13 postgresql-server-dev-13 postgresql-13-postgis-3 postgresql-13-postgis-3-scripts
 apt-get install -y postgresql-12 postgresql-server-dev-12 postgresql-12-postgis-3 postgresql-12-postgis-3-scripts
 apt-get install -y postgresql-11 postgresql-server-dev-11 postgresql-11-postgis-3 postgresql-11-postgis-3-scripts
@@ -478,8 +514,7 @@ apt-get install -y postgresql-9.6 postgresql-server-dev-9.6 postgresql-9.6-postg
 sudo systemctl disable postgresql@9.6-main
 sudo systemctl disable postgresql@10-main
 sudo systemctl disable postgresql@11-main
-sudo systemctl disable postgresql@12-main
-sudo systemctl enable postgresql@13-main
+sudo systemctl enable postgresql@12-main
 
 # Configure Postgres Remote Access
 sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/9.6/main/postgresql.conf
@@ -503,7 +538,6 @@ service redis-server start
 
 # Configure Beanstalkd
 sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
-/etc/init.d/beanstalkd start
 
 # Install & Configure MailHog
 wget --quiet -O /usr/local/bin/mailhog https://github.com/mailhog/MailHog/releases/download/v0.2.1/MailHog_linux_amd64
@@ -575,7 +609,6 @@ rm -rf /etc/update-motd.d/50-landscape-sysinfo
 rm -rf /etc/update-motd.d/99-bento
 service motd-news restart
 bash /etc/update-motd.d/50-motd-news --force
-bash /etc/update-motd.d/50-motd-news --force
 
 # One last upgrade check
 apt-get upgrade -y
@@ -609,8 +642,7 @@ apt-get -y purge ppp pppconfig pppoeconf
 sed -i "s/^makestep.*/makestep 1 -1/" /etc/chrony/chrony.conf
 
 # Delete oddities
-apt-get -y purge popularity-contest installation-report command-not-found command-not-found-data friendly-recovery \
-fonts-ubuntu-font-family-console laptop-detect
+apt-get -y purge popularity-contest installation-report command-not-found friendly-recovery laptop-detect
 
 # Exlude the files we don't need w/o uninstalling linux-firmware
 echo "==> Setup dpkg excludes for linux-firmware"
@@ -625,6 +657,13 @@ _EOF_
 rm -rf /lib/firmware/*
 rm -rf /usr/share/doc/linux-firmware/*
 
+# Disable services to lower initial overhead
+systemctl disable postgresql@9.6-main
+systemctl disable postgresql@10-main
+systemctl disable postgresql@11-main
+systemctl disable postgresql@12-main
+systemctl disable postgresql@13-main
+
 apt-get -y autoremove;
 apt-get -y clean;
 
@@ -636,6 +675,10 @@ find /var/cache -type f -exec rm -rf {} \;
 
 # delete any logs that have built up during the install
 find /var/log/ -name *.log -exec rm -f {} \;
+
+# What are you doing Ubuntu?
+# https://askubuntu.com/questions/1250974/user-root-cant-write-to-file-in-tmp-owned-by-someone-else-in-20-04-but-can-in
+sysctl fs.protected_regular=0
 
 # Blank netplan machine-id (DUID) so machines get unique ID generated on boot.
 truncate -s 0 /etc/machine-id
