@@ -16,13 +16,14 @@ apt-get install -y software-properties-common curl
 
 # Install Some PPAs
 apt-add-repository ppa:ondrej/php -y
-add-apt-repository ppa:chris-lea/redis-server -y
+apt-add-repository ppa:chris-lea/redis-server -y
 # NodeJS
 curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 # PostgreSQL
 tee /etc/apt/sources.list.d/pgdg.list <<END
 deb http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main
 END
+
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 
 ## Install RabbitMQ signing key
@@ -106,17 +107,17 @@ php5.6-mcrypt php5.6-mysql php5.6-odbc php5.6-opcache php5.6-pgsql php5.6-phpdbg
 php5.6-recode php5.6-snmp php5.6-soap php5.6-sqlite3 php5.6-sybase php5.6-tidy php5.6-xml php5.6-xmlrpc php5.6-xsl \
 php5.6-zip
 
-update-alternatives --set php /usr/bin/php7.4
-update-alternatives --set php-config /usr/bin/php-config7.4
-update-alternatives --set phpize /usr/bin/phpize7.4
+update-alternatives --set php /usr/bin/php8.0
+update-alternatives --set php-config /usr/bin/php-config8.0
+update-alternatives --set phpize /usr/bin/phpize8.0
 
 # Install Composer
 curl -sS https://getcomposer.org/installer | php
 mv composer.phar /usr/local/bin/composer
+chown -R vagrant:vagrant /home/vagrant/.config
 
-# Install Laravel Envoy, Installer, and prestissimo for parallel downloads
+# Install Global Packages
 sudo su vagrant <<'EOF'
-/usr/local/bin/composer global require hirak/prestissimo
 /usr/local/bin/composer global require "laravel/envoy=^2.0"
 /usr/local/bin/composer global require "laravel/installer=^4.0.2"
 /usr/local/bin/composer global require "laravel/spark-installer=dev-master"
@@ -509,6 +510,12 @@ apt-get install -y postgresql-11 postgresql-server-dev-11 postgresql-11-postgis-
 apt-get install -y postgresql-10 postgresql-server-dev-10 postgresql-10-postgis-3 postgresql-10-postgis-3-scripts
 apt-get install -y postgresql-9.6 postgresql-server-dev-9.6 postgresql-9.6-postgis-3 postgresql-9.6-postgis-3-scripts
 
+# Disable Older Versions of Postgres
+sudo systemctl disable postgresql@9.6-main
+sudo systemctl disable postgresql@10-main
+sudo systemctl disable postgresql@11-main
+sudo systemctl enable postgresql@12-main
+
 # Configure Postgres Remote Access
 sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/9.6/main/postgresql.conf
 echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/9.6/main/pg_hba.conf
@@ -595,10 +602,13 @@ sed -i "s/relayhost =/relayhost = [localhost]:1025/g" /etc/postfix/main.cf
 /etc/init.d/postfix reload
 
 # Update / Override motd
-sed -i "s/motd.ubuntu.com/homestead.joeferguson.me/g" /etc/default/motd-news
+echo "export ENABLED=1"| tee -a /etc/default/motd-news
+sed -i "s/motd.ubuntu.com/homestead.joeferguson.me/g" /etc/update-motd.d/50-motd-news
 rm -rf /etc/update-motd.d/10-help-text
 rm -rf /etc/update-motd.d/50-landscape-sysinfo
+rm -rf /etc/update-motd.d/99-bento
 service motd-news restart
+bash /etc/update-motd.d/50-motd-news --force
 
 # One last upgrade check
 apt-get upgrade -y
