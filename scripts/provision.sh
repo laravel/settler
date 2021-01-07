@@ -538,7 +538,7 @@ echo "host    all             all             10.0.2.2/32               md5" | t
 sudo systemctl disable postgresql@9.6-main
 sudo systemctl disable postgresql@10-main
 sudo systemctl disable postgresql@11-main
-sudo systemctl enable postgresql@12-main
+sudo systemctl disable postgresql@12-main
 
 sudo -u postgres /usr/bin/createdb --echo --owner=homestead homestead
 
@@ -671,10 +671,6 @@ rm -rf /lib/firmware/*
 rm -rf /usr/share/doc/linux-firmware/*
 
 # Disable services to lower initial overhead
-systemctl disable postgresql@9.6-main
-systemctl disable postgresql@10-main
-systemctl disable postgresql@11-main
-systemctl disable postgresql@12-main
 systemctl disable postgresql@13-main
 
 apt-get -y autoremove;
