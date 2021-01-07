@@ -510,11 +510,17 @@ apt-get install -y postgresql-11 postgresql-server-dev-11 postgresql-11-postgis-
 apt-get install -y postgresql-10 postgresql-server-dev-10 postgresql-10-postgis-3 postgresql-10-postgis-3-scripts
 apt-get install -y postgresql-9.6 postgresql-server-dev-9.6 postgresql-9.6-postgis-3 postgresql-9.6-postgis-3-scripts
 
-# Disable Older Versions of Postgres
-sudo systemctl disable postgresql@9.6-main
-sudo systemctl disable postgresql@10-main
-sudo systemctl disable postgresql@11-main
-sudo systemctl enable postgresql@12-main
+# Configure Postgres Users
+# PostggreSQL 13
+sudo -u postgres psql -c "CREATE ROLE homestead LOGIN PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
+# PostggreSQL 12
+sudo -u postgres psql -p 5433 -c "CREATE ROLE homestead LOGIN PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
+# PostggreSQL 11
+sudo -u postgres psql -p 5434 -c "CREATE ROLE homestead LOGIN PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
+# PostggreSQL 10
+sudo -u postgres psql -p 5435 -c "CREATE ROLE homestead LOGIN PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
+# PostggreSQL 9.6
+sudo -u postgres psql -p 5436 -c "CREATE ROLE homestead LOGIN PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
 
 # Configure Postgres Remote Access
 sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/9.6/main/postgresql.conf
@@ -527,8 +533,15 @@ sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgre
 echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/12/main/pg_hba.conf
 sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/13/main/postgresql.conf
 echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/13/main/pg_hba.conf
-sudo -u postgres psql -c "CREATE ROLE homestead LOGIN PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
+
+# Disable Older Versions of Postgres
+sudo systemctl disable postgresql@9.6-main
+sudo systemctl disable postgresql@10-main
+sudo systemctl disable postgresql@11-main
+sudo systemctl enable postgresql@12-main
+
 sudo -u postgres /usr/bin/createdb --echo --owner=homestead homestead
+
 service postgresql@13-main restart
 
 # Install Redis, Memcached, & Beanstalk
