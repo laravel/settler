@@ -207,45 +207,45 @@ touch /home/vagrant/.config/nginx/nginx.conf
 ln -sf /home/vagrant/.config/nginx/nginx.conf /etc/nginx/conf.d/nginx.conf
 
 # Setup Some PHP-FPM Options
-echo "xdebug.remote_enable = 1" >> /etc/php/8.0/mods-available/xdebug.ini
-echo "xdebug.remote_connect_back = 1" >> /etc/php/8.0/mods-available/xdebug.ini
-echo "xdebug.remote_port = 9000" >> /etc/php/8.0/mods-available/xdebug.ini
+echo "xdebug.mode = debug" >> /etc/php/8.0/mods-available/xdebug.ini
+echo "xdebug.discover_client_host = true" >> /etc/php/8.0/mods-available/xdebug.ini
+echo "xdebug.client_port = 9003" >> /etc/php/8.0/mods-available/xdebug.ini
 echo "xdebug.max_nesting_level = 512" >> /etc/php/8.0/mods-available/xdebug.ini
 echo "opcache.revalidate_freq = 0" >> /etc/php/8.0/mods-available/opcache.ini
 
-echo "xdebug.remote_enable = 1" >> /etc/php/7.4/mods-available/xdebug.ini
-echo "xdebug.remote_connect_back = 1" >> /etc/php/7.4/mods-available/xdebug.ini
-echo "xdebug.remote_port = 9000" >> /etc/php/7.4/mods-available/xdebug.ini
+echo "xdebug.mode = debug" >> /etc/php/7.4/mods-available/xdebug.ini
+echo "xdebug.discover_client_host = true" >> /etc/php/7.4/mods-available/xdebug.ini
+echo "xdebug.client_port = 9003" >> /etc/php/7.4/mods-available/xdebug.ini
 echo "xdebug.max_nesting_level = 512" >> /etc/php/7.4/mods-available/xdebug.ini
 echo "opcache.revalidate_freq = 0" >> /etc/php/7.4/mods-available/opcache.ini
 
-echo "xdebug.remote_enable = 1" >> /etc/php/7.3/mods-available/xdebug.ini
-echo "xdebug.remote_connect_back = 1" >> /etc/php/7.3/mods-available/xdebug.ini
-echo "xdebug.remote_port = 9000" >> /etc/php/7.3/mods-available/xdebug.ini
+echo "xdebug.mode = debug" >> /etc/php/7.3/mods-available/xdebug.ini
+echo "xdebug.discover_client_host = true" >> /etc/php/7.3/mods-available/xdebug.ini
+echo "xdebug.client_port = 9003" >> /etc/php/7.3/mods-available/xdebug.ini
 echo "xdebug.max_nesting_level = 512" >> /etc/php/7.3/mods-available/xdebug.ini
 echo "opcache.revalidate_freq = 0" >> /etc/php/7.3/mods-available/opcache.ini
 
-echo "xdebug.remote_enable = 1" >> /etc/php/7.2/mods-available/xdebug.ini
-echo "xdebug.remote_connect_back = 1" >> /etc/php/7.2/mods-available/xdebug.ini
-echo "xdebug.remote_port = 9000" >> /etc/php/7.2/mods-available/xdebug.ini
+echo "xdebug.mode = debug" >> /etc/php/7.2/mods-available/xdebug.ini
+echo "xdebug.discover_client_host = true" >> /etc/php/7.2/mods-available/xdebug.ini
+echo "xdebug.client_port = 9003" >> /etc/php/7.2/mods-available/xdebug.ini
 echo "xdebug.max_nesting_level = 512" >> /etc/php/7.2/mods-available/xdebug.ini
 echo "opcache.revalidate_freq = 0" >> /etc/php/7.2/mods-available/opcache.ini
 
-echo "xdebug.remote_enable = 1" >> /etc/php/7.1/mods-available/xdebug.ini
-echo "xdebug.remote_connect_back = 1" >> /etc/php/7.1/mods-available/xdebug.ini
-echo "xdebug.remote_port = 9000" >> /etc/php/7.1/mods-available/xdebug.ini
+echo "xdebug.mode = debug" >> /etc/php/7.1/mods-available/xdebug.ini
+echo "xdebug.discover_client_host = true" >> /etc/php/7.1/mods-available/xdebug.ini
+echo "xdebug.client_port = 9003" >> /etc/php/7.1/mods-available/xdebug.ini
 echo "xdebug.max_nesting_level = 512" >> /etc/php/7.1/mods-available/xdebug.ini
 echo "opcache.revalidate_freq = 0" >> /etc/php/7.1/mods-available/opcache.ini
 
-echo "xdebug.remote_enable = 1" >> /etc/php/7.0/mods-available/xdebug.ini
-echo "xdebug.remote_connect_back = 1" >> /etc/php/7.0/mods-available/xdebug.ini
-echo "xdebug.remote_port = 9000" >> /etc/php/7.0/mods-available/xdebug.ini
+echo "xdebug.mode = debug" >> /etc/php/7.0/mods-available/xdebug.ini
+echo "xdebug.discover_client_host = true" >> /etc/php/7.0/mods-available/xdebug.ini
+echo "xdebug.client_port = 9003" >> /etc/php/7.0/mods-available/xdebug.ini
 echo "xdebug.max_nesting_level = 512" >> /etc/php/7.0/mods-available/xdebug.ini
 echo "opcache.revalidate_freq = 0" >> /etc/php/7.0/mods-available/opcache.ini
 
-echo "xdebug.remote_enable = 1" >> /etc/php/5.6/mods-available/xdebug.ini
-echo "xdebug.remote_connect_back = 1" >> /etc/php/5.6/mods-available/xdebug.ini
-echo "xdebug.remote_port = 9000" >> /etc/php/5.6/mods-available/xdebug.ini
+echo "xdebug.mode = debug" >> /etc/php/5.6/mods-available/xdebug.ini
+echo "xdebug.discover_client_host = true" >> /etc/php/5.6/mods-available/xdebug.ini
+echo "xdebug.client_port = 9003" >> /etc/php/5.6/mods-available/xdebug.ini
 echo "xdebug.max_nesting_level = 512" >> /etc/php/5.6/mods-available/xdebug.ini
 echo "opcache.revalidate_freq = 0" >> /etc/php/5.6/mods-available/opcache.ini
 
