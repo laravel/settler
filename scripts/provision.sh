@@ -52,7 +52,7 @@ ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 
 # Install Generic PHP packages
 apt-get install -y --allow-change-held-packages \
-php-imagick php-memcached php-redis php-xdebug php-dev
+php-imagick php-memcached php-redis php-xdebug php-dev php-swoole
 
 # PHP 8.0
 apt-get install -y --allow-change-held-packages \
