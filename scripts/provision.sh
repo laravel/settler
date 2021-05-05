@@ -26,21 +26,33 @@ END
 
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 
-## Install RabbitMQ signing key
-curl -fsSL https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc | sudo apt-key add -
+apt-get install curl gnupg debian-keyring debian-archive-keyring apt-transport-https -y
 
-tee /etc/apt/sources.list.d/bintray.rabbitmq.list <<EOF
-## Installs the latest Erlang 23.x release.
-## Change component to "erlang-22.x" to install the latest 22.x version.
-## "bionic" as distribution name should work for any later Ubuntu or Debian release.
+## Team RabbitMQ's main signing key
+apt-key adv --keyserver "hkps://keys.openpgp.org" --recv-keys "0x0A9AF2115F4687BD29803A206B73A36E6026DFCA"
+## Launchpad PPA that provides modern Erlang releases
+apt-key adv --keyserver "keyserver.ubuntu.com" --recv-keys "F77F1EDA57EBB1CC"
+## PackageCloud RabbitMQ repository
+apt-key adv --keyserver "keyserver.ubuntu.com" --recv-keys "F6609E60DC62814E"
+
+## Add apt repositories maintained by Team RabbitMQ
+tee /etc/apt/sources.list.d/rabbitmq.list <<EOF
+## Provides modern Erlang/OTP releases
+##
+## "focal" as distribution name should work for any reasonably recent Ubuntu or Debian release.
 ## See the release to distribution mapping table in RabbitMQ doc guides to learn more.
-deb https://dl.bintray.com/rabbitmq-erlang/debian bionic erlang
-## Installs latest RabbitMQ release
-deb https://dl.bintray.com/rabbitmq/debian bionic main
+deb http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu focal main
+deb-src http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu focal main
+## Provides RabbitMQ
+##
+## "focal" as distribution name should work for any reasonably recent Ubuntu or Debian release.
+## See the release to distribution mapping table in RabbitMQ doc guides to learn more.
+deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ focal main
+deb-src https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ focal main
 EOF
 
 ## Update Package Lists
-apt-get update
+apt-get update -y
 
 # Install Some Basic Packages
 apt-get install -y build-essential dos2unix gcc git git-lfs libmcrypt4 libpcre3-dev libpng-dev chrony unzip make \
