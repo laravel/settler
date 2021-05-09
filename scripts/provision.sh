@@ -68,57 +68,95 @@ php-imagick php-memcached php-redis php-xdebug php-dev php-swoole
 
 # PHP 8.0
 apt-get install -y --allow-change-held-packages \
-php8.0 php8.0-bcmath php8.0-bz2 php8.0-cgi php8.0-cli php8.0-common php8.0-curl php8.0-dba php8.0-dev \
-php8.0-enchant php8.0-fpm php8.0-gd php8.0-gmp php8.0-imap php8.0-interbase php8.0-intl php8.0-ldap \
-php8.0-mbstring php8.0-mysql php8.0-odbc php8.0-opcache php8.0-pgsql php8.0-phpdbg php8.0-pspell php8.0-readline \
-php8.0-snmp php8.0-soap php8.0-sqlite3 php8.0-sybase php8.0-tidy php8.0-xdebug php8.0-xml php8.0-xsl php8.0-zip
+php8.0 php8.0-amqp php8.0-apcu php8.0-ast php8.0-bcmath php8.0-bz2 php8.0-cgi php8.0-cli php8.0-common php8.0-curl \
+php8.0-dba php8.0-decimal php8.0-dev php8.0-ds php8.0-enchant php8.0-fpm php8.0-gd php8.0-gearman \
+php8.0-gmp php8.0-gnupg php8.0-grpc php8.0-http php8.0-igbinary php8.0-imagick php8.0-imap php8.0-inotify \
+php8.0-interbase php8.0-intl php8.0-ldap php8.0-lz4 php8.0-mailparse php8.0-maxminddb php8.0-mbstring php8.0-mcrypt \
+php8.0-memcache php8.0-memcached php8.0-mongodb php8.0-msgpack php8.0-mysql php8.0-oauth php8.0-odbc php8.0-opcache \
+php8.0-pcov php8.0-pgsql php8.0-phpdbg php8.0-protobuf php8.0-pspell php8.0-psr php8.0-raphf php8.0-readline \
+php8.0-redis php8.0-rrd php8.0-smbclient php8.0-snmp php8.0-soap php8.0-solr php8.0-sqlite3 php8.0-ssh2 php8.0-swoole
+php8.0-sybase php8.0-tidy php8.0-uuid php8.0-vips php8.0-xdebug php8.0-xhprof php8.0-xml php8.0-xmlrpc php8.0-xsl \
+php8.0-yaml php8.0-zip php8.0-zmq php8.0-zstd
 
 # PHP 7.4
 apt-get install -y --allow-change-held-packages \
-php7.4 php7.4-bcmath php7.4-bz2 php7.4-cgi php7.4-cli php7.4-common php7.4-curl php7.4-dba php7.4-dev \
-php7.4-enchant php7.4-fpm php7.4-gd php7.4-gmp php7.4-imap php7.4-interbase php7.4-intl php7.4-json php7.4-ldap \
-php7.4-mbstring php7.4-mysql php7.4-odbc php7.4-opcache php7.4-pgsql php7.4-phpdbg php7.4-pspell php7.4-readline \
-php7.4-snmp php7.4-soap php7.4-sqlite3 php7.4-sybase php7.4-tidy php7.4-xdebug php7.4-xml php7.4-xmlrpc php7.4-xsl php7.4-zip
+php7.4 php7.4-cgi php7.4-cli php7.4-common php7.4-curl php7.4-dev php7.4-gd php7.4-gmp php7.4-json php7.4-ldap \
+php7.4-mysql php7.4-odbc php7.4-opcache php7.4-pgsql php7.4-pspell php7.4-readline php7.4-snmp php7.4-sqlite3 \
+php7.4-tidy php7.4-xml php7.4-xmlrpc php7.4-bcmath php7.4-bz2 php7.4-dba php7.4-enchant php7.4-fpm php7.4-imap \
+php7.4-interbase php7.4-intl php7.4-mbstring php7.4-phpdbg php7.4-soap php7.4-sybase php7.4-xsl php7.4-zip \
+php7.4-amqp php7.4-apcu php7.4-apcu-bc php7.4-ast php7.4-decimal php7.4-ds php7.4-facedetect php7.4-gearman \
+php7.4-geoip php7.4-gnupg php7.4-grpc php7.4-http php7.4-igbinary php7.4-imagick php7.4-inotify php7.4-lua \
+php7.4-lz4 php7.4-mailparse php7.4-maxminddb php7.4-mcrypt php7.4-memcache php7.4-memcached php7.4-mongodb \
+php7.4-msgpack php7.4-oauth php7.4-pcov php7.4-pinba php7.4-propro php7.4-protobuf php7.4-ps \
+php7.4-psr php7.4-radius php7.4-raphf php7.4-redis php7.4-rrd php7.4-smbclient php7.4-solr php7.4-ssh2 php7.4-stomp \
+php7.4-swoole php7.4-tideways php7.4-uopz php7.4-uploadprogress php7.4-uuid php7.4-vips php7.4-xdebug php7.4-xhprof \
+php7.4-yaml php7.4-zmq php7.4-zstd
 
 # PHP 7.3
 apt-get install -y --allow-change-held-packages \
-php7.3 php7.3-bcmath php7.3-bz2 php7.3-cgi php7.3-cli php7.3-common php7.3-curl php7.3-dba php7.3-dev php7.3-enchant \
-php7.3-fpm php7.3-gd php7.3-gmp php7.3-imap php7.3-interbase php7.3-intl php7.3-json php7.3-ldap php7.3-mbstring \
-php7.3-mysql php7.3-odbc php7.3-opcache php7.3-pgsql php7.3-phpdbg php7.3-pspell php7.3-readline php7.3-recode \
-php7.3-snmp php7.3-soap php7.3-sqlite3 php7.3-sybase php7.3-tidy php7.3-xdebug php7.3-xml php7.3-xmlrpc php7.3-xsl \
-php7.3-zip
+php7.3-amqp php7.3-apcu php7.3-apcu-bc php7.3-ast php7.3-bcmath php7.3-bz2 php7.3-cgi php7.3-cli php7.3-common \
+php7.3-curl php7.3-dba php7.3-decimal php7.3-dev php7.3-ds php7.3-enchant php7.3-facedetect php7.3-fpm php7.3-gd \
+php7.3-gearman php7.3-geoip php7.3-gmp php7.3-gnupg php7.3-grpc php7.3-http php7.3-igbinary php7.3-imagick php7.3-imap \
+php7.3-inotify php7.3-interbase php7.3-intl php7.3-json php7.3-ldap php7.3-lua php7.3-lz4 php7.3-mailparse \
+php7.3-maxminddb php7.3-mbstring php7.3-mcrypt php7.3-memcache php7.3-memcached php7.3-mongodb php7.3-msgpack \
+php7.3-mysql php7.3-oauth php7.3-odbc php7.3-opcache php7.3-pcov php7.3-pgsql \
+php7.3-phpdbg php7.3-pinba php7.3-propro php7.3-protobuf php7.3-ps php7.3-pspell php7.3-psr php7.3-radius php7.3-raphf \
+php7.3-readline php7.3-recode php7.3-redis php7.3-rrd php7.3-smbclient php7.3-snmp php7.3-soap php7.3-solr \
+php7.3-sqlite3 php7.3-ssh2 php7.3-stomp php7.3-swoole php7.3-sybase php7.3-tideways php7.3-tidy php7.3-uopz \
+php7.3-uploadprogress php7.3-uuid php7.3-vips php7.3-xdebug php7.3-xhprof php7.3-xml php7.3-xmlrpc php7.3-xsl \
+php7.3-yaml php7.3-zip php7.3-zmq php7.3-zstd
 
 # PHP 7.2
 apt-get install -y --allow-change-held-packages \
-php7.2-bcmath php7.2-bz2 php7.2-dba php7.2-enchant php7.2-fpm php7.2-imap php7.2-interbase php7.2-intl \
-php7.2-mbstring php7.2-phpdbg php7.2-soap php7.2-sybase php7.2-xsl php7.2-zip php7.2-cgi php7.2-cli php7.2-common \
-php7.2-curl php7.2-dev php7.2-gd php7.2-gmp php7.2-json php7.2-ldap php7.2-mysql php7.2-odbc php7.2-opcache \
-php7.2-pgsql php7.2-pspell php7.2-readline php7.2-recode php7.2-snmp php7.2-sqlite3 php7.2-tidy php7.2-xdebug \
-php7.2-xml php7.2-xmlrpc
+php7.2-amqp php7.2-apcu php7.2-apcu-bc php7.2-ast php7.2-bcmath php7.2-bz2 php7.2-cgi php7.2-cli php7.2-common \
+php7.2-curl php7.2-dba php7.2-decimal php7.2-dev php7.2-ds php7.2-enchant php7.2-facedetect php7.2-fpm php7.2-gd \
+php7.2-gearman php7.2-geoip php7.2-gmp php7.2-gnupg php7.2-grpc php7.2-http php7.2-igbinary php7.2-imagick php7.2-imap \
+php7.2-inotify php7.2-interbase php7.2-intl php7.2-json php7.2-ldap php7.2-lua php7.2-lz4 php7.2-mailparse \
+php7.2-maxminddb php7.2-mbstring php7.2-mcrypt php7.2-memcache php7.2-memcached php7.2-mongodb php7.2-msgpack \
+php7.2-mysql php7.2-oauth php7.2-odbc php7.2-opcache php7.2-pcov php7.2-pgsql \
+php7.2-phpdbg php7.2-pinba php7.2-propro php7.2-protobuf php7.2-ps php7.2-pspell php7.2-psr php7.2-radius php7.2-raphf \
+php7.2-readline php7.2-recode php7.2-redis php7.2-rrd php7.2-smbclient php7.2-snmp php7.2-soap php7.2-solr \
+php7.2-sqlite3 php7.2-ssh2 php7.2-stomp php7.2-swoole php7.2-sybase php7.2-tideways php7.2-tidy php7.2-uopz \
+php7.2-uploadprogress php7.2-uuid php7.2-vips php7.2-xdebug php7.2-xhprof php7.2-xml php7.2-xmlrpc php7.2-xsl \
+php7.2-yaml php7.2-zip php7.2-zmq php7.2-zstd
 
 # PHP 7.1
 apt-get install -y --allow-change-held-packages \
-php7.1-bcmath php7.1-bz2 php7.1-cgi php7.1-cli php7.1-common php7.1-curl php7.1-dba php7.1-dev php7.1-enchant \
-php7.1-fpm php7.1-gd php7.1-gmp php7.1-imap php7.1-interbase php7.1-intl php7.1-json php7.1-ldap php7.1-mbstring \
-php7.1-mcrypt php7.1-mysql php7.1-odbc php7.1-opcache php7.1-pgsql php7.1-phpdbg php7.1-pspell php7.1-readline \
-php7.1-recode php7.1-snmp php7.1-soap php7.1-sqlite3 php7.1-sybase php7.1-tidy php7.1-xdebug php7.1-xml php7.1-xmlrpc \
-php7.1-xsl php7.1-zip
+php7.1-amqp php7.1-apcu php7.1-apcu-bc php7.1-ast php7.1-bcmath php7.1-bz2 php7.1-cgi php7.1-cli php7.1-common \
+php7.1-curl php7.1-dba php7.1-decimal php7.1-dev php7.1-ds php7.1-enchant php7.1-facedetect php7.1-fpm php7.1-gd \
+php7.1-gearman php7.1-geoip php7.1-gmp php7.1-gnupg php7.1-grpc php7.1-http php7.1-igbinary \
+php7.1-imagick php7.1-imap php7.1-inotify php7.1-interbase php7.1-intl php7.1-json php7.1-ldap php7.1-lua php7.1-lz4 \
+php7.1-mailparse php7.1-mbstring php7.1-mcrypt php7.1-memcache php7.1-memcached php7.1-mongodb php7.1-msgpack \
+php7.1-mysql php7.1-oauth php7.1-odbc php7.1-opcache php7.1-pcov php7.1-pgsql php7.1-phpdbg php7.1-pinba php7.1-propro \
+php7.1-protobuf php7.1-ps php7.1-pspell php7.1-psr php7.1-radius php7.1-raphf php7.1-readline php7.1-recode \
+php7.1-redis php7.1-rrd php7.1-smbclient php7.1-snmp php7.1-soap php7.1-sodium php7.1-solr php7.1-sqlite3 php7.1-ssh2 \
+php7.1-stomp php7.1-sybase php7.1-tideways php7.1-tidy php7.1-uopz php7.1-uploadprogress php7.1-uuid php7.1-vips \
+php7.1-xdebug php7.1-xhprof php7.1-xml php7.1-xmlrpc php7.1-xsl php7.1-yaml php7.1-zip php7.1-zmq php7.1-zstd
 
 # PHP 7.0
 apt-get install -y --allow-change-held-packages \
-php7.0-bcmath php7.0-bz2 php7.0-cgi php7.0-cli php7.0-common php7.0-curl php7.0-dba php7.0-dev php7.0-enchant \
-php7.0-fpm php7.0-gd php7.0-gmp php7.0-imap php7.0-interbase php7.0-intl php7.0-json php7.0-ldap php7.0-mbstring \
-php7.0-mcrypt php7.0-mysql php7.0-odbc php7.0-opcache php7.0-pgsql php7.0-phpdbg php7.0-pspell php7.0-readline \
-php7.0-recode php7.0-snmp php7.0-soap php7.0-sqlite3 php7.0-sybase php7.0-tidy php7.0-xml php7.0-xmlrpc php7.0-xsl \
-php7.0-zip
+php7.0-amqp php7.0-apcu php7.0-apcu-bc php7.0-ast php7.0-bcmath php7.0-bz2 php7.0-cgi php7.0-cli php7.0-common \
+php7.0-curl php7.0-dba php7.0-decimal php7.0-dev php7.0-ds php7.0-enchant php7.0-facedetect php7.0-fpm php7.0-gd \
+php7.0-gearman php7.0-geoip php7.0-gmp php7.0-gnupg php7.0-grpc php7.0-http php7.0-igbinary php7.0-imagick php7.0-imap \
+php7.0-inotify php7.0-interbase php7.0-intl php7.0-json php7.0-ldap php7.0-lua php7.0-lz4 php7.0-mailparse \
+php7.0-mbstring php7.0-mcrypt php7.0-memcache php7.0-memcached php7.0-mongodb php7.0-msgpack php7.0-mysql php7.0-oauth \
+php7.0-odbc php7.0-opcache php7.0-pgsql php7.0-phpdbg php7.0-pinba php7.0-propro php7.0-protobuf php7.0-ps \
+php7.0-pspell php7.0-psr php7.0-radius php7.0-raphf php7.0-readline php7.0-recode php7.0-redis php7.0-rrd \
+php7.0-smbclient php7.0-snmp php7.0-soap php7.0-sodium php7.0-solr php7.0-sqlite3 php7.0-ssh2 php7.0-stomp \
+php7.0-sybase php7.0-tideways php7.0-tidy php7.0-uploadprogress php7.0-uuid php7.0-vips php7.0-xdebug php7.0-xhprof \
+php7.0-xml php7.0-xmlrpc php7.0-xsl php7.0-yaml php7.0-zip php7.0-zmq php7.0-zstd
 
 # PHP 5.6
 apt-get install -y --allow-change-held-packages \
-php5.6-bcmath php5.6-bz2 php5.6-cgi php5.6-cli php5.6-common php5.6-curl php5.6-dba php5.6-dev php5.6-enchant \
-php5.6-fpm php5.6-gd php5.6-gmp php5.6-imap php5.6-interbase php5.6-intl php5.6-json php5.6-ldap php5.6-mbstring \
-php5.6-mcrypt php5.6-mysql php5.6-odbc php5.6-opcache php5.6-pgsql php5.6-phpdbg php5.6-pspell php5.6-readline \
-php5.6-recode php5.6-snmp php5.6-soap php5.6-sqlite3 php5.6-sybase php5.6-tidy php5.6-xml php5.6-xmlrpc php5.6-xsl \
-php5.6-zip
+php5.6-apcu php5.6-bcmath php5.6-bz2 php5.6-cgi php5.6-cli php5.6-common php5.6-curl php5.6-dba php5.6-dev \
+php5.6-enchant php5.6-fpm php5.6-gd php5.6-gearman php5.6-geoip php5.6-gmp php5.6-gnupg php5.6-grpc php5.6-http \
+php5.6-igbinary php5.6-imagick php5.6-imap php5.6-inotify php5.6-interbase php5.6-intl php5.6-json php5.6-ldap \
+php5.6-lua php5.6-lz4 php5.6-mailparse php5.6-mbstring php5.6-mcrypt php5.6-memcache php5.6-memcached php5.6-mongo \
+php5.6-mongodb php5.6-msgpack php5.6-mysql php5.6-mysqlnd-ms php5.6-oauth php5.6-odbc php5.6-opcache php5.6-pgsql \
+php5.6-phpdbg php5.6-propro php5.6-protobuf php5.6-ps php5.6-pspell php5.6-radius php5.6-raphf php5.6-readline \
+php5.6-recode php5.6-redis php5.6-rrd php5.6-smbclient php5.6-snmp php5.6-soap php5.6-solr php5.6-sqlite3 php5.6-ssh2 \
+php5.6-stomp php5.6-sybase php5.6-tidy php5.6-uploadprogress php5.6-xdebug php5.6-xhprof php5.6-xml \
+php5.6-xmlrpc php5.6-xsl php5.6-yaml php5.6-zip php5.6-zmq php5.6-zstd
 
 update-alternatives --set php /usr/bin/php8.0
 update-alternatives --set php-config /usr/bin/php-config8.0
