@@ -576,20 +576,10 @@ systemctl enable mailhog
 systemctl enable supervisor.service
 service supervisor start
 
-# Install Heroku CLI
-curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
-
 # Install ngrok
 wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
 unzip ngrok-stable-linux-amd64.zip -d /usr/local/bin
 rm -rf ngrok-stable-linux-amd64.zip
-
-# Install Flyway
-wget https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/4.2.0/flyway-commandline-4.2.0-linux-x64.tar.gz
-tar -zxvf flyway-commandline-4.2.0-linux-x64.tar.gz -C /usr/local
-chmod +x /usr/local/flyway-4.2.0/flyway
-ln -s /usr/local/flyway-4.2.0/flyway /usr/local/bin/flyway
-rm -rf flyway-commandline-4.2.0-linux-x64.tar.gz
 
 # Install & Configure Postfix
 echo "postfix postfix/mailname string homestead.test" | debconf-set-selections
