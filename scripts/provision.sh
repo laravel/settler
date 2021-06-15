@@ -40,9 +40,8 @@ wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-
 apt-get update -y
 
 # Install Some Basic Packages
-apt-get install -y build-essential dos2unix gcc git git-lfs libmcrypt4 libpcre3-dev libpng-dev chrony unzip make \
-python3-pip re2c supervisor unattended-upgrades whois vim libnotify-bin pv cifs-utils bash-completion zsh \
-graphviz avahi-daemon tshark
+apt-get install -y build-essential dos2unix gcc git git-lfs libmcrypt4 libpcre3-dev libpng-dev chrony unzip make pv \
+python3-pip re2c supervisor unattended-upgrades whois vim cifs-utils bash-completion zsh graphviz avahi-daemon tshark
 
 # Set My Timezone
 ln -sf /usr/share/zoneinfo/UTC /etc/localtime
