@@ -25,8 +25,10 @@ apt-get install -y software-properties-common curl gnupg debian-keyring debian-a
 # Install Some PPAs
 apt-add-repository ppa:ondrej/php -y
 apt-add-repository ppa:chris-lea/redis-server -y
+
 # NodeJS
 curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+
 # PostgreSQL
 tee /etc/apt/sources.list.d/pgdg.list <<END
 deb http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main
@@ -39,8 +41,8 @@ apt-get update -y
 
 # Install Some Basic Packages
 apt-get install -y build-essential dos2unix gcc git git-lfs libmcrypt4 libpcre3-dev libpng-dev chrony unzip make \
-python3-pip re2c supervisor unattended-upgrades whois vim libnotify-bin pv cifs-utils mcrypt bash-completion zsh \
-graphviz avahi-daemon tshark imagemagick
+python3-pip re2c supervisor unattended-upgrades whois vim libnotify-bin pv cifs-utils bash-completion zsh \
+graphviz avahi-daemon tshark
 
 # Set My Timezone
 ln -sf /usr/share/zoneinfo/UTC /etc/localtime
@@ -50,7 +52,7 @@ if "$SKIP_PHP"; then
 else
   # Install Generic PHP packages
   apt-get install -y --allow-change-held-packages \
-  php-imagick php-memcached php-redis php-xdebug php-dev php-swoole
+  php-imagick php-memcached php-redis php-xdebug php-dev php-swoole imagemagick mcrypt
 
   # PHP 8.0
   apt-get install -y --allow-change-held-packages \
