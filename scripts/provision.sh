@@ -20,7 +20,8 @@ apt-get upgrade -y
 echo "LC_ALL=en_US.UTF-8" >> /etc/default/locale
 locale-gen en_US.UTF-8
 
-apt-get install -y software-properties-common curl gnupg debian-keyring debian-archive-keyring apt-transport-https
+apt-get install -y software-properties-common curl gnupg debian-keyring debian-archive-keyring apt-transport-https \
+ca-certificates
 
 # Install Some PPAs
 apt-add-repository ppa:ondrej/php -y
