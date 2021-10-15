@@ -2,11 +2,13 @@
 export DEBIAN_FRONTEND=noninteractive
 SKIP_PHP=false
 SKIP_MYSQL=false
+SKIP_MARIADB=true
 SKIP_POSTGRESQL=false
 
 echo "### Settler Build Configuration ###"
 echo "SKIP_PHP         = ${SKIP_PHP}"
 echo "SKIP_MYSQL       = ${SKIP_MYSQL}"
+echo "SKIP_MARIADB     = ${SKIP_MARIADB}"
 echo "SKIP_POSTGRESQL  = ${SKIP_POSTGRESQL}"
 echo "### Settler Build Configuration ###"
 
@@ -393,6 +395,7 @@ else
   /usr/local/bin/composer global require "laravel/installer=^4.0.2"
   /usr/local/bin/composer global require "laravel/spark-installer=dev-master"
   /usr/local/bin/composer global require "slince/composer-registry-manager=^2.0"
+  /usr/local/bin/composer global require tightenco/takeout
 EOF
 
   # Set Some PHP CLI Settings
@@ -511,6 +514,7 @@ apt-get install -y sqlite3 libsqlite3-dev
 
 if "$SKIP_MYSQL"; then
   echo "SKIP_MYSQL is being used, so we're not installing MySQL"
+  apt-get install -y mysql-client
 else
   # Install MySQL
   echo "mysql-server mysql-server/root_password password secret" | debconf-set-selections
@@ -523,38 +527,6 @@ else
 bind-address = 0.0.0.0
 default_authentication_plugin = mysql_native_password
 EOF
-
-  # Install LMM for database snapshots
-  apt-get install -y thin-provisioning-tools bc
-  git clone https://github.com/Lullabot/lmm.git /opt/lmm
-  sed -e 's/mysql/homestead-vg/' -i /opt/lmm/config.sh
-  ln -s /opt/lmm/lmm /usr/local/sbin/lmm
-
-  # Create a thinly provisioned volume to move the database to. We use 64G as the
-  # size leaving ~5GB free for other volumes.
-  mkdir -p /homestead-vg/master
-  sudo lvs
-  lvcreate -L 64G -T homestead-vg/thinpool
-
-  # Create a 64GB volume for the database. If needed, it can be expanded with
-  # lvextend.
-  lvcreate -V64G -T homestead-vg/thinpool -n mysql-master
-  mkfs.ext4 /dev/homestead-vg/mysql-master
-  echo "/dev/homestead-vg/mysql-master\t/homestead-vg/master\text4\terrors=remount-ro\t0\t1" >> /etc/fstab
-  mount -a
-  chown mysql:mysql /homestead-vg/master
-
-  # Move the data directory and symlink it in.
-  systemctl stop mysql
-  mv /var/lib/mysql/* /homestead-vg/master
-  rm -rf /var/lib/mysql
-  ln -s /homestead-vg/master /var/lib/mysql
-
-  # Allow mysqld to access the new data directories.
-  echo '/homestead-vg/ r,' >> /etc/apparmor.d/local/usr.sbin.mysqld
-  echo '/homestead-vg/** rwk,' >> /etc/apparmor.d/local/usr.sbin.mysqld
-  systemctl restart apparmor
-  systemctl start mysql
 
   # Configure MySQL Password Lifetime
   echo "default_password_lifetime = 0" >> /etc/mysql/mysql.conf.d/mysqld.cnf
@@ -579,10 +551,64 @@ EOF
 character-set-server=utf8mb4
 collation-server=utf8mb4_bin
 EOL
-
-  # Add Timezone Support To MySQL
-  mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret mysql
   service mysql restart
+fi
+
+if "$SKIP_MARIADB"; then
+  echo "$SKIP_MARIADB is being used, so we're not installing MariaDB"
+else
+  # Disable Apparmor
+  # See https://github.com/laravel/homestead/issues/629#issue-247524528
+  service apparmor stop
+  update-rc.d -f apparmor remove
+
+  # Remove MySQL
+  apt-get remove -y --purge mysql-server mysql-client mysql-common
+  apt-get autoremove -y
+  apt-get autoclean
+
+  rm -rf /var/lib/mysql/*
+  rm -rf /var/log/mysql
+  rm -rf /etc/mysql
+
+  # Add Maria PPA
+  curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
+
+  echo "mariadb-server mysql-server/data-dir select ''" | debconf-set-selections
+  echo "mariadb-server mysql-server/root_password password secret" | debconf-set-selections
+  echo "mariadb-server mysql-server/root_password_again password secret" | debconf-set-selections
+
+  mkdir  /etc/mysql
+  touch /etc/mysql/debian.cnf
+
+  # Install MariaDB
+  apt-get install -y mariadb-server mariadb-client
+
+  # Configure Maria Remote Access and ignore db dirs
+  sed -i "s/bind-address            = 127.0.0.1/bind-address            = 0.0.0.0/" /etc/mysql/mariadb.conf.d/50-server.cnf
+  cat > /etc/mysql/mariadb.conf.d/50-server.cnf << EOF
+[mysqld]
+bind-address = 0.0.0.0
+ignore-db-dir = lost+found
+#general_log
+#general_log_file=/var/log/mysql/mariadb.log
+EOF
+
+  export MYSQL_PWD=secret
+
+  mysql --user="root" -e "GRANT ALL ON *.* TO root@'0.0.0.0' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
+  service mysql restart
+
+  mysql --user="root" -e "CREATE USER IF NOT EXISTS 'homestead'@'0.0.0.0' IDENTIFIED BY 'secret';"
+  mysql --user="root" -e "GRANT ALL ON *.* TO 'homestead'@'0.0.0.0' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
+  mysql --user="root" -e "GRANT ALL ON *.* TO 'homestead'@'%' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
+  mysql --user="root" -e "FLUSH PRIVILEGES;"
+  service mysql restart
+
+  mysql_upgrade --user="root" --verbose --force
+  service mysql restart
+
+  unset MYSQL_PWD
 fi
 
 if "$SKIP_POSTGRESQL"; then
