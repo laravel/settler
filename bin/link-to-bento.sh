@@ -10,3 +10,10 @@ sed -i '' 's/"boot_wait": "5s"/"boot_wait": "10s"/' ../bento/packer_templates/ub
 sed -i '' 's/"memory": "1024"/"memory": "2048"/' ../bento/packer_templates/ubuntu/ubuntu-20.04-amd64.json
 sed -i '' 's/"disk_size": "65536"/"disk_size": "524288"/' ../bento/packer_templates/ubuntu/ubuntu-20.04-amd64.json
 sed -i '' '/\/_common\/motd.sh/d' ../bento/packer_templates/ubuntu/ubuntu-20.04-amd64.json
+
+# Run for ARM
+sed -i '' 's/scripts\/cleanup.sh/scripts\/homestead.sh/' ../bento/packer_templates/ubuntu/ubuntu-20.04-arm64.json
+sed -i '' 's/"boot_wait": "5s"/"boot_wait": "10s"/' ../bento/packer_templates/ubuntu/ubuntu-20.04-arm64.json
+sed -i '' 's/"memory": "1024"/"memory": "2048"/' ../bento/packer_templates/ubuntu/ubuntu-20.04-arm64.json
+sed -i '' 's/"disk_size": "65536"/"disk_size": "524288"/' ../bento/packer_templates/ubuntu/ubuntu-20.04-arm64.json
+sed -i '' '/\/_common\/motd.sh/d' ../bento/packer_templates/ubuntu/ubuntu-20.04-arm64.json
