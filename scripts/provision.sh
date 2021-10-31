@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 export DEBIAN_FRONTEND=noninteractive
 
-ARCH=$(echo arch)
+ARCH=$(arch)
 
 SKIP_PHP=false
 SKIP_MYSQL=false
