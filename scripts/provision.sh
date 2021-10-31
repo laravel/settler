@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 export DEBIAN_FRONTEND=noninteractive
+
+ARCH=$(echo arch)
+
 SKIP_PHP=false
 SKIP_MYSQL=false
 SKIP_MARIADB=true
 SKIP_POSTGRESQL=false
 
 echo "### Settler Build Configuration ###"
+echo "ARCH             = ${ARCH}"
 echo "SKIP_PHP         = ${SKIP_PHP}"
 echo "SKIP_MYSQL       = ${SKIP_MYSQL}"
 echo "SKIP_MARIADB     = ${SKIP_MARIADB}"
@@ -639,7 +643,11 @@ service redis-server start
 sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
 
 # Install & Configure MailHog
-wget --quiet -O /usr/local/bin/mailhog https://github.com/mailhog/MailHog/releases/download/v0.2.1/MailHog_linux_amd64
+if [[ "$ARCH" == "aarch64" ]]; then
+  wget --quiet -O /usr/local/bin/mailhog https://github.com/mailhog/MailHog/releases/download/v1.0.1/MailHog_linux_arm
+else
+  wget --quiet -O /usr/local/bin/mailhog https://github.com/mailhog/MailHog/releases/download/v1.0.1/MailHog_linux_amd64
+fi
 chmod +x /usr/local/bin/mailhog
 
 sudo tee /etc/systemd/system/mailhog.service <<EOL
