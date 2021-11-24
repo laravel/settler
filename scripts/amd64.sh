@@ -643,13 +643,8 @@ service redis-server start
 sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
 
 # Install & Configure MailHog
-if [[ "$ARCH" == "aarch64" ]]; then
-  wget --quiet -O /usr/local/bin/mailhog https://github.com/mailhog/MailHog/releases/download/v1.0.1/MailHog_linux_arm
-else
-  wget --quiet -O /usr/local/bin/mailhog https://github.com/mailhog/MailHog/releases/download/v1.0.1/MailHog_linux_amd64
-fi
+wget --quiet -O /usr/local/bin/mailhog https://github.com/mailhog/MailHog/releases/download/v1.0.1/MailHog_linux_amd64
 chmod +x /usr/local/bin/mailhog
-
 sudo tee /etc/systemd/system/mailhog.service <<EOL
 [Unit]
 Description=Mailhog
@@ -662,9 +657,11 @@ ExecStart=/usr/bin/env /usr/local/bin/mailhog > /dev/null 2>&1 &
 [Install]
 WantedBy=multi-user.target
 EOL
+fi
 
-systemctl daemon-reload
-systemctl enable mailhog
+sudo systemctl daemon-reload
+sudo systemctl enable mailhog
+sudo service mailhog restart
 
 # Configure Supervisor
 systemctl enable supervisor.service
