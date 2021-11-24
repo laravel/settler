@@ -643,37 +643,9 @@ service redis-server start
 sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
 
 # Install & Configure MailHog
-if [[ "$ARCH" == "aarch64" ]];then
-  # For some reason this linux_arm doesn't work on Ubuntu?
-  # https://github.com/laravel/homestead/issues/1722#issuecomment-955777731
-  #wget --quiet -O /usr/local/bin/mailhog https://github.com/mailhog/MailHog/releases/download/v1.0.1/MailHog_linux_arm
-  # Install Golang
-  golangVersion="1.17.2"
-  wget https://dl.google.com/go/go${golangVersion}.linux-arm64.tar.gz -O golang.tar.gz
-  tar -C /usr/local -xzf golang.tar.gz go
-  sudo -u vagrant printf "\nPATH=\"/usr/local/go/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
-  sudo -u vagrant printf "\nPATH=\"/home/vagrant/go/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
-  sudo rm -rf golang.tar.gz
-  export PATH="/usr/local/go/bin:$PATH"
-  sudo -u vagrant /usr/local/go/bin/go install github.com/mailhog/MailHog@latest
-
-  tee /etc/systemd/system/mailhog.service <<EOL
-[Unit]
-Description=Mailhog
-After=network.target
-
-[Service]
-User=vagrant
-ExecStart=/usr/bin/env /home/vagrant/go/bin/MailHog > /dev/null 2>&1 &
-
-[Install]
-WantedBy=multi-user.target
-EOL
-
-else
-  wget --quiet -O /usr/local/bin/mailhog https://github.com/mailhog/MailHog/releases/download/v1.0.1/MailHog_linux_amd64
-  chmod +x /usr/local/bin/mailhog
-  sudo tee /etc/systemd/system/mailhog.service <<EOL
+wget --quiet -O /usr/local/bin/mailhog https://github.com/mailhog/MailHog/releases/download/v1.0.1/MailHog_linux_amd64
+chmod +x /usr/local/bin/mailhog
+sudo tee /etc/systemd/system/mailhog.service <<EOL
 [Unit]
 Description=Mailhog
 After=network.target
