@@ -672,7 +672,7 @@ service redis-server start
 sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
 
 # Install Golang
-golangVersion="1.17.2"
+golangVersion="1.17.4"
 wget https://dl.google.com/go/go${golangVersion}.linux-arm64.tar.gz -O golang.tar.gz
 tar -C /usr/local -xzf golang.tar.gz go
 sudo -u vagrant printf "\nPATH=\"/usr/local/go/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
