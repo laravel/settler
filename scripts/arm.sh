@@ -70,7 +70,7 @@ if "$SKIP_PHP"; then
 else
   # Install Generic PHP packages
   apt-get install -y --allow-change-held-packages \
-  php-imagick php-memcached php-redis php-xdebug php-dev php-swoole imagemagick mcrypt
+  php-imagick php-memcached php-redis php-xdebug php-dev imagemagick mcrypt
 
   # PHP 5.6
   apt-get install -y --allow-change-held-packages \
@@ -326,47 +326,89 @@ else
   sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/7.4/fpm/pool.d/www.conf
   sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.4/fpm/pool.d/www.conf
 
-  ## PHP 8.1
-  #apt-get install -y --allow-change-held-packages \
-  #php8.1 php8.1-bcmath php8.1-bz2 php8.1-cgi php8.1-cli php8.1-common php8.1-curl php8.1-dba php8.1-dev \
-  #php8.1-enchant php8.1-fpm php8.1-gd php8.1-gmp php8.1-imap php8.1-interbase php8.1-intl php8.1-ldap \
-  #php8.1-mbstring php8.1-mysql php8.1-odbc php8.1-opcache php8.1-pgsql php8.1-phpdbg php8.1-pspell php8.1-readline \
-  #php8.1-snmp php8.1-soap php8.1-sqlite3 php8.1-sybase php8.1-tidy php8.1-xdebug php8.1-xml php8.1-xmlrpc php8.1-xsl \
-  #php8.1-zip php8.1-memcached php8.1-redis
-  #
-  ## Configure php.ini for CLI
-  #sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/8.1/cli/php.ini
-  #sed -i "s/display_errors = .*/display_errors = On/" /etc/php/8.1/cli/php.ini
-  #sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/8.1/cli/php.ini
-  #sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/8.1/cli/php.ini
-  #
-  ## Configure Xdebug
-  #echo "xdebug.mode = debug" >> /etc/php/8.1/mods-available/xdebug.ini
-  #echo "xdebug.discover_client_host = true" >> /etc/php/8.1/mods-available/xdebug.ini
-  #echo "xdebug.client_port = 9003" >> /etc/php/8.1/mods-available/xdebug.ini
-  #echo "xdebug.max_nesting_level = 512" >> /etc/php/8.1/mods-available/xdebug.ini
-  #echo "opcache.revalidate_freq = 0" >> /etc/php/8.1/mods-available/opcache.ini
-  #
-  ## Configure php.ini for FPM
-  #sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/8.1/fpm/php.ini
-  #sed -i "s/display_errors = .*/display_errors = On/" /etc/php/8.1/fpm/php.ini
-  #sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/8.1/fpm/php.ini
-  #sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/8.1/fpm/php.ini
-  #sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/8.1/fpm/php.ini
-  #sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/8.1/fpm/php.ini
-  #sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/8.1/fpm/php.ini
-  #
-  #printf "[openssl]\n" | tee -a /etc/php/8.1/fpm/php.ini
-  #printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/8.1/fpm/php.ini
-  #printf "[curl]\n" | tee -a /etc/php/8.1/fpm/php.ini
-  #printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/8.1/fpm/php.ini
-  #
-  ## Configure FPM
-  #sed -i "s/user = www-data/user = vagrant/" /etc/php/8.1/fpm/pool.d/www.conf
-  #sed -i "s/group = www-data/group = vagrant/" /etc/php/8.1/fpm/pool.d/www.conf
-  #sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/8.1/fpm/pool.d/www.conf
-  #sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/8.1/fpm/pool.d/www.conf
-  #sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/8.1/fpm/pool.d/www.conf
+  # PHP 8.0
+  apt-get install -y --allow-change-held-packages \
+  php8.0 php8.0-bcmath php8.0-bz2 php8.0-cgi php8.0-cli php8.0-common php8.0-curl php8.0-dba php8.0-dev \
+  php8.0-enchant php8.0-fpm php8.0-gd php8.0-gmp php8.0-imap php8.0-interbase php8.0-intl php8.0-ldap \
+  php8.0-mbstring php8.0-mysql php8.0-odbc php8.0-opcache php8.0-pgsql php8.0-phpdbg php8.0-pspell php8.0-readline \
+  php8.0-snmp php8.0-soap php8.0-sqlite3 php8.0-sybase php8.0-tidy php8.0-xdebug php8.0-xml php8.0-xmlrpc php8.0-xsl \
+  php8.0-zip php8.0-memcached php8.0-redis
+
+  # Configure php.ini for CLI
+  sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/8.0/cli/php.ini
+  sed -i "s/display_errors = .*/display_errors = On/" /etc/php/8.0/cli/php.ini
+  sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/8.0/cli/php.ini
+  sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/8.0/cli/php.ini
+
+  # Configure Xdebug
+  echo "xdebug.mode = debug" >> /etc/php/8.0/mods-available/xdebug.ini
+  echo "xdebug.discover_client_host = true" >> /etc/php/8.0/mods-available/xdebug.ini
+  echo "xdebug.client_port = 9003" >> /etc/php/8.0/mods-available/xdebug.ini
+  echo "xdebug.max_nesting_level = 512" >> /etc/php/8.0/mods-available/xdebug.ini
+  echo "opcache.revalidate_freq = 0" >> /etc/php/8.0/mods-available/opcache.ini
+
+  # Configure php.ini for FPM
+  sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/8.0/fpm/php.ini
+  sed -i "s/display_errors = .*/display_errors = On/" /etc/php/8.0/fpm/php.ini
+  sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/8.0/fpm/php.ini
+  sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/8.0/fpm/php.ini
+  sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/8.0/fpm/php.ini
+  sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/8.0/fpm/php.ini
+  sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/8.0/fpm/php.ini
+
+  printf "[openssl]\n" | tee -a /etc/php/8.0/fpm/php.ini
+  printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/8.0/fpm/php.ini
+  printf "[curl]\n" | tee -a /etc/php/8.0/fpm/php.ini
+  printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/8.0/fpm/php.ini
+
+  # Configure FPM
+  sed -i "s/user = www-data/user = vagrant/" /etc/php/8.0/fpm/pool.d/www.conf
+  sed -i "s/group = www-data/group = vagrant/" /etc/php/8.0/fpm/pool.d/www.conf
+  sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/8.0/fpm/pool.d/www.conf
+  sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/8.0/fpm/pool.d/www.conf
+  sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/8.0/fpm/pool.d/www.conf
+
+  # PHP 8.1
+  apt-get install -y --allow-change-held-packages \
+  php8.1 php8.1-bcmath php8.1-bz2 php8.1-cgi php8.1-cli php8.1-common php8.1-curl php8.1-dba php8.1-dev \
+  php8.1-enchant php8.1-fpm php8.1-gd php8.1-gmp php8.1-imap php8.1-interbase php8.1-intl php8.1-ldap \
+  php8.1-mbstring php8.1-mysql php8.1-odbc php8.1-opcache php8.1-pgsql php8.1-phpdbg php8.1-pspell php8.1-readline \
+  php8.1-snmp php8.1-soap php8.1-sqlite3 php8.1-sybase php8.1-tidy php8.1-xdebug php8.1-xml php8.1-xmlrpc php8.1-xsl \
+  php8.1-zip php8.1-memcached php8.1-redis
+
+  # Configure php.ini for CLI
+  sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/8.1/cli/php.ini
+  sed -i "s/display_errors = .*/display_errors = On/" /etc/php/8.1/cli/php.ini
+  sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/8.1/cli/php.ini
+  sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/8.1/cli/php.ini
+
+  # Configure Xdebug
+  echo "xdebug.mode = debug" >> /etc/php/8.1/mods-available/xdebug.ini
+  echo "xdebug.discover_client_host = true" >> /etc/php/8.1/mods-available/xdebug.ini
+  echo "xdebug.client_port = 9003" >> /etc/php/8.1/mods-available/xdebug.ini
+  echo "xdebug.max_nesting_level = 512" >> /etc/php/8.1/mods-available/xdebug.ini
+  echo "opcache.revalidate_freq = 0" >> /etc/php/8.1/mods-available/opcache.ini
+
+  # Configure php.ini for FPM
+  sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/8.1/fpm/php.ini
+  sed -i "s/display_errors = .*/display_errors = On/" /etc/php/8.1/fpm/php.ini
+  sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/8.1/fpm/php.ini
+  sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/8.1/fpm/php.ini
+  sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/8.1/fpm/php.ini
+  sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/8.1/fpm/php.ini
+  sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/8.1/fpm/php.ini
+
+  printf "[openssl]\n" | tee -a /etc/php/8.1/fpm/php.ini
+  printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/8.1/fpm/php.ini
+  printf "[curl]\n" | tee -a /etc/php/8.1/fpm/php.ini
+  printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/8.1/fpm/php.ini
+
+  # Configure FPM
+  sed -i "s/user = www-data/user = vagrant/" /etc/php/8.1/fpm/pool.d/www.conf
+  sed -i "s/group = www-data/group = vagrant/" /etc/php/8.1/fpm/pool.d/www.conf
+  sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/8.1/fpm/pool.d/www.conf
+  sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/8.1/fpm/pool.d/www.conf
+  sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/8.1/fpm/pool.d/www.conf
 
   # Disable old PHP FPM
   systemctl disable php5.6-fpm
@@ -375,18 +417,11 @@ else
   systemctl disable php7.2-fpm
   systemctl disable php7.3-fpm
   systemctl disable php7.4-fpm
+  systemctl disable php8.0-fpm
 
-  # PHP 8.0
-  apt-get install -y --allow-change-held-packages \
-  php8.0 php8.0-bcmath php8.0-bz2 php8.0-cgi php8.0-cli php8.0-common php8.0-curl php8.0-dba php8.0-dev \
-  php8.0-enchant php8.0-fpm php8.0-gd php8.0-gmp php8.0-imap php8.0-interbase php8.0-intl php8.0-ldap \
-  php8.0-mbstring php8.0-mysql php8.0-odbc php8.0-opcache php8.0-pgsql php8.0-phpdbg php8.0-pspell php8.0-readline \
-  php8.0-snmp php8.0-soap php8.0-sqlite3 php8.0-sybase php8.0-tidy php8.0-xdebug php8.0-xml php8.0-xsl php8.0-zip \
-  php8.0-memcached
-
-  update-alternatives --set php /usr/bin/php8.0
-  update-alternatives --set php-config /usr/bin/php-config8.0
-  update-alternatives --set phpize /usr/bin/phpize8.0
+  update-alternatives --set php /usr/bin/php8.1
+  update-alternatives --set php-config /usr/bin/php-config8.1
+  update-alternatives --set phpize /usr/bin/phpize8.1
 
   # Install Composer
   curl -sS https://getcomposer.org/installer | php
@@ -401,12 +436,6 @@ else
   /usr/local/bin/composer global require "slince/composer-registry-manager=^2.0"
   /usr/local/bin/composer global require tightenco/takeout
 EOF
-
-  # Set Some PHP CLI Settings
-  sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/8.0/cli/php.ini
-  sed -i "s/display_errors = .*/display_errors = On/" /etc/php/8.0/cli/php.ini
-  sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/8.0/cli/php.ini
-  sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/8.0/cli/php.ini
 
   # Install Apache
   apt-get install -y apache2 libapache2-mod-fcgid
@@ -643,7 +672,7 @@ service redis-server start
 sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
 
 # Install Golang
-golangVersion="1.17.2"
+golangVersion="1.17.4"
 wget https://dl.google.com/go/go${golangVersion}.linux-arm64.tar.gz -O golang.tar.gz
 tar -C /usr/local -xzf golang.tar.gz go
 sudo -u vagrant printf "\nPATH=\"/usr/local/go/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
@@ -693,6 +722,8 @@ sed -i "s/relayhost =/relayhost = [localhost]:1025/g" /etc/postfix/main.cf
 # Update / Override motd
 echo "export ENABLED=1"| tee -a /etc/default/motd-news
 sed -i "s/motd.ubuntu.com/homestead.joeferguson.me/g" /etc/update-motd.d/50-motd-news
+sed -i "s/motd.ubuntu.com/homestead.joeferguson.me/g" /etc/default/motd-news
+rm -rf /var/cache/motd-news
 rm -rf /etc/update-motd.d/10-help-text
 rm -rf /etc/update-motd.d/50-landscape-sysinfo
 rm -rf /etc/update-motd.d/99-bento
