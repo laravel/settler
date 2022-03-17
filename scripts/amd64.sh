@@ -4,8 +4,8 @@ export DEBIAN_FRONTEND=noninteractive
 ARCH=$(arch)
 
 SKIP_PHP=false
-SKIP_MYSQL=false
-SKIP_MARIADB=true
+SKIP_MYSQL=true
+SKIP_MARIADB=false
 SKIP_POSTGRESQL=false
 
 echo "### Settler Build Configuration ###"
@@ -558,6 +558,7 @@ else
   cat > /etc/mysql/conf.d/mysqld.cnf << EOF
 [mysqld]
 bind-address = 0.0.0.0
+disable_log_bin
 default_authentication_plugin = mysql_native_password
 EOF
 
