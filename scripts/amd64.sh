@@ -4,8 +4,8 @@ export DEBIAN_FRONTEND=noninteractive
 ARCH=$(arch)
 
 SKIP_PHP=false
-SKIP_MYSQL=true
-SKIP_MARIADB=false
+SKIP_MYSQL=false
+SKIP_MARIADB=true
 SKIP_POSTGRESQL=false
 
 echo "### Settler Build Configuration ###"
@@ -31,17 +31,9 @@ ca-certificates
 
 # Install Some PPAs
 apt-add-repository ppa:ondrej/php -y
-apt-add-repository ppa:chris-lea/redis-server -y
 
 # NodeJS
-curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-
-# PostgreSQL
-tee /etc/apt/sources.list.d/pgdg.list <<END
-deb http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main
-END
-
-wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 
 ## Update Package Lists
 apt-get update -y
@@ -61,7 +53,7 @@ usermod -aG docker vagrant
 
 # Install docker-compose
 curl \
-    -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" \
+    -L "https://github.com/docker/compose/releases/download/v2.5.0/docker-compose-linux-x86_64" \
     -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 
@@ -431,10 +423,9 @@ else
   # Install Global Packages
   sudo su vagrant <<'EOF'
   /usr/local/bin/composer global require "laravel/envoy=^2.0"
-  /usr/local/bin/composer global require "laravel/installer=^4.0.2"
-  /usr/local/bin/composer global require "laravel/spark-installer=dev-master"
+  /usr/local/bin/composer global require "laravel/installer=^4"
+  /usr/local/bin/composer global config allow-plugins.slince/composer-registry-manager false
   /usr/local/bin/composer global require "slince/composer-registry-manager=^2.0"
-  /usr/local/bin/composer global require tightenco/takeout
 EOF
 
   # Install Apache
@@ -538,9 +529,7 @@ fi
 apt-get install -y nodejs
 /usr/bin/npm install -g npm
 /usr/bin/npm install -g gulp-cli
-/usr/bin/npm install -g bower
 /usr/bin/npm install -g yarn
-/usr/bin/npm install -g grunt-cli
 
 # Install SQLite
 apt-get install -y sqlite3 libsqlite3-dev
@@ -649,8 +638,8 @@ if "$SKIP_POSTGRESQL"; then
   echo "SKIP_POSTGRESQL is being used, so we're not installing PostgreSQL"
 else
   # Install Postgres 13
-  apt-get install -y postgresql-13 postgresql-server-dev-12 postgresql-13-postgis-3 postgresql-13-postgis-3-scripts
-
+  apt-get install -y posservice postgresql restarttgresql-client-14 postgresql-server-dev-14 postgresql-14-postgis-3 postgresql-14-postgis-3-scripts
+  service postgresql restart
   # Configure Postgres Users
   sudo -u postgres psql -c "CREATE ROLE homestead LOGIN PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
 
@@ -748,7 +737,7 @@ apt-get -y purge ppp pppconfig pppoeconf
 sed -i "s/^makestep.*/makestep 1 -1/" /etc/chrony/chrony.conf
 
 # Delete oddities
-apt-get -y purge popularity-contest installation-report command-not-found friendly-recovery laptop-detect
+apt-get -y purge popularity-contest command-not-found friendly-recovery laptop-detect
 
 # Exlude the files we don't need w/o uninstalling linux-firmware
 echo "==> Setup dpkg excludes for linux-firmware"
