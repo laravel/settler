@@ -431,10 +431,9 @@ else
   # Install Global Packages
   sudo su vagrant <<'EOF'
   /usr/local/bin/composer global require "laravel/envoy=^2.0"
-  /usr/local/bin/composer global require "laravel/installer=^4.0.2"
-  /usr/local/bin/composer global require "laravel/spark-installer=dev-master"
+  /usr/local/bin/composer global require "laravel/installer=^4.2"
+  /usr/local/bin/composer global config --no-plugins allow-plugins.slince/composer-registry-manager true
   /usr/local/bin/composer global require "slince/composer-registry-manager=^2.0"
-  /usr/local/bin/composer global require tightenco/takeout
 EOF
 
   # Install Apache
@@ -498,6 +497,7 @@ EOF
   # Set The Nginx & PHP-FPM User
   sed -i "s/user www-data;/user vagrant;/" /etc/nginx/nginx.conf
   sed -i "s/# server_names_hash_bucket_size.*/server_names_hash_bucket_size 64;/" /etc/nginx/nginx.conf
+  sed -i "s/sendfile on;/sendfile on; client_max_body_size 100M;/" /etc/nginx/nginx.conf
 
   sed -i "s/user = www-data/user = vagrant/" /etc/php/8.0/fpm/pool.d/www.conf
   sed -i "s/group = www-data/group = vagrant/" /etc/php/8.0/fpm/pool.d/www.conf
