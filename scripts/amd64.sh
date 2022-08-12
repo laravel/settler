@@ -4,8 +4,8 @@ export DEBIAN_FRONTEND=noninteractive
 ARCH=$(arch)
 
 SKIP_PHP=false
-SKIP_MYSQL=true
-SKIP_MARIADB=false
+SKIP_MYSQL=false
+SKIP_MARIADB=true
 SKIP_POSTGRESQL=false
 
 echo "### Settler Build Configuration ###"
