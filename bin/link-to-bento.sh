@@ -7,7 +7,7 @@
 
 sed -i '' 's/{{template_dir}}\/scripts\/cleanup.sh/scripts\/homestead.sh/' ../bento/packer_templates/ubuntu/ubuntu-22.04-amd64.json
 sed -i '' 's/"cpus": "1"/"cpus": "2"/' ../bento/packer_templates/ubuntu/ubuntu-22.04-amd64.json
-sed -i '' 's/"boot_wait": "5s"/"boot_wait": "3"/' ../bento/packer_templates/ubuntu/ubuntu-22.04-amd64.json
+sed -i '' 's/"boot_wait": "5s"/"boot_wait": "3s"/' ../bento/packer_templates/ubuntu/ubuntu-22.04-amd64.json
 sed -i '' 's/"memory": "1024"/"memory": "2048"/' ../bento/packer_templates/ubuntu/ubuntu-22.04-amd64.json
 sed -i '' 's/"disk_size": "65536"/"disk_size": "524288"/' ../bento/packer_templates/ubuntu/ubuntu-22.04-amd64.json
 sed -i '' '/\/_common\/motd.sh/d' ../bento/packer_templates/ubuntu/ubuntu-22.04-amd64.json
