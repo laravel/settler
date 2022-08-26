@@ -22,26 +22,14 @@ apt-get update
 # Update System Packages
 apt-get upgrade -y
 
-# Force Locale
-echo "LC_ALL=en_US.UTF-8" >> /etc/default/locale
-locale-gen en_US.UTF-8
-
 apt-get install -y software-properties-common curl gnupg debian-keyring debian-archive-keyring apt-transport-https \
 ca-certificates
 
 # Install Some PPAs
 apt-add-repository ppa:ondrej/php -y
-apt-add-repository ppa:chris-lea/redis-server -y
 
 # NodeJS
-curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-
-# PostgreSQL
-tee /etc/apt/sources.list.d/pgdg.list <<END
-deb http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main
-END
-
-wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 
 ## Update Package Lists
 apt-get update -y
@@ -61,7 +49,7 @@ usermod -aG docker vagrant
 
 # Install docker-compose
 curl \
-    -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" \
+    -L "https://github.com/docker/compose/releases/download/2.10.1/docker-compose-$(uname -s)-$(uname -m)" \
     -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 
@@ -520,7 +508,7 @@ EOF
   mv wp-cli.phar /usr/local/bin/wp
 
   # Install Drush Launcher.
-  curl --silent --location https://github.com/drush-ops/drush-launcher/releases/download/0.6.0/drush.phar --output drush.phar
+  curl --silent --location https://github.com/drush-ops/drush-launcher/releases/download/0.10.1/drush.phar --output drush.phar
   chmod +x drush.phar
   mv drush.phar /usr/local/bin/drush
   drush self-update
@@ -648,15 +636,15 @@ fi
 if "$SKIP_POSTGRESQL"; then
   echo "SKIP_POSTGRESQL is being used, so we're not installing PostgreSQL"
 else
-  # Install Postgres 13
-  apt-get install -y postgresql-13 postgresql-server-dev-12 postgresql-13-postgis-3 postgresql-13-postgis-3-scripts
+  # Install Postgres 14
+  apt-get install -y postgresql postgresql-server-dev-all postgresql-14-postgis-3 postgresql-14-postgis-3-scripts
 
   # Configure Postgres Users
   sudo -u postgres psql -c "CREATE ROLE homestead LOGIN PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
 
   # Configure Postgres Remote Access
-  sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/13/main/postgresql.conf
-  echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/13/main/pg_hba.conf
+  sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/14/main/postgresql.conf
+  echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/14/main/pg_hba.conf
 
   sudo -u postgres /usr/bin/createdb --echo --owner=homestead homestead
   service postgresql restart
@@ -668,9 +656,6 @@ fi
 apt-get install -y redis-server memcached beanstalkd
 systemctl enable redis-server
 service redis-server start
-
-# Configure Beanstalkd
-sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
 
 # Install & Configure MailHog
 wget --quiet -O /usr/local/bin/mailhog https://github.com/mailhog/MailHog/releases/download/v1.0.1/MailHog_linux_amd64
@@ -748,7 +733,7 @@ apt-get -y purge ppp pppconfig pppoeconf
 sed -i "s/^makestep.*/makestep 1 -1/" /etc/chrony/chrony.conf
 
 # Delete oddities
-apt-get -y purge popularity-contest installation-report command-not-found friendly-recovery laptop-detect
+apt-get -y purge popularity-contest command-not-found friendly-recovery laptop-detect
 
 # Exlude the files we don't need w/o uninstalling linux-firmware
 echo "==> Setup dpkg excludes for linux-firmware"

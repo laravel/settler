@@ -3,8 +3,8 @@
 
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "bento/ubuntu-20.04"
-  config.vm.provider "virtualbox" do |v|
+  config.vm.box = "Svpernova09/demo-bento-22.04-ARM"
+  config.vm.provider "parallels" do |v|
     v.memory = 4096
     v.cpus = 4
   end
