@@ -34,7 +34,7 @@ apt-add-repository ppa:ondrej/php -y
 apt-add-repository ppa:chris-lea/redis-server -y
 
 # NodeJS
-curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 
 # PostgreSQL
 tee /etc/apt/sources.list.d/pgdg.list <<END
@@ -506,7 +506,7 @@ EOF
   sed -i "s/www-data/vagrant/" /etc/apache2/envvars
 
   # Enable FPM
-  a2enconf php8.0-fpm
+  a2enconf php8.1-fpm
 
   # Assume user wants mode_rewrite support
   sudo a2enmod rewrite
@@ -572,7 +572,7 @@ EOF
   sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/8.0/fpm/pool.d/www.conf
 
   service nginx restart
-  service php8.0-fpm restart
+  service php8.1-fpm restart
 
   # Add Vagrant User To WWW-Data
   usermod -a -G www-data vagrant
@@ -713,15 +713,15 @@ fi
 if "$SKIP_POSTGRESQL"; then
   echo "SKIP_POSTGRESQL is being used, so we're not installing PostgreSQL"
 else
-  # Install Postgres 13
-  apt-get install -y postgresql-13 postgresql-server-dev-12 postgresql-13-postgis-3 postgresql-13-postgis-3-scripts
+  # Install Postgres 14
+  apt-get install -y postgresql-14 postgresql-server-dev-14 postgresql-14-postgis-3 postgresql-14-postgis-3-scripts
 
   # Configure Postgres Users
   sudo -u postgres psql -c "CREATE ROLE homestead LOGIN PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
 
   # Configure Postgres Remote Access
-  sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/13/main/postgresql.conf
-  echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/13/main/pg_hba.conf
+  sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/14/main/postgresql.conf
+  echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/14/main/pg_hba.conf
 
   sudo -u postgres /usr/bin/createdb --echo --owner=homestead homestead
   service postgresql restart
