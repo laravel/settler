@@ -714,14 +714,14 @@ if "$SKIP_POSTGRESQL"; then
   echo "SKIP_POSTGRESQL is being used, so we're not installing PostgreSQL"
 else
   # Install Postgres 14
-  apt-get install -y postgresql-15 postgresql-server-dev-14 postgresql-15-postgis-3 postgresql-15-postgis-3-scripts
+  apt-get install -y postgresql-15 postgresql-server-dev-15 postgresql-15-postgis-3 postgresql-15-postgis-3-scripts
 
   # Configure Postgres Users
   sudo -u postgres psql -c "CREATE ROLE homestead LOGIN PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
 
   # Configure Postgres Remote Access
-  sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/14/main/postgresql.conf
-  echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/14/main/pg_hba.conf
+  sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/15/main/postgresql.conf
+  echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/15/main/pg_hba.conf
 
   sudo -u postgres /usr/bin/createdb --echo --owner=homestead homestead
   service postgresql restart
