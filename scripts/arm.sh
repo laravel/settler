@@ -65,6 +65,9 @@ curl \
     -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 
+# Configure feature tracking path
+mkdir -p /home/vagrant/.homestead-features
+
 if "$SKIP_PHP"; then
   echo "SKIP_PHP is being used, so we're not installing PHP"
 else
@@ -442,11 +445,11 @@ else
   sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/8.2/cli/php.ini
 
   # Configure Xdebug
-  # echo "xdebug.mode = debug" >> /etc/php/8.2/mods-available/xdebug.ini
-  # echo "xdebug.discover_client_host = true" >> /etc/php/8.2/mods-available/xdebug.ini
-  # echo "xdebug.client_port = 9003" >> /etc/php/8.2/mods-available/xdebug.ini
-  # echo "xdebug.max_nesting_level = 512" >> /etc/php/8.2/mods-available/xdebug.ini
-  # echo "opcache.revalidate_freq = 0" >> /etc/php/8.2/mods-available/opcache.ini
+   echo "xdebug.mode = debug" >> /etc/php/8.2/mods-available/xdebug.ini
+   echo "xdebug.discover_client_host = true" >> /etc/php/8.2/mods-available/xdebug.ini
+   echo "xdebug.client_port = 9003" >> /etc/php/8.2/mods-available/xdebug.ini
+   echo "xdebug.max_nesting_level = 512" >> /etc/php/8.2/mods-available/xdebug.ini
+   echo "opcache.revalidate_freq = 0" >> /etc/php/8.2/mods-available/opcache.ini
 
   # Configure php.ini for FPM
   sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/8.2/fpm/php.ini
@@ -479,11 +482,11 @@ else
   systemctl disable php7.3-fpm
   systemctl disable php7.4-fpm
   systemctl disable php8.0-fpm
-  systemctl disable php8.2-fpm
+  systemctl disable php8.1-fpm
 
-  update-alternatives --set php /usr/bin/php8.1
-  update-alternatives --set php-config /usr/bin/php-config8.1
-  update-alternatives --set phpize /usr/bin/phpize8.1
+  update-alternatives --set php /usr/bin/php8.2
+  update-alternatives --set php-config /usr/bin/php-config8.2
+  update-alternatives --set phpize /usr/bin/phpize8.2
 
   # Install Composer
   curl -sS https://getcomposer.org/installer | php
@@ -503,7 +506,7 @@ EOF
   sed -i "s/www-data/vagrant/" /etc/apache2/envvars
 
   # Enable FPM
-  a2enconf php8.1-fpm
+  a2enconf php8.2-fpm
 
   # Assume user wants mode_rewrite support
   sudo a2enmod rewrite
@@ -569,7 +572,7 @@ EOF
   sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/8.0/fpm/pool.d/www.conf
 
   service nginx restart
-  service php8.1-fpm restart
+  service php8.2-fpm restart
 
   # Add Vagrant User To WWW-Data
   usermod -a -G www-data vagrant
@@ -620,6 +623,7 @@ else
   cat > /etc/mysql/conf.d/mysqld.cnf << EOF
 [mysqld]
 bind-address = 0.0.0.0
+disable_log_bin
 default_authentication_plugin = mysql_native_password
 EOF
 
