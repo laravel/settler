@@ -714,7 +714,7 @@ if "$SKIP_POSTGRESQL"; then
   echo "SKIP_POSTGRESQL is being used, so we're not installing PostgreSQL"
 else
   # Install Postgres 14
-  apt-get install -y postgresql-14 postgresql-server-dev-14 postgresql-14-postgis-3 postgresql-14-postgis-3-scripts
+  apt-get install -y postgresql-15 postgresql-server-dev-14 postgresql-15-postgis-3 postgresql-15-postgis-3-scripts
 
   # Configure Postgres Users
   sudo -u postgres psql -c "CREATE ROLE homestead LOGIN PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
