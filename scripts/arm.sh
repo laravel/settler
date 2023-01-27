@@ -774,9 +774,9 @@ systemctl enable supervisor.service
 service supervisor start
 
 # Install ngrok ARM
-wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-arm64.tgz
-tar xvzf ngrok-stable-linux-arm64.tgz -C /usr/local/bin
-rm -rf ngrok-stable-linux-arm64.tgz
+wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-arm64.tgz
+tar xvzf ngrok-v3-stable-linux-arm64.tgz -C /usr/local/bin
+rm -rf ngrok-v3-stable-linux-arm64.tgz
 
 # Install & Configure Postfix
 echo "postfix postfix/mailname string homestead.test" | debconf-set-selections
