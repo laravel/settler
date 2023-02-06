@@ -33,9 +33,6 @@ ca-certificates
 apt-add-repository ppa:ondrej/php -y
 apt-add-repository ppa:chris-lea/redis-server -y
 
-# NodeJS
-curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-
 # PostgreSQL
 tee /etc/apt/sources.list.d/pgdg.list <<END
 deb http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main
@@ -599,8 +596,9 @@ EOF
   printf "\nPATH=\"$(sudo su - vagrant -c 'composer config -g home 2>/dev/null')/vendor/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
 fi
 
-# Install Node
-apt-get install -y nodejs
+# Install Node Version Manager
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+nvm install node
 /usr/bin/npm install -g npm
 /usr/bin/npm install -g gulp-cli
 /usr/bin/npm install -g bower
