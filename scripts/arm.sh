@@ -427,7 +427,7 @@ else
   sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/8.1/fpm/pool.d/www.conf
   sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/8.1/fpm/pool.d/www.conf
 
-  touch /home/vagrant/.homestead-features/php8.1
+  touch /home/vagrant/.homestead-features/php81
 
   # PHP 8.2
   apt-get install -y --allow-change-held-packages \
@@ -472,7 +472,7 @@ else
   sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/8.2/fpm/pool.d/www.conf
   sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/8.2/fpm/pool.d/www.conf
 
-  touch /home/vagrant/.homestead-features/php8.2
+  touch /home/vagrant/.homestead-features/php82
 
   # Disable old PHP FPM
   systemctl disable php5.6-fpm
