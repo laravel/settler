@@ -31,14 +31,17 @@ ca-certificates
 
 # Install Some PPAs
 apt-add-repository ppa:ondrej/php -y
-apt-add-repository ppa:chris-lea/redis-server -y
 
 # NodeJS
-curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+apt-get install -y ca-certificates curl gnupg
+mkdir -p /etc/apt/keyrings
+curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+NODE_MAJOR=18
+echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
 
 # PostgreSQL
 tee /etc/apt/sources.list.d/pgdg.list <<END
-deb http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main
+deb http://apt.postgresql.org/pub/repos/apt/ jammy-pgdg main
 END
 
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
@@ -72,8 +75,9 @@ if "$SKIP_PHP"; then
   echo "SKIP_PHP is being used, so we're not installing PHP"
 else
   # Install Generic PHP packages
-  apt-get install -y --allow-change-held-packages \
-  php-imagick php-memcached php-redis php-xdebug php-dev imagemagick mcrypt
+#  apt-get install -y --allow-change-held-packages \
+#  php-imagick php-memcached php-redis php-xdebug php-dev imagemagick mcrypt
+# todo: is it needed? because it causes dependency conflicts
 
   # PHP 5.6
   apt-get install -y --allow-change-held-packages \
@@ -791,63 +795,6 @@ apt -y autoremove
 apt -y clean
 chown -R vagrant:vagrant /home/vagrant
 chown -R vagrant:vagrant /usr/local/bin
-
-# Perform some cleanup from chef/bento packer_templates/ubuntu/scripts/cleanup.sh
-# Delete Linux source
-dpkg --list \
-    | awk '{ print $2 }' \
-    | grep linux-source \
-    | xargs apt-get -y purge;
-
-# delete docs packages
-dpkg --list \
-    | awk '{ print $2 }' \
-    | grep -- '-doc$' \
-    | xargs apt-get -y purge;
-
-# Delete obsolete networking
-apt-get -y purge ppp pppconfig pppoeconf
-
-# Configure chronyd to fix clock-drift when VM-host sleeps/hibernates.
-sed -i "s/^makestep.*/makestep 1 -1/" /etc/chrony/chrony.conf
-
-# Delete oddities
-apt-get -y purge popularity-contest installation-report command-not-found friendly-recovery laptop-detect
-
-# Exlude the files we don't need w/o uninstalling linux-firmware
-echo "==> Setup dpkg excludes for linux-firmware"
-cat <<_EOF_ | cat >> /etc/dpkg/dpkg.cfg.d/excludes
-#BENTO-BEGIN
-path-exclude=/lib/firmware/*
-path-exclude=/usr/share/doc/linux-firmware/*
-#BENTO-END
-_EOF_
-
-# Delete the massive firmware packages
-rm -rf /lib/firmware/*
-rm -rf /usr/share/doc/linux-firmware/*
-
-apt-get -y autoremove;
-apt-get -y clean;
-
-# Remove docs
-rm -rf /usr/share/doc/*
-
-# Remove caches
-find /var/cache -type f -exec rm -rf {} \;
-
-# delete any logs that have built up during the install
-find /var/log/ -name *.log -exec rm -f {} \;
-
-# Disable sleep https://github.com/laravel/homestead/issues/1624
-systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
-
-# What are you doing Ubuntu?
-# https://askubuntu.com/questions/1250974/user-root-cant-write-to-file-in-tmp-owned-by-someone-else-in-20-04-but-can-in
-sysctl fs.protected_regular=0
-
-# Blank netplan machine-id (DUID) so machines get unique ID generated on boot.
-truncate -s 0 /etc/machine-id
 
 # Enable Swap Memory
 /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
