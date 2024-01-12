@@ -496,7 +496,7 @@ else
   # Install Global Packages
   sudo su vagrant <<'EOF'
   /usr/local/bin/composer global require "laravel/envoy=^2.0"
-  /usr/local/bin/composer global require "laravel/installer=^4.2"
+  /usr/local/bin/composer global require "laravel/installer=^5.0"
   /usr/local/bin/composer global config --no-plugins allow-plugins.slince/composer-registry-manager true
   /usr/local/bin/composer global require "slince/composer-registry-manager=^2.0"
 EOF
