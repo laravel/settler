@@ -810,10 +810,11 @@ service mailpit restart
 systemctl enable supervisor.service
 service supervisor start
 
-# Install ngrok ARM
-wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-arm64.tgz
-tar xvzf ngrok-v3-stable-linux-arm64.tgz -C /usr/local/bin
-rm -rf ngrok-v3-stable-linux-arm64.tgz
+# Install ngrok
+curl -fsSL https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo gpg --dearmor -o /etc/apt/keyrings/ngrok.gpg
+echo "deb [signed-by=/etc/apt/keyrings/ngrok.gpg] https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list
+apt-get update
+apt-get install ngrok
 
 # Install & Configure Postfix
 echo "postfix postfix/mailname string homestead.test" | debconf-set-selections
