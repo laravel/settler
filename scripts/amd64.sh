@@ -32,17 +32,17 @@ ca-certificates
 # Install Some PPAs
 apt-add-repository ppa:ondrej/php -y
 
-# NodeJS
+# Prepare keyrings directory
 sudo mkdir -p /etc/apt/keyrings
+
+# NodeJS
 curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
 NODE_MAJOR=21
 echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
 
 # PostgreSQL
-sudo sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-# Import the repository signing key:
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys ACCC4CF8
-wget -qO- https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo tee /etc/apt/trusted.gpg.d/pgdg.asc &>/dev/null
+curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo gpg --dearmor -o /etc/apt/keyrings/postgresql.gpg
+sudo sh -c 'echo "deb [signed-by=/etc/apt/keyrings/postgresql.gpg] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 
 ## Update Package Lists
 apt-get update -y
