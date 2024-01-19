@@ -516,7 +516,7 @@ else
   sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/8.3/fpm/pool.d/www.conf
   sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/8.3/fpm/pool.d/www.conf
 
-  touch /home/vagrant/.homestead-features/php8.3
+  touch /home/vagrant/.homestead-features/php83
 
   # Disable old PHP FPM
   systemctl disable php5.6-fpm
