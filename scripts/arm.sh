@@ -677,6 +677,8 @@ EOF
   mysql --user="root" -e "GRANT ALL PRIVILEGES ON *.* TO 'homestead'@'%' WITH GRANT OPTION;"
   mysql --user="root" -e "FLUSH PRIVILEGES;"
   mysql --user="root" -e "CREATE DATABASE homestead character set UTF8mb4 collate utf8mb4_bin;"
+  mysql --user="root" -e "SET GLOBAL time_zone = '+00:00';"
+  mysql --user="root" -e "SET time_zone = '+00:00';"
 
   sudo tee /home/vagrant/.my.cnf <<EOL
 [mysqld]
