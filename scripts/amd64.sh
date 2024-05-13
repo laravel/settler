@@ -826,8 +826,6 @@ sed -i "s/relayhost =/relayhost = [localhost]:1025/g" /etc/postfix/main.cf
 
 # Update / Override motd
 echo "export ENABLED=1"| tee -a /etc/default/motd-news
-sed -i "s/motd.ubuntu.com/homestead.joeferguson.me/g" /etc/update-motd.d/50-motd-news
-sed -i "s/motd.ubuntu.com/homestead.joeferguson.me/g" /etc/default/motd-news
 rm -rf /var/cache/motd-news
 rm -rf /etc/update-motd.d/10-help-text
 rm -rf /etc/update-motd.d/50-landscape-sysinfo
